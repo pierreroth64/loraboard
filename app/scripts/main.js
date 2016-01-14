@@ -69,8 +69,8 @@ class LoRaMoteDataDecoder {
 
 
 
-var TEMPERATURE_COLOR = '#ff0000';
-var PRESSURE_COLOR = '#00ff00';
+var TEMPERATURE_COLOR = '#c33e19';
+var PRESSURE_COLOR = '#3c3029';
 
 var channel = "pubnub pierreroth";
 var pubnub = PUBNUB({
