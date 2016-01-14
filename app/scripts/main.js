@@ -185,6 +185,9 @@ var pressBarChart = c3.generate({
     }
 });
 
+L.mapbox.accessToken = 'pk.eyJ1IjoicGllcnJlcm90aCIsImEiOiJjaWpiaW5obW0wMDRydnVtMndmdWZ3M2IzIn0.7HhhhYZHCWnBM0ZiOsaT6Q';
+var map = L.mapbox.map('lora-map', 'mapbox.streets').setView([43.3188648, -0.3203877], 15);
+
 function connected() {
  	console.log("Connected to", channel, "channel");
 }
