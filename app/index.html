@@ -31,17 +31,24 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container">
-      <div class="jumbotron">
-        <h2>LoRa</h2>
-        <p class="lead">LoRa dashboard demo</p>
-         <h4>
-          <span class="label label-primary">loriot.io</span>
-          <span class="label label-primary">pubnub</span>
-          <span class="label label-primary">charts</span>
-         </h4>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">LoRa dashboard</a>
+        </div>
       </div>
+    </nav>
 
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>LoRa dashboard demo!</h1>
+        <p>blablabla... to be done (vincent)</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-12">
           <div id="temp-press-line-chart"></div>
@@ -50,7 +57,7 @@
       <div class="row">
         <div class="col-md-6">
           <div id="press-bar-chart"></div>
-        </div>
+       </div>
         <div class="col-md-6">
           <div id="temp-bar-chart"></div>
         </div>
@@ -60,20 +67,21 @@
           <h4>Setup</h4>
           <p>The LoRa endpoint talks to a LoRa gateway which in turns talks to the <a href="http://www.loriot.io">Loriot</a> service.
             The Lioriot.io service has been configured to publish its received data to the <a href="http://www.pubnub.com">PubNub</a> service.
-
-            This page subscribe to the corresponding PubNub channel to get the realtime LoRa data, decodes it and displays live charts. </p>
+            This page subscribes to the corresponding PubNub channel to get the realtime LoRa data, decodes it and displays live charts. </p>
 
           <h4>Technical details</h4>
           <p>This page relies on <a href="http://www.pubnub.com">PubNub</a> js library to gather realtime data and on the <a href="http://c3js.org/">C3.js</a> library for charts. </p>
-          <p>Just open the browser console to see the incoming LoRa data. </p>
-
+          <p>Just open the browser console to see the incoming LoRa frames (F12 > console in chrome). </p>
         </div>
       </div>
 
-      <div class="footer">
+      <hr>
+
+      <footer>
         <p>♥ from the SwAT team ;)</p>
-      </div>
-    </div>
+      </footer>
+    </div> <!-- /container -->
+
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
