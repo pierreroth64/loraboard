@@ -1,7 +1,7 @@
 class DataDecoder {
 
 	constructor(name) {
-		this.name = name;	
+		this.name = name;
 	}
 
 	decodePressure(raw) {
@@ -70,47 +70,41 @@ class DataDecoder {
 console.log('Startup of LoRa data gathering!');
 
 var channel = "pubnub pierreroth";
-var pubnub = PUBNUB({                          
+var pubnub = PUBNUB({
               subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
         });
 var decoder = new DataDecoder("Lora decoder");
 console.log("Subscribing to pubnub...");
-pubnub.subscribe({                                     
+pubnub.subscribe({
   	channel : channel,
   	message : function(message, env, ch, timer, magic_ch){
   				if (message.data) {
   					console.log("LoRa raw data:", message.data);
   					console.log("Decoded data:", decoder.decodeFull(message.data));
+  					tempAndPressureChart.load({
+  												columns: [
+    												['pressure', decoder.decodePressure(message.data).value],
+    												['temperature', decoder.decodeTemperature(message.data).value]
+  												]
+					});
   				}
 			},
   	connect: connected
 });
 
-setTimeout(startGraph, 5000);
+var tempAndPressureChart = c3.generate({
+    bindto: '#my-chart',
+    data: {
+      columns: [
+        ['pressure', 150, 250],
+        ['temperature', 12, 20, 15, 25]
+      ],
+      type: 'spline'
+    }
+});
+
 
 function connected() {
  	console.log("Connected to", channel, "channel");
-}
-
-function startGraph() {
- 	console.log("Starting graph...");
- 	eon.chart({
-  		pubnub: pubnub,
-  		channel: channel,
-  		limit: 20,
-  		flow: true,
-  		generate: {
-    		bindto: '#my-chart'
-  		},
-  		transform: function(m) {
-  			if (m.data) {
-  				var decoded = {
-                	'eon': decoder.decode(m.data)
-	    	    };
-  				console.log("from chart transform:", decoded);
-	    		return decoded;
-	    	}
-        }
-	});
 }
 
