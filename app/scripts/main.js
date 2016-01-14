@@ -1,7 +1,7 @@
-class DataDecoder {
+class LoRaMoteDataDecoder {
 
-	constructor(name) {
-		this.name = name;
+	constructor(devName) {
+		this.deviceName = devName;
 	}
 
 	decodePressure(raw) {
@@ -73,8 +73,13 @@ var channel = "pubnub pierreroth";
 var pubnub = PUBNUB({
               subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
         });
-var decoder = new DataDecoder("Lora decoder");
-console.log("Subscribing to pubnub...");
+var decoder = new LoRaMoteDataDecoder("LoRaMote");
+
+//FIXME - update UI with current LoRa device
+$('#current-lora-device').text(decoder.deviceName);
+console.log($('#current-lora-device'));
+
+console.log("Subscribing to pubnub to get data from", decoder.deviceName);
 pubnub.subscribe({
   	channel : channel,
   	message : function(message, env, ch, timer, magic_ch){
