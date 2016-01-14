@@ -67,7 +67,10 @@ class LoRaMoteDataDecoder {
 	}
 }
 
-console.log('Startup of LoRa data gathering!');
+
+
+var TEMPERATURE_COLOR = '#ff0000';
+var PRESSURE_COLOR = '#00ff00';
 
 var channel = "pubnub pierreroth";
 var pubnub = PUBNUB({
@@ -75,13 +78,7 @@ var pubnub = PUBNUB({
         });
 var decoder = new LoRaMoteDataDecoder("LoRaMote");
 
-//FIXME - update UI with current LoRa device
-$('#current-lora-device').text(decoder.deviceName);
-console.log($('#current-lora-device'));
-
-var TEMPERATURE_COLOR = '#ff0000';
-var PRESSURE_COLOR = '#00ff00';
-
+console.log('Startup of LoRa data gathering!');
 console.log("Subscribing to pubnub to get data from", decoder.deviceName);
 pubnub.subscribe({
   	channel : channel,
