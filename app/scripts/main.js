@@ -81,11 +81,11 @@ pubnub.subscribe({
   				if (message.data) {
   					console.log("LoRa raw data:", message.data);
   					console.log("Decoded data:", decoder.decodeFull(message.data));
-  					tempAndPressureChart.load({
+  					tempAndPressureChart.flow({
   												columns: [
     												['pressure', decoder.decodePressure(message.data).value],
     												['temperature', decoder.decodeTemperature(message.data).value]
-  												]
+  												],
 					});
   				}
 			},
@@ -96,10 +96,29 @@ var tempAndPressureChart = c3.generate({
     bindto: '#my-chart',
     data: {
       columns: [
-        ['pressure', 150, 250],
-        ['temperature', 12, 20, 15, 25]
+        ['pressure', 800, 800, 800, 800, 800],
+        ['temperature', 0, 0, 0, 0, 0]
       ],
+      axes: {
+        temperature: 'y2'
+      },
       type: 'spline'
+    },
+    axis: {
+        x: {
+            label: 'time'
+        },
+        y: {
+            label: 'pressure',
+            max: 1100,
+            min: 800,
+        },
+        y2: {
+            show: true,
+            label: 'temperature',
+            max: 50,
+            min: -10,
+        }
     }
 });
 
