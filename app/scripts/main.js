@@ -79,6 +79,9 @@ var decoder = new LoRaMoteDataDecoder("LoRaMote");
 $('#current-lora-device').text(decoder.deviceName);
 console.log($('#current-lora-device'));
 
+var TEMPERATURE_COLOR = '#ff0000';
+var PRESSURE_COLOR = '#00ff00';
+
 console.log("Subscribing to pubnub to get data from", decoder.deviceName);
 pubnub.subscribe({
   	channel : channel,
@@ -86,19 +89,29 @@ pubnub.subscribe({
   				if (message.data) {
   					console.log("LoRa raw data:", message.data);
   					console.log("Decoded data:", decoder.decodeFull(message.data));
-  					tempAndPressureChart.flow({
+  					tempAndPressureLineChart.flow({
   												columns: [
     												['pressure', decoder.decodePressure(message.data).value],
     												['temperature', decoder.decodeTemperature(message.data).value]
   												],
 					});
+                    tempBarChart.load({
+                                                columns: [
+                                                    ['temperature', decoder.decodeTemperature(message.data).value]
+                                                ],
+                    });
+                    pressBarChart.load({
+                                                columns: [
+                                                    ['pressure', decoder.decodePressure(message.data).value]
+                                                ],
+                    });
   				}
 			},
   	connect: connected
 });
 
-var tempAndPressureChart = c3.generate({
-    bindto: '#my-chart',
+var tempAndPressureLineChart = c3.generate({
+    bindto: '#temp-press-line-chart',
     data: {
       columns: [
         ['pressure', 800, 800, 800, 800, 800],
@@ -107,28 +120,76 @@ var tempAndPressureChart = c3.generate({
       axes: {
         temperature: 'y2'
       },
-      type: 'spline'
+      type: 'spline',
+      colors: {
+            pressure: PRESSURE_COLOR,
+            temperature: TEMPERATURE_COLOR,
+      },
+      color: function (color, d) {
+            // d will be 'id' when called for legends
+            return d.id && d.id === 'temperature' ? d3.rgb(color).darker(d.value / 150) : color;
+      }
     },
     axis: {
         x: {
-            label: 'time'
+            label: 'sample #'
         },
         y: {
-            label: 'pressure',
+            label: 'pressure (hPa)',
             max: 1100,
             min: 800,
         },
         y2: {
             show: true,
-            label: 'temperature',
+            label: 'temperature (°C)',
             max: 50,
             min: -10,
         }
     }
 });
 
+var tempBarChart = c3.generate({
+    bindto: '#temp-bar-chart',
+    data: {
+      columns: [
+        ['temperature', 0]
+      ],
+      type: 'bar',
+      colors: {
+            temperature: TEMPERATURE_COLOR,
+      },
+    },
+    axis: {
+        y: {
+            label: 'temperature (°C)',
+            max: 50,
+            min: 0,
+        }
+    }
+});
+
+var pressBarChart = c3.generate({
+    bindto: '#press-bar-chart',
+    data: {
+      columns: [
+        ['pressure', 0]
+      ],
+      type: 'bar',
+      colors: {
+            pressure: PRESSURE_COLOR,
+      },
+    },
+    axis: {
+        y: {
+            label: 'pressure (hPa)',
+            max: 1100,
+            min: 800,
+        }
+    }
+});
 
 function connected() {
  	console.log("Connected to", channel, "channel");
 }
+
 
