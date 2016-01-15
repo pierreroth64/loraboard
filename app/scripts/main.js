@@ -207,5 +207,5 @@ var map = L.mapbox.map('lora-map', 'mapbox.streets').setView(position, 15);
 marker.addTo(map);
 
 function connected() {
- 	console.log("Connected to", channel, "channel");
+ 	console.log("Connected to", "'" + channel + "'", "channel");
 }
