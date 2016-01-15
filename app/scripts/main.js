@@ -12,22 +12,22 @@ class LoRaMoteDataDecoder {
 
 	decodePressure(raw) {
 		var raw = raw.substr(2, 4);
-		return {'raw': raw, 'value': parseInt(raw, 16) / 10, "unit": "hPa"};
+		return {'raw': raw, 'value': parseInt(raw, 16) / 10, 'unit': 'hPa'};
 	}
 
 	decodeTemperature(raw) {
 		var raw = raw.substr(6, 4);
-		return {'raw': raw, 'value': parseInt(raw, 16) / 100, "unit": "°C"};
+		return {'raw': raw, 'value': parseInt(raw, 16) / 100, 'unit': '°C'};
 	}
 
 	decodeMeasuredAltitude(raw) {
 		var raw = raw.substr(10, 4);
-		return {'raw': raw, 'value': parseInt(raw, 16) / 10, "unit": "m"};
+		return {'raw': raw, 'value': parseInt(raw, 16) / 10, 'unit': 'm'};
 	}
 
 	decodeAltitude(raw) {
 		var raw = raw.substr(28, 4);
-		return {'raw': raw, 'value': parseInt(raw, 16), "unit": "m"};
+		return {'raw': raw, 'value': parseInt(raw, 16), 'unit': 'm'};
 	}
 
   decodeBatteryLevel(raw) {
@@ -42,14 +42,14 @@ class LoRaMoteDataDecoder {
     } else {
       value = (value * 100 / 254).toFixed(0);
     }
-    return {'raw': raw, 'value': value, "unit": "%"};
+    return {'raw': raw, 'value': value, 'unit': '%'};
   }
 
 	decodeLatitude(raw) {
 		var raw = raw.substr(16, 6);
     var value = parseInt(raw, 16);
     value = value / (Math.pow(2, 23) - 1) * 90;
-		return {'raw': raw, 'value': value, "unit": "°"};
+		return {'raw': raw, 'value': value, 'unit': '°'};
 	}
 
 	decodeLongitude(raw) {
@@ -58,30 +58,30 @@ class LoRaMoteDataDecoder {
     //FIXME: properly decode longitude!
     value = value / (Math.pow(2, 23) - 1) * 180;
     value = value - 360;
-    return {'raw': raw, 'value': value, "unit": "°"};
+    return {'raw': raw, 'value': value, 'unit': '°'};
 	}
 
 	decodeFull(raw) {
 		return {
-			"pressure": this.decodePressure(raw),
-			"temperature": this.decodeTemperature(raw),
-			"measured-altitude": this.decodeMeasuredAltitude(raw),
-			"altitude": this.decodeAltitude(raw),
-			"battery": this.decodeBatteryLevel(raw),
-			"latitude": this.decodeLatitude(raw),
-			"longitude": this.decodeLongitude(raw),
+			'pressure': this.decodePressure(raw),
+			'temperature': this.decodeTemperature(raw),
+			'measured-altitude': this.decodeMeasuredAltitude(raw),
+			'altitude': this.decodeAltitude(raw),
+			'battery': this.decodeBatteryLevel(raw),
+			'latitude': this.decodeLatitude(raw),
+			'longitude': this.decodeLongitude(raw),
 			}
 	}
 
 	decode(raw) {
 		return {
-			"pressure": this.decodePressure(raw).value,
-			"temperature": this.decodeTemperature(raw).value,
-			"measured-altitude": this.decodeMeasuredAltitude(raw).value,
-			"altitude": this.decodeAltitude(raw).value,
-			"battery": this.decodeBatteryLevel(raw).value,
-			"latitude": this.decodeLatitude(raw).value,
-			"longitude": this.decodeLongitude(raw).value,
+			'pressure': this.decodePressure(raw).value,
+			'temperature': this.decodeTemperature(raw).value,
+			'measured-altitude': this.decodeMeasuredAltitude(raw).value,
+			'altitude': this.decodeAltitude(raw).value,
+			'battery': this.decodeBatteryLevel(raw).value,
+			'latitude': this.decodeLatitude(raw).value,
+			'longitude': this.decodeLongitude(raw).value,
 			}
 	}
 }
@@ -101,11 +101,11 @@ var MIN_PRESSURE = 800;
 
 // Globals
 
-var pubnubChannel = "pubnub pierreroth";
+var pubnubChannel = 'pubnub pierreroth';
 var pubnubConn = PUBNUB({
                     subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
                 });
-var decoder = new LoRaMoteDataDecoder("LoRaMote");
+var decoder = new LoRaMoteDataDecoder('LoRaMote');
 var gpsMarker, map;
 var tempChart, pressChart, batteryChart;
 
@@ -113,13 +113,13 @@ var tempChart, pressChart, batteryChart;
 
 initUI();
 console.log('Startup of LoRa data gathering!');
-console.log("Subscribing to pubnub to get data from", decoder.deviceName);
+console.log('Subscribing to pubnub to get data from', decoder.deviceName);
 pubnubConn.subscribe({
   	channel : pubnubChannel,
   	message : function(message, env, ch, timer, magic_ch) {
 				if (message.data) {
 				  console.log(`LoRa frame #${message.fcnt}: ${message.data}`);
-					console.log("Decoded data:", decoder.decodeFull(message.data));
+					console.log('Decoded data:', decoder.decode(message.data));
           refreshUI(message);
 				}
 		},
