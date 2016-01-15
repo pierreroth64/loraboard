@@ -215,7 +215,7 @@ function initPressureUI() {
 }
 
 function refreshPressureUI(message) {
-  pressChart.load({
+  pressChart.flow({
         columns: [
             ['pressure', decoder.decodePressure(message.data).value]
         ],
@@ -246,7 +246,7 @@ function initTemperatureUI() {
 }
 
 function refreshTemperatureUI(message) {
-  tempChart.load({
+  tempChart.flow({
         columns: [
             ['temperature', decoder.decodeTemperature(message.data).value]
         ],
