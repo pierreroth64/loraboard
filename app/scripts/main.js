@@ -161,6 +161,7 @@ function refreshMapUI(message) {
   var latitude = decoder.decodeLatitude(message.data).value;
   var latlng = L.latLng(latitude, longitude);
   gpsMarker.setLatLng(latlng);
+  gpsMarker.bindPopup(`<strong>LoRaMote</strong><br>located at [${latitude}; ${longitude}]`);
   map.panTo(latlng);
 }
 
