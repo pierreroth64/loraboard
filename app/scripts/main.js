@@ -40,19 +40,25 @@ class LoRaMoteDataDecoder {
       // could not determine batt level -> display 0%
       value = 0;
     } else {
-      value = value * 100 / 254;
+      value = (value * 100 / 254).toFixed(0);
     }
     return {'raw': raw, 'value': value, "unit": "%"};
   }
 
 	decodeLatitude(raw) {
 		var raw = raw.substr(16, 6);
-		return {'raw': raw, 'value': parseInt(raw, 16), "unit": "°"};
+    var value = parseInt(raw, 16);
+    value = value / (Math.pow(2, 23) - 1) * 90;
+		return {'raw': raw, 'value': value, "unit": "°"};
 	}
 
 	decodeLongitude(raw) {
 		var raw = raw.substr(22, 6);
-		return {'raw': raw, 'value': parseInt(raw, 16), "unit": "°"};
+    var value = parseInt(raw, 16);
+    //FIXME: properly decode longitude!
+    value = value / (Math.pow(2, 23) - 1) * 180;
+    value = value - 360;
+    return {'raw': raw, 'value': value, "unit": "°"};
 	}
 
 	decodeFull(raw) {
@@ -93,71 +99,108 @@ var MIN_TEMPERATURE = 0;
 var MAX_PRESSURE = 1100;
 var MIN_PRESSURE = 800;
 
-// Main entry point
+// Globals
 
-var channel = "pubnub pierreroth";
-var pubnub = PUBNUB({
-              subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
-        });
+var pubnubChannel = "pubnub pierreroth";
+var pubnubConn = PUBNUB({
+                    subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
+                });
 var decoder = new LoRaMoteDataDecoder("LoRaMote");
+var gpsMarker, map;
+var tempChart, pressChart, batteryChart;
 
+// Main script
+
+initUI();
 console.log('Startup of LoRa data gathering!');
 console.log("Subscribing to pubnub to get data from", decoder.deviceName);
-pubnub.subscribe({
-  	channel : channel,
-  	message : function(message, env, ch, timer, magic_ch){
-  				if (message.data) {
-  				  console.log("LoRa raw data:", message.data);
-  					console.log("Decoded data:", decoder.decodeFull(message.data));
-            tempBarChart.load({
-                          columns: [
-                              ['temperature', decoder.decodeTemperature(message.data).value]
-                          ],
-            });
-            pressBarChart.load({
-                          columns: [
-                              ['pressure', decoder.decodePressure(message.data).value]
-                          ],
-            });
-            var remaining = decoder.decodeBatteryLevel(message.data).value;
-            batteryPieChart.load({
-                          columns: [
-                              ['remaining', remaining]
-                              ['used', 100 - remaining]
-                          ],
-            });
-  				}
-			},
+pubnubConn.subscribe({
+  	channel : pubnubChannel,
+  	message : function(message, env, ch, timer, magic_ch) {
+				if (message.data) {
+				  console.log(`LoRa frame #${message.fcnt}: ${message.data}`);
+					console.log("Decoded data:", decoder.decodeFull(message.data));
+          refreshUI(message);
+				}
+		},
   	connect: connected
 });
 
-var tempBarChart = c3.generate({
-    bindto: '#temp-bar-chart',
-    data: {
-      columns: [
-        ['temperature', ...INITIAL_TEMPERATURES]
-      ],
-      type: 'area-spline',
-      colors: {
-            temperature: TEMPERATURE_COLOR,
-      },
-    },
-    axis: {
-        y: {
-            label: 'temperature (°C)',
-            max: MAX_TEMPERATURE,
-            min: MIN_TEMPERATURE,
-        }
-    }
-});
+// Routines
 
-var pressBarChart = c3.generate({
-    bindto: '#press-bar-chart',
+function connected() {
+ 	console.log(`Connected to '${pubnubChannel}' channel`);
+}
+
+function initUI() {
+  initTemperatureUI();
+  initPressureUI();
+  initBatteryUI();
+  initMapUI();
+}
+
+function refreshUI(message) {
+  refreshTemperatureUI(message);
+  refreshPressureUI(message);
+  refreshBatteryUI(message);
+  refreshMapUI(message);
+}
+
+/// MAP
+function initMapUI() {
+  L.mapbox.accessToken = 'pk.eyJ1IjoicGllcnJlcm90aCIsImEiOiJjaWpiaW5obW0wMDRydnVtMndmdWZ3M2IzIn0.7HhhhYZHCWnBM0ZiOsaT6Q';
+  var initialPosition = [43.3188648, -0.3203877];
+  gpsMarker = L.marker(initialPosition);
+  map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialPosition, 15);
+  gpsMarker.addTo(map);
+}
+
+function refreshMapUI(message) {
+  var longitude = decoder.decodeLongitude(message.data).value;
+  var latitude = decoder.decodeLatitude(message.data).value;
+  var latlng = L.latLng(latitude, longitude);
+  gpsMarker.setLatLng(latlng);
+  map.setZoom(15);
+  map.panTo(latlng);
+}
+
+/// BATTERY LEVEL
+function initBatteryUI() {
+  batteryChart = c3.generate({
+    bindto: '#batt-chart',
+    data: {
+        columns: [
+            ['used', 100],
+            ['remaining', 0],
+        ],
+        type : 'pie',
+        colors: {
+            used: BATT_USED_COLOR,
+            remaining: BATT_REMAINING_COLOR
+        },
+    }
+  });
+}
+
+function refreshBatteryUI(message) {
+  var remaining = decoder.decodeBatteryLevel(message.data).value;
+  batteryChart.load({
+        columns: [
+            ['used', 100 - remaining],
+            ['remaining', remaining]
+        ],
+  });
+}
+
+/// PRESSURE
+function initPressureUI() {
+  pressChart = c3.generate({
+    bindto: '#press-chart',
     data: {
       columns: [
         ['pressure', ...INITIAL_PRESSURES]
       ],
-      type: 'area-spline',
+      type: 'spline',
       colors: {
             pressure: PRESSURE_COLOR,
       },
@@ -169,29 +212,44 @@ var pressBarChart = c3.generate({
             min: MIN_PRESSURE,
         }
     }
-});
+  });
+}
 
-var batteryPieChart = c3.generate({
-    bindto: '#batt-pie-chart',
-    data: {
+function refreshPressureUI(message) {
+  pressChart.load({
         columns: [
-            ['used', 30],
-            ['remaining', 70],
+            ['pressure', decoder.decodePressure(message.data).value]
         ],
-        type : 'pie',
-        colors: {
-            used: BATT_USED_COLOR,
-            remaining: BATT_REMAINING_COLOR
-        },
+  });
+}
+
+/// TEMPERATURE
+function initTemperatureUI() {
+  tempChart = c3.generate({
+    bindto: '#temp-chart',
+    data: {
+      columns: [
+        ['temperature', ...INITIAL_TEMPERATURES]
+      ],
+      type: 'spline',
+      colors: {
+            temperature: TEMPERATURE_COLOR,
+      },
+    },
+    axis: {
+        y: {
+            label: 'temperature (°C)',
+            max: MAX_TEMPERATURE,
+            min: MIN_TEMPERATURE,
+        }
     }
-});
+  });
+}
 
-L.mapbox.accessToken = 'pk.eyJ1IjoicGllcnJlcm90aCIsImEiOiJjaWpiaW5obW0wMDRydnVtMndmdWZ3M2IzIn0.7HhhhYZHCWnBM0ZiOsaT6Q';
-var position = [43.3188648, -0.3203877];
-var marker = L.marker(position);
-var map = L.mapbox.map('lora-map', 'mapbox.streets').setView(position, 15);
-marker.addTo(map);
-
-function connected() {
- 	console.log("Connected to", "'" + channel + "'", "channel");
+function refreshTemperatureUI(message) {
+  tempChart.load({
+        columns: [
+            ['temperature', decoder.decodeTemperature(message.data).value]
+        ],
+  });
 }
