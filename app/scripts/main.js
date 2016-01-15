@@ -152,8 +152,13 @@ function initMapUI() {
   L.mapbox.accessToken = 'pk.eyJ1IjoicGllcnJlcm90aCIsImEiOiJjaWpiaW5obW0wMDRydnVtMndmdWZ3M2IzIn0.7HhhhYZHCWnBM0ZiOsaT6Q';
   var initialPosition = [43.3188648, -0.3203877];
   gpsMarker = L.marker(initialPosition);
+  gpsMarker.bindPopup(buildMarkerInfo(...initialPosition));
   map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialPosition, 15);
   gpsMarker.addTo(map);
+}
+
+function buildMarkerInfo(latitude, longitude) {
+  return `<strong>LoRaMote</strong><br>located at [${latitude}; ${longitude}]`;
 }
 
 function refreshMapUI(message) {
@@ -161,7 +166,8 @@ function refreshMapUI(message) {
   var latitude = decoder.decodeLatitude(message.data).value;
   var latlng = L.latLng(latitude, longitude);
   gpsMarker.setLatLng(latlng);
-  gpsMarker.bindPopup(`<strong>LoRaMote</strong><br>located at [${latitude}; ${longitude}]`);
+  gpsMarker.closePopup();
+  gpsMarker.bindPopup(buildMarkerInfo(latitude, longitude));
   map.panTo(latlng);
 }
 
