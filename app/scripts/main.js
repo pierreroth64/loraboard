@@ -30,13 +30,20 @@ class LoRaMoteDataDecoder {
 		return {'raw': raw, 'value': parseInt(raw, 16), "unit": "m"};
 	}
 
-	decodeBatteryLevel(raw) {
-		var raw = raw.substr(14, 2);
-		var value = parseInt(raw, 16);
-		if (value == 0)
-			value = "external power";
-		return {'raw': raw, 'value': value, "unit": ""};
-	}
+  decodeBatteryLevel(raw) {
+    var raw = raw.substr(14, 2);
+    var value = parseInt(raw, 16);
+    if (value == 0) {
+      // connected to external source -> display 100%
+      value = 100;
+    } else if (value == 255) {
+      // could not determine batt level -> display 0%
+      value = 0;
+    } else {
+      value = value * 100 / 254;
+    }
+    return {'raw': raw, 'value': value, "unit": "%"};
+  }
 
 	decodeLatitude(raw) {
 		var raw = raw.substr(16, 6);
@@ -77,6 +84,8 @@ class LoRaMoteDataDecoder {
 
 var TEMPERATURE_COLOR = '#c33e19';
 var PRESSURE_COLOR = '#3c3029';
+var BATT_USED_COLOR = '#9b1889';
+var BATT_REMAINING_COLOR = '#d67b19';
 var INITIAL_PRESSURES = [800, 800, 800, 800, 800, 800, 800, 800];
 var INITIAL_TEMPERATURES = [0, 0, 0, 0, 0, 0, 0, 0];
 var MAX_TEMPERATURE = 50;
@@ -100,64 +109,26 @@ pubnub.subscribe({
   				if (message.data) {
   				  console.log("LoRa raw data:", message.data);
   					console.log("Decoded data:", decoder.decodeFull(message.data));
-  					tempAndPressureLineChart.flow({
-  												columns: [
-    												['pressure', decoder.decodePressure(message.data).value],
-    												['temperature', decoder.decodeTemperature(message.data).value]
-  												],
-					  });
             tempBarChart.load({
                           columns: [
                               ['temperature', decoder.decodeTemperature(message.data).value]
                           ],
-        });
+            });
             pressBarChart.load({
                           columns: [
                               ['pressure', decoder.decodePressure(message.data).value]
                           ],
             });
+            var remaining = decoder.decodeBatteryLevel(message.data).value;
+            batteryPieChart.load({
+                          columns: [
+                              ['remaining', remaining]
+                              ['used', 100 - remaining]
+                          ],
+            });
   				}
 			},
   	connect: connected
-});
-
-var tempAndPressureLineChart = c3.generate({
-    bindto: '#temp-press-line-chart',
-    data: {
-      columns: [
-        ['pressure', ...INITIAL_PRESSURES],
-        ['temperature', ...INITIAL_TEMPERATURES]
-      ],
-      axes: {
-        temperature: 'y2'
-      },
-      types: {
-            pressure: 'area-spline',
-            temperature: 'area-spline'
-      },
-      groups: [['pressure', 'temperature']],
-      colors: {
-            pressure: PRESSURE_COLOR,
-            temperature: TEMPERATURE_COLOR,
-      },
-      color: function (color, d) {
-            // d will be 'id' when called for legends
-            return d.id && d.id === 'temperature' ? d3.rgb(color).darker(d.value / 150) : color;
-      }
-    },
-    axis: {
-        y: {
-            label: 'pressure (hPa)',
-            max: MAX_PRESSURE,
-            min: MIN_PRESSURE,
-        },
-        y2: {
-            show: true,
-            label: 'temperature (°C)',
-            max: MAX_TEMPERATURE,
-            min: MIN_TEMPERATURE,
-        }
-    }
 });
 
 var tempBarChart = c3.generate({
@@ -197,6 +168,21 @@ var pressBarChart = c3.generate({
             max: MAX_PRESSURE,
             min: MIN_PRESSURE,
         }
+    }
+});
+
+var batteryPieChart = c3.generate({
+    bindto: '#batt-pie-chart',
+    data: {
+        columns: [
+            ['used', 30],
+            ['remaining', 70],
+        ],
+        type : 'pie',
+        colors: {
+            used: BATT_USED_COLOR,
+            remaining: BATT_REMAINING_COLOR
+        },
     }
 });
 
