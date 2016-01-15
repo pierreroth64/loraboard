@@ -144,6 +144,7 @@ function refreshUI(message) {
   refreshPressureUI(message);
   refreshBatteryUI(message);
   refreshMapUI(message);
+  refreshFrameIndicatorUI();
 }
 
 /// MAP
@@ -250,5 +251,16 @@ function refreshTemperatureUI(message) {
         columns: [
             ['temperature', decoder.decodeTemperature(message.data).value]
         ],
+  });
+}
+
+// FRAME INDICATOR
+function refreshFrameIndicatorUI() {
+  var animationClass = 'animated fadeIn';
+  $('#frame-indicator').show();
+  $('#frame-indicator').addClass(animationClass);
+  $('#frame-indicator').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+    $('#frame-indicator').removeClass(animationClass);
+    $('#frame-indicator').hide();
   });
 }
