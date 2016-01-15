@@ -1,3 +1,9 @@
+// Simple script to gather LoRa frames from pubnub service
+// decode them and display data on a single page
+
+// developed with love by the SwAT team
+
+// Data decoder for LoRaMote frames
 class LoRaMoteDataDecoder {
 
 	constructor(devName) {
@@ -67,10 +73,18 @@ class LoRaMoteDataDecoder {
 	}
 }
 
-
+// Constants
 
 var TEMPERATURE_COLOR = '#c33e19';
 var PRESSURE_COLOR = '#3c3029';
+var INITIAL_PRESSURES = [800, 800, 800, 800, 800, 800, 800, 800];
+var INITIAL_TEMPERATURES = [0, 0, 0, 0, 0, 0, 0, 0];
+var MAX_TEMPERATURE = 50;
+var MIN_TEMPERATURE = 0;
+var MAX_PRESSURE = 1100;
+var MIN_PRESSURE = 800;
+
+// Main entry point
 
 var channel = "pubnub pierreroth";
 var pubnub = PUBNUB({
@@ -84,24 +98,24 @@ pubnub.subscribe({
   	channel : channel,
   	message : function(message, env, ch, timer, magic_ch){
   				if (message.data) {
-  					console.log("LoRa raw data:", message.data);
+  				  console.log("LoRa raw data:", message.data);
   					console.log("Decoded data:", decoder.decodeFull(message.data));
   					tempAndPressureLineChart.flow({
   												columns: [
     												['pressure', decoder.decodePressure(message.data).value],
     												['temperature', decoder.decodeTemperature(message.data).value]
   												],
-					});
-                    tempBarChart.load({
-                                                columns: [
-                                                    ['temperature', decoder.decodeTemperature(message.data).value]
-                                                ],
-                    });
-                    pressBarChart.load({
-                                                columns: [
-                                                    ['pressure', decoder.decodePressure(message.data).value]
-                                                ],
-                    });
+					  });
+            tempBarChart.load({
+                          columns: [
+                              ['temperature', decoder.decodeTemperature(message.data).value]
+                          ],
+        });
+            pressBarChart.load({
+                          columns: [
+                              ['pressure', decoder.decodePressure(message.data).value]
+                          ],
+            });
   				}
 			},
   	connect: connected
@@ -111,13 +125,17 @@ var tempAndPressureLineChart = c3.generate({
     bindto: '#temp-press-line-chart',
     data: {
       columns: [
-        ['pressure', 800, 800, 800, 800, 800],
-        ['temperature', 0, 0, 0, 0, 0]
+        ['pressure', ...INITIAL_PRESSURES],
+        ['temperature', ...INITIAL_TEMPERATURES]
       ],
       axes: {
         temperature: 'y2'
       },
-      type: 'spline',
+      types: {
+            pressure: 'area-spline',
+            temperature: 'area-spline'
+      },
+      groups: [['pressure', 'temperature']],
       colors: {
             pressure: PRESSURE_COLOR,
             temperature: TEMPERATURE_COLOR,
@@ -128,19 +146,16 @@ var tempAndPressureLineChart = c3.generate({
       }
     },
     axis: {
-        x: {
-            label: 'sample #'
-        },
         y: {
             label: 'pressure (hPa)',
-            max: 1100,
-            min: 800,
+            max: MAX_PRESSURE,
+            min: MIN_PRESSURE,
         },
         y2: {
             show: true,
             label: 'temperature (°C)',
-            max: 50,
-            min: -10,
+            max: MAX_TEMPERATURE,
+            min: MIN_TEMPERATURE,
         }
     }
 });
@@ -149,9 +164,9 @@ var tempBarChart = c3.generate({
     bindto: '#temp-bar-chart',
     data: {
       columns: [
-        ['temperature', 0]
+        ['temperature', ...INITIAL_TEMPERATURES]
       ],
-      type: 'bar',
+      type: 'area-spline',
       colors: {
             temperature: TEMPERATURE_COLOR,
       },
@@ -159,8 +174,8 @@ var tempBarChart = c3.generate({
     axis: {
         y: {
             label: 'temperature (°C)',
-            max: 50,
-            min: 0,
+            max: MAX_TEMPERATURE,
+            min: MIN_TEMPERATURE,
         }
     }
 });
@@ -169,9 +184,9 @@ var pressBarChart = c3.generate({
     bindto: '#press-bar-chart',
     data: {
       columns: [
-        ['pressure', 0]
+        ['pressure', ...INITIAL_PRESSURES]
       ],
-      type: 'bar',
+      type: 'area-spline',
       colors: {
             pressure: PRESSURE_COLOR,
       },
