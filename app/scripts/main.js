@@ -199,7 +199,7 @@ function initPressureUI() {
       columns: [
         ['pressure', ...INITIAL_PRESSURES]
       ],
-      type: 'spline',
+      type: 'area-spline',
       colors: {
             pressure: PRESSURE_COLOR,
       },
@@ -230,7 +230,7 @@ function initTemperatureUI() {
       columns: [
         ['temperature', ...INITIAL_TEMPERATURES]
       ],
-      type: 'spline',
+      type: 'area-spline',
       colors: {
             temperature: TEMPERATURE_COLOR,
       },
