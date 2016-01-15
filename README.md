@@ -1,4 +1,5 @@
-== LoRa dashboard demo ==
+# LoRa dashboard demo
 
-Single app application displaying LoRa data.
+Single app application displaying LoRa data within a web browser
+
 
