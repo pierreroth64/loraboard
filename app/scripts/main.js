@@ -88,8 +88,8 @@ class LoRaMoteDataDecoder {
 
 // Constants
 
-var TEMPERATURE_COLOR = '#c33e19';
-var PRESSURE_COLOR = '#3c3029';
+var TEMPERATURE_COLOR = '#c40079';
+var PRESSURE_COLOR = '#f5d304';
 var BATT_USED_COLOR = '#9b1889';
 var BATT_REMAINING_COLOR = '#d67b19';
 var INITIAL_PRESSURES = [800, 800, 800, 800, 800, 800, 800, 800];
