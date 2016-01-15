@@ -160,7 +160,6 @@ function refreshMapUI(message) {
   var latitude = decoder.decodeLatitude(message.data).value;
   var latlng = L.latLng(latitude, longitude);
   gpsMarker.setLatLng(latlng);
-  map.setZoom(15);
   map.panTo(latlng);
 }
 
