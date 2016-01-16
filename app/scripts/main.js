@@ -122,8 +122,8 @@ pubnubConn.subscribe({
   channel: pubnubChannel,
   message: function(message, env, ch, timer, magicCh) {
 				if (message.data) {
-          console.log(`LoRa frame #${message.fcnt}: ${message.data}`);
-          console.log('Decoded data:', decoder.decode(message.data));
+          logData(`LoRa frame #${message.fcnt}: ${message.data}`)
+          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)), true);
           refreshUI(message);
 				}
 	},
@@ -141,6 +141,7 @@ function initUI() {
   initPressureUI();
   initBatteryUI();
   initMapUI();
+  initLogsUI();
 }
 
 function refreshUI(message) {
@@ -149,6 +150,22 @@ function refreshUI(message) {
   refreshBatteryUI(message);
   refreshMapUI(message);
   refreshFrameIndicatorUI();
+}
+
+/// LOGS
+function initLogsUI() {
+  $('#realtime-button').click(function() {
+      $('#realtime-window').toggle("slow");
+  });
+}
+
+function logData(message, eol) {
+  console.log(message);
+  logToScreen(message + (eol ? '\n': ''));
+}
+
+function logToScreen(message) {
+  $('#realtime-window').append(message + '\n');
 }
 
 /// MAP

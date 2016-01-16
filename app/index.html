@@ -84,7 +84,15 @@
         <div class="col-md-6">
           <h4>Technical details</h4>
           <p>This page relies on the <a href="http://www.pubnub.com">PubNub</a> js library to gather realtime data and on the <a href="http://c3js.org/">C3.js</a> library for charts. </p>
-          <p>Just open the browser console to see the incoming LoRa frames (F12 & console tab in chrome). </p>
+          <p>Just click on <strong>Realtime data</strong> or open the browser console to see the incoming LoRa frames (F12 & console tab in chrome). </p>
+        </div>
+        <div class="col-md-12">
+          <button id="realtime-button" type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Realtime data
+          </button>
+        </div>
+        <div class="col-md-12">
+          <textarea id="realtime-window" class="form-control" rows="6"></textarea>
         </div>
       </div>
 
