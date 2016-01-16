@@ -3,6 +3,8 @@
 
 // developed with love by the SwAT team
 
+'use strict';
+
 // Data decoder for LoRaMote frames
 class LoRaMoteDataDecoder {
 
@@ -10,33 +12,33 @@ class LoRaMoteDataDecoder {
 		this.deviceName = devName;
 	}
 
-	decodePressure(raw) {
-		var raw = raw.substr(2, 4);
+	decodePressure(frame) {
+		var raw = frame.substr(2, 4);
 		return {'raw': raw, 'value': parseInt(raw, 16) / 10, 'unit': 'hPa'};
 	}
 
-	decodeTemperature(raw) {
-		var raw = raw.substr(6, 4);
+	decodeTemperature(frame) {
+		var raw = frame.substr(6, 4);
 		return {'raw': raw, 'value': parseInt(raw, 16) / 100, 'unit': '°C'};
 	}
 
-	decodeMeasuredAltitude(raw) {
-		var raw = raw.substr(10, 4);
+	decodeMeasuredAltitude(frame) {
+		var raw = frame.substr(10, 4);
 		return {'raw': raw, 'value': parseInt(raw, 16) / 10, 'unit': 'm'};
 	}
 
-	decodeAltitude(raw) {
-		var raw = raw.substr(28, 4);
+	decodeAltitude(frame) {
+		var raw = frame.substr(28, 4);
 		return {'raw': raw, 'value': parseInt(raw, 16), 'unit': 'm'};
 	}
 
-  decodeBatteryLevel(raw) {
-    var raw = raw.substr(14, 2);
+  decodeBatteryLevel(frame) {
+    var raw = frame.substr(14, 2);
     var value = parseInt(raw, 16);
-    if (value == 0) {
+    if (value === 0) {
       // connected to external source -> display 100%
       value = 100;
-    } else if (value == 255) {
+    } else if (value === 255) {
       // could not determine batt level -> display 0%
       value = 0;
     } else {
@@ -45,15 +47,15 @@ class LoRaMoteDataDecoder {
     return {'raw': raw, 'value': value, 'unit': '%'};
   }
 
-	decodeLatitude(raw) {
-		var raw = raw.substr(16, 6);
+	decodeLatitude(frame) {
+		var raw = frame.substr(16, 6);
     var value = parseInt(raw, 16);
     value = value / (Math.pow(2, 23) - 1) * 90;
 		return {'raw': raw, 'value': value, 'unit': '°'};
 	}
 
-	decodeLongitude(raw) {
-		var raw = raw.substr(22, 6);
+	decodeLongitude(frame) {
+		var raw = frame.substr(22, 6);
     var value = parseInt(raw, 16);
     //FIXME: properly decode longitude!
     value = value / (Math.pow(2, 23) - 1) * 180;
@@ -61,28 +63,28 @@ class LoRaMoteDataDecoder {
     return {'raw': raw, 'value': value, 'unit': '°'};
 	}
 
-	decodeFull(raw) {
+	decodeFull(frame) {
 		return {
-			'pressure': this.decodePressure(raw),
-			'temperature': this.decodeTemperature(raw),
-			'measured-altitude': this.decodeMeasuredAltitude(raw),
-			'altitude': this.decodeAltitude(raw),
-			'battery': this.decodeBatteryLevel(raw),
-			'latitude': this.decodeLatitude(raw),
-			'longitude': this.decodeLongitude(raw),
-			}
+			'pressure': this.decodePressure(frame),
+			'temperature': this.decodeTemperature(frame),
+			'measured-altitude': this.decodeMeasuredAltitude(frame),
+			'altitude': this.decodeAltitude(frame),
+			'battery': this.decodeBatteryLevel(frame),
+			'latitude': this.decodeLatitude(frame),
+			'longitude': this.decodeLongitude(frame)
+			};
 	}
 
-	decode(raw) {
+	decode(frame) {
 		return {
-			'pressure': this.decodePressure(raw).value,
-			'temperature': this.decodeTemperature(raw).value,
-			'measured-altitude': this.decodeMeasuredAltitude(raw).value,
-			'altitude': this.decodeAltitude(raw).value,
-			'battery': this.decodeBatteryLevel(raw).value,
-			'latitude': this.decodeLatitude(raw).value,
-			'longitude': this.decodeLongitude(raw).value,
-			}
+			'pressure': this.decodePressure(frame).value,
+			'temperature': this.decodeTemperature(frame).value,
+			'measured-altitude': this.decodeMeasuredAltitude(frame).value,
+			'altitude': this.decodeAltitude(frame).value,
+			'battery': this.decodeBatteryLevel(frame).value,
+			'latitude': this.decodeLatitude(frame).value,
+			'longitude': this.decodeLongitude(frame).value
+			};
 	}
 }
 
@@ -103,7 +105,7 @@ var MIN_PRESSURE = 800;
 
 var pubnubChannel = 'pubnub pierreroth';
 var pubnubConn = PUBNUB({
-                    subscribe_key : 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
+                    subscribe_key: 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
                 });
 var decoder = new LoRaMoteDataDecoder('LoRaMote');
 var gpsMarker, map;
@@ -115,21 +117,21 @@ initUI();
 console.log('Startup of LoRa data gathering!');
 console.log('Subscribing to pubnub to get data from', decoder.deviceName);
 pubnubConn.subscribe({
-  	channel : pubnubChannel,
-  	message : function(message, env, ch, timer, magic_ch) {
+  channel: pubnubChannel,
+  message: function(message, env, ch, timer, magicCh) {
 				if (message.data) {
-				  console.log(`LoRa frame #${message.fcnt}: ${message.data}`);
-					console.log('Decoded data:', decoder.decode(message.data));
+          console.log(`LoRa frame #${message.fcnt}: ${message.data}`);
+          console.log('Decoded data:', decoder.decode(message.data));
           refreshUI(message);
 				}
-		},
-  	connect: connected
+	},
+  connect: connected
 });
 
 // Routines
 
 function connected() {
- 	console.log(`Connected to '${pubnubChannel}' channel`);
+  console.log(`Connected to '${pubnubChannel}' channel`);
 }
 
 function initUI() {
@@ -178,13 +180,13 @@ function initBatteryUI() {
     data: {
         columns: [
             ['used', 100],
-            ['remaining', 0],
+            ['remaining', 0]
         ],
-        type : 'pie',
+        type: 'pie',
         colors: {
             used: BATT_USED_COLOR,
             remaining: BATT_REMAINING_COLOR
-        },
+        }
     }
   });
 }
@@ -195,7 +197,7 @@ function refreshBatteryUI(message) {
         columns: [
             ['used', 100 - remaining],
             ['remaining', remaining]
-        ],
+        ]
   });
 }
 
@@ -209,14 +211,14 @@ function initPressureUI() {
       ],
       type: 'area-spline',
       colors: {
-            pressure: PRESSURE_COLOR,
-      },
+            pressure: PRESSURE_COLOR
+      }
     },
     axis: {
         y: {
             label: 'pressure (hPa)',
             max: MAX_PRESSURE,
-            min: MIN_PRESSURE,
+            min: MIN_PRESSURE
         }
     }
   });
@@ -226,7 +228,7 @@ function refreshPressureUI(message) {
   pressChart.flow({
         columns: [
             ['pressure', decoder.decodePressure(message.data).value]
-        ],
+        ]
   });
 }
 
@@ -240,14 +242,14 @@ function initTemperatureUI() {
       ],
       type: 'area-spline',
       colors: {
-            temperature: TEMPERATURE_COLOR,
-      },
+            temperature: TEMPERATURE_COLOR
+      }
     },
     axis: {
         y: {
             label: 'temperature (°C)',
             max: MAX_TEMPERATURE,
-            min: MIN_TEMPERATURE,
+            min: MIN_TEMPERATURE
         }
     }
   });
@@ -257,7 +259,7 @@ function refreshTemperatureUI(message) {
   tempChart.flow({
         columns: [
             ['temperature', decoder.decodeTemperature(message.data).value]
-        ],
+        ]
   });
 }
 
