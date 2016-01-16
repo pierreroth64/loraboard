@@ -5,6 +5,8 @@
 
 'use strict';
 
+/* global c3, L, PUBNUB */
+
 // Data decoder for LoRaMote frames
 class LoRaMoteDataDecoder {
 
