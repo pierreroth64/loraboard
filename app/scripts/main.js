@@ -103,6 +103,9 @@ var MIN_TEMPERATURE = 0;
 var MAX_PRESSURE = 1100;
 var MIN_PRESSURE = 800;
 
+var DEMO_NAME = 'SwAT LoRa live demo';
+var DEMO_VERSION = 'v0.1';
+
 // Globals
 
 var pubnubChannel = 'pubnub pierreroth';
@@ -116,6 +119,7 @@ var tempChart, pressChart, batteryChart;
 // Main script
 
 initUI();
+console.log('Started', DEMO_NAME, DEMO_VERSION);
 console.log('Startup of LoRa data gathering!');
 console.log('Subscribing to pubnub to get data from', decoder.deviceName);
 pubnubConn.subscribe({
