@@ -123,7 +123,7 @@ pubnubConn.subscribe({
   message: function(message, env, ch, timer, magicCh) {
 				if (message.data) {
           logData(`LoRa frame #${message.fcnt}: ${message.data}`);
-          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)), '\n');
+          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)));
           refreshUI(message);
 				}
 	},
@@ -174,6 +174,9 @@ function logData(message, separator) {
 
 function appendToScreenLog(message) {
   $('#realtime-window').append(message + '\n');
+  var realTimeWin = $('#realtime-window');
+    if (realTimeWin.length)
+       realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
 }
 
 /// MAP
