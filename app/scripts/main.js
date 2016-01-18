@@ -122,8 +122,8 @@ pubnubConn.subscribe({
   channel: pubnubChannel,
   message: function(message, env, ch, timer, magicCh) {
 				if (message.data) {
-          logData(`LoRa frame #${message.fcnt}: ${message.data}`)
-          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)), true);
+          logData(`LoRa frame #${message.fcnt}: ${message.data}`);
+          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)), '\n');
           refreshUI(message);
 				}
 	},
@@ -141,7 +141,7 @@ function initUI() {
   initPressureUI();
   initBatteryUI();
   initMapUI();
-  initLogsUI();
+  initTechnicalUI();
 }
 
 function refreshUI(message) {
@@ -152,19 +152,27 @@ function refreshUI(message) {
   refreshFrameIndicatorUI();
 }
 
-/// LOGS
-function initLogsUI() {
-  $('#realtime-button').click(function() {
-      $('#realtime-window').toggle("slow");
+/// TECHNICAL
+
+function initTechnicalUI() {
+  $('#technical-details-button').click(function() {
+      $('#technical-window').toggle("slow");
+      if ($( "#technical-details-button-icon" ).hasClass("glyphicon-menu-right")) {
+        $('#technical-details-button-icon').removeClass("glyphicon-menu-right");
+        $('#technical-details-button-icon').addClass("glyphicon-menu-down");
+      } else {
+        $('#technical-details-button-icon').removeClass("glyphicon-menu-down");
+        $('#technical-details-button-icon').addClass("glyphicon-menu-right");
+      }
   });
 }
 
-function logData(message, eol) {
+function logData(message, separator) {
   console.log(message);
-  logToScreen(message + (eol ? '\n': ''));
+  appendToScreenLog(message + (separator ? separator: ''));
 }
 
-function logToScreen(message) {
+function appendToScreenLog(message) {
   $('#realtime-window').append(message + '\n');
 }
 

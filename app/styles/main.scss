@@ -57,17 +57,20 @@ body {
 .graph-box {
   -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
-  height: 300px;
+}
+
+.map-box {
+  height: 320px;
 }
 
 #frame-indicator {
   display: none;
 }
 
-#realtime-window {
+#technical-window {
   display: none;
+  padding: 10px;
 }
-
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
