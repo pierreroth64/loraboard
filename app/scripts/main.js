@@ -1,7 +1,7 @@
-// Simple script to gather LoRa frames from pubnub service
+// Simple script to gather LoRaMote frames from pubnub service
 // decode them and display data on a single page
 
-// developed with love by the SwAT team
+// Initially developed with love by the Legrand SwAT team
 
 'use strict';
 
@@ -10,8 +10,8 @@
 // Data decoder for LoRaMote frames
 class LoRaMoteDataDecoder {
 
-	constructor(devName) {
-		this.deviceName = devName;
+	constructor() {
+		this.deviceName = 'LoRaMote';
 	}
 
 	decodePressure(frame) {
@@ -65,18 +65,6 @@ class LoRaMoteDataDecoder {
     return {'raw': raw, 'value': value, 'unit': '°'};
 	}
 
-	decodeFull(frame) {
-		return {
-			'pressure': this.decodePressure(frame),
-			'temperature': this.decodeTemperature(frame),
-			'measured-altitude': this.decodeMeasuredAltitude(frame),
-			'altitude': this.decodeAltitude(frame),
-			'battery': this.decodeBatteryLevel(frame),
-			'latitude': this.decodeLatitude(frame),
-			'longitude': this.decodeLongitude(frame)
-			};
-	}
-
 	decode(frame) {
 		return {
 			'pressure': this.decodePressure(frame).value,
@@ -103,41 +91,22 @@ var MIN_TEMPERATURE = 0;
 var MAX_PRESSURE = 1100;
 var MIN_PRESSURE = 800;
 
-var DEMO_NAME = 'SwAT LoRa live demo';
+var DEMO_NAME = 'LoRa live demo';
 var DEMO_VERSION = 'v0.1';
 
-// Globals
+var PUBNUB_CHANNEL = 'pubnub pierreroth';
+var PUBNUB_SUBSCRIBE_KEY = 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe';
 
-var pubnubChannel = 'pubnub pierreroth';
+// Globals
 var pubnubConn = PUBNUB({
-                    subscribe_key: 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe'
+                    subscribe_key: PUBNUB_SUBSCRIBE_KEY
                 });
-var decoder = new LoRaMoteDataDecoder('LoRaMote');
+var decoder = new LoRaMoteDataDecoder();
 var gpsMarker, map;
 var tempChart, pressChart, batteryChart;
 
-// Main script
-
-initUI();
-console.log('Started', DEMO_NAME, DEMO_VERSION);
-console.log('Startup of LoRa data gathering!');
-console.log('Subscribing to pubnub to get data from', decoder.deviceName);
-pubnubConn.subscribe({
-  channel: pubnubChannel,
-  message: function(message, env, ch, timer, magicCh) {
-				if (message.data) {
-          logData(`LoRa frame #${message.fcnt}: ${message.data}`);
-          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)));
-          refreshUI(message);
-				}
-	},
-  connect: connected
-});
-
-// Routines
-
 function connected() {
-  console.log(`Connected to '${pubnubChannel}' channel`);
+  console.log(`Connected to '${PUBNUB_CHANNEL}' channel`);
 }
 
 function initUI() {
@@ -157,7 +126,6 @@ function refreshUI(message) {
 }
 
 /// TECHNICAL
-
 function initTechnicalUI() {
   $('#technical-details-button').click(function() {
       $('#technical-window').toggle("slow");
@@ -179,8 +147,9 @@ function logData(message, separator) {
 function appendToScreenLog(message) {
   $('#realtime-window').append(message + '\n');
   var realTimeWin = $('#realtime-window');
-    if (realTimeWin.length)
-       realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
+  if (realTimeWin.length) {
+     realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
+  }
 }
 
 /// MAP
@@ -307,3 +276,20 @@ function refreshFrameIndicatorUI() {
     $('#frame-indicator').hide();
   });
 }
+
+// Main script
+initUI();
+console.log('Started', DEMO_NAME, DEMO_VERSION);
+console.log('Startup of LoRa data gathering!');
+console.log('Subscribing to pubnub to get data from', decoder.deviceName);
+pubnubConn.subscribe({
+  channel: PUBNUB_CHANNEL,
+  message: function(message, env, ch, timer, magicCh) {
+        if (message.data) {
+          logData(`LoRa frame #${message.fcnt}: ${message.data}`);
+          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)));
+          refreshUI(message);
+				}
+	},
+  connect: connected
+});
