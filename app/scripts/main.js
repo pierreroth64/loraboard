@@ -93,7 +93,7 @@ var MIN_PRESSURE = 800;
 var MAX_SCREEN_LOGS = 100;
 
 var DEMO_NAME = 'LoRa live demo';
-var DEMO_VERSION = 'v0.1';
+var DEMO_VERSION = 'v0.2';
 
 var PUBNUB_CHANNEL = 'pubnub pierreroth';
 var PUBNUB_SUBSCRIBE_KEY = 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe';
