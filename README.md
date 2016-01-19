@@ -1,6 +1,6 @@
 # LoRa dashboard demo
 
-Single page web application displaying live LoRa data of the [Semtech](http://www.semtech.com/) starter kit.
+Single page web application displaying live data from a LoRaMote thanks to [Semtech](http://www.semtech.com/) starter kit.
 
 ## Overview
 
@@ -50,4 +50,4 @@ gulp serve
 
 ## Developers
 
-Please note that this a simple JS script without any architecture effort or framework usage. It's provided as-is and you may want to achieve some decoupling with some awesome livraries such as http://backbonejs.org/. There are no tests at all (which is _bad_!)
+Please note that this a simple JS script without any architecture effort or framework usage. It's provided as-is and you may want to achieve some decoupling with some awesome libraries such as http://backbonejs.org/. There are no tests at all (which is _bad_!)
