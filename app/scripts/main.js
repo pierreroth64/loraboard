@@ -90,6 +90,7 @@ var MAX_TEMPERATURE = 50;
 var MIN_TEMPERATURE = 0;
 var MAX_PRESSURE = 1100;
 var MIN_PRESSURE = 800;
+var MAX_SCREEN_LOGS = 100;
 
 var DEMO_NAME = 'LoRa live demo';
 var DEMO_VERSION = 'v0.1';
@@ -139,17 +140,30 @@ function initTechnicalUI() {
   });
 }
 
+var logsNumber = 0;
 function logData(message, separator) {
+  logsNumber++;
   console.log(message);
-  appendToScreenLog(message + (separator ? separator: ''));
+  if (logsNumber <= MAX_SCREEN_LOGS) {
+    appendToScreenLogs(message + (separator ? separator: ''));
+  } else {
+    let message = `reached max logs number (${MAX_SCREEN_LOGS}), cleared log window!`;
+    logsNumber = 0;
+    clearScreenLogs();
+    console.log(message);
+    appendToScreenLogs(message);
+  }
 }
 
-function appendToScreenLog(message) {
+function appendToScreenLogs(message) {
   $('#realtime-window').append(message + '\n');
   var realTimeWin = $('#realtime-window');
   if (realTimeWin.length) {
      realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
   }
+}
+function clearScreenLogs() {
+  $('#realtime-window').text('');
 }
 
 /// MAP
@@ -286,8 +300,7 @@ pubnubConn.subscribe({
   channel: PUBNUB_CHANNEL,
   message: function(message, env, ch, timer, magicCh) {
         if (message.data) {
-          logData(`LoRa frame #${message.fcnt}: ${message.data}`);
-          logData('Decoded as:' + JSON.stringify(decoder.decode(message.data)));
+          logData(`LoRa frame #${message.fcnt}: ${message.data} \nDecoded as:` + JSON.stringify(decoder.decode(message.data)));
           refreshUI(message);
 				}
 	},
