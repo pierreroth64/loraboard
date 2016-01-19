@@ -19,7 +19,7 @@ Follow the Semtech user guide to setup the LoRaMote device.
 You must stop the current packet forwarder and change its configuration files.
 
 * In local.conf, change the gateway ID
-* In global.conf, change the gateway ID, point to lorio service and be sure that the port values are correct:
+* In global.conf, change the gateway ID, point to loriot service and be sure that the port values are correct:
 ```
    "gateway_ID": "B827EBFFFF6F8A98",
    /* change with default server address/ports, or overwrite in local_conf.json */
@@ -31,7 +31,7 @@ You can then restart the packet forwarder and check its initial output which dis
 
 ### Loriot and PubNub services
 
-Once the gateway is configured, you should be able to setup your [lorio.io](http://www.loriot.io) sample app and see the LoRa frames conming in.
+Once the gateway is configured, you should be able to setup your [loriot.io](http://www.loriot.io) sample app and see the LoRa frames conming in.
 
 The last thing to do is to create a [PubNub](http://www.pubnub.com) channel to publish to. You can then configure the lorio app to publish data to PubNub (PubNub is one of the possible outputs).
 
