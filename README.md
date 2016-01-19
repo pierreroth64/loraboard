@@ -4,7 +4,7 @@ Single page web application displaying live LoRa data.
 
 ## Overview
 
-// picture to be added
+![Alt text](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png?token=AJyXh20kytIqx58ImZ4y1ftYnTyQZMRGks5Wp3BFwA%3D%3D)
 
 ## Install
 
