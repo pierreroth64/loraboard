@@ -300,7 +300,7 @@ pubnubConn.subscribe({
   channel: PUBNUB_CHANNEL,
   message: function(message, env, ch, timer, magicCh) {
         if (message.data) {
-          logData(`LoRa frame #${message.fcnt}: ${message.data} \nDecoded as:` + JSON.stringify(decoder.decode(message.data)));
+          logData(`LoRa frame #${message.fcnt}: ${message.data} from: ${message.EUI}\nDecoded as:` + JSON.stringify(decoder.decode(message.data)));
           refreshUI(message);
 				}
 	},
