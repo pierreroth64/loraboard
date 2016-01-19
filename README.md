@@ -1,10 +1,12 @@
 # LoRa dashboard demo
 
-Single page web application displaying live LoRa data.
+Single page web application displaying live LoRa data of the [Semtech](http://www.semtech.com/) starter kit.
 
 ## Overview
 
 ![Alt text](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png?token=AJyXh20kytIqx58ImZ4y1ftYnTyQZMRGks5Wp3BFwA%3D%3D)
+
+Using the starter kit and some web based services, this web app displays data coming from your LoRaMote.
 
 ## Setup
 
