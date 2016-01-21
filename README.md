@@ -33,7 +33,7 @@ You can then restart the packet forwarder and check its initial output which dis
 
 Once the gateway is configured, you should be able to setup your [loriot.io](http://www.loriot.io) sample app and see the LoRa frames conming in.
 
-The last thing to do is to create a [PubNub](http://www.pubnub.com) channel to publish to. You can then configure the lorio app to publish data to PubNub (PubNub is one of the possible outputs).
+The last thing to do is to create a [PubNub](http://www.pubnub.com) channel to publish to. You can then configure the loriot app to publish data to PubNub (PubNub is one of the possible outputs).
 
 Here you are: your LoRaMote device is pushing its data to the PubNub service! You just have to subscribe to the correct channel to receive this data.
 
