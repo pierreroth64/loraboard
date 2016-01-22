@@ -93,6 +93,10 @@ export class LoRaMoteDataCollector  {
                         this.models.temp.set({value: this.decoder.decodeTemperature(message.data).value});
                         this.models.press.set({value: this.decoder.decodePressure(message.data).value});
                         this.models.batt.set({value: this.decoder.decodeBatteryLevel(message.data).value});
+                        this.models.position.set({value: JSON.stringify({
+                                                        latitude: this.decoder.decodeLatitude(message.data).value,
+                                                        longitude: this.decoder.decodeLongitude(message.data).value})
+                                                });
                     }
                 },
                 connect: this.connected
