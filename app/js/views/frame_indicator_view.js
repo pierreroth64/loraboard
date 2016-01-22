@@ -7,7 +7,6 @@ export class FrameIndicatorView extends Backbone.View {
   }
 
   newFrame() {
-    console.log("New LoRa Frame received!");
     var animationClass = 'animated fadeIn';
     $('#frame-indicator').show();
     $('#frame-indicator').addClass(animationClass);
