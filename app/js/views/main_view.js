@@ -30,12 +30,5 @@ export class MainView extends Backbone.View {
                                                     'position': mapPositionData});
     this.dataCollector.start();
   }
-
-  render() {
-    this.temperatureGraphView.render();
-    this.pressureGraphView.render();
-    this.batteryGraphView.render();
-    this.mapView.render();
-  }
 }
 

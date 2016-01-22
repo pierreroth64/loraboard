@@ -9,10 +9,6 @@ export class MapView extends Backbone.View {
     this.listenTo(this.model, 'change', this.updatePosition);
   }
 
-  render() {
-    return this;
-  }
-
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
       var initialPosition = [43.3188648, -0.3203877];

@@ -9,10 +9,6 @@ export class BatteryGraphView extends Backbone.View {
     this.listenTo(this.model, 'change', this.render);
   }
 
-  render() {
-    return this;
-  }
-
   initChart() {
     return c3.generate({
                 bindto: '#batt-chart',
