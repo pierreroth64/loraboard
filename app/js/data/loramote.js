@@ -84,7 +84,6 @@ export class LoRaMoteDataCollector  {
 
     start() {
         console.log("Starting LoRa data gathering...");
-        //this.models.temp.set({value: 35});
         this.pubnubConn.subscribe({
                 channel: PUBNUB_CHANNEL,
                 message: function(message, env, ch, timer, magicCh) {
