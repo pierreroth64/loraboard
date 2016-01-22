@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LoRa dashboard</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/css/main.css">
+
+    <script src="http://cdn.pubnub.com/pubnub-3.7.18.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css"/>
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="dashboard-header container">
+        <div class="navbar-header">
+          <h3>Welcome to the LoRa live demo!</h3>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="center-block">
+        </div>
+      </div>
+      <div class="row">
+        <div id="press-chart-box" class="col-md-6">
+          <h4>Pressure</h4>
+          <div id="press-chart" class="graph-box"></div>
+        </div>
+        <div id="temp-chart-box" class="col-md-6">
+          <h4>Temperature</h4>
+          <div id="temp-chart" class="graph-box"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="batt-chart-box" class="col-md-6">
+          <h4>Battery</h4>
+          <div id="batt-chart" class="graph-box"></div>
+        </div>
+        <div id="lora-map-box" class="col-md-6">
+          <h4>GPS</h4>
+          <div id="lora-map" class="graph-box map-box"></div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-9">
+          <button id="technical-details-button" type="button" class="btn btn-default">
+            <span id="technical-details-button-icon" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Details
+          </button>
+        </div>
+        <div class="pull-right">
+          <h4>
+            <span id="frame-indicator" class="label label-primary">frame</span>
+          </h4>
+        </div>
+      </div>
+      <br />
+      <div id="technical-window" class="graph-box">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Setup</h4>
+            <p>The LoRa endpoint talks to a LoRa gateway which in turns talks to the <a href="http://www.loriot.io">Loriot</a> service.
+              The Loriot.io service has been configured to publish its received data to the <a href="http://www.pubnub.com">PubNub</a> service.
+              This page subscribes to the corresponding PubNub channel to get the realtime LoRa data, decodes it and displays live charts. </p>
+          </div>
+          <div class="col-md-6">
+            <h4>Technical details</h4>
+            <p>This page relies on the following JS libraries:
+              <ul>
+                <li><a href="http://www.pubnub.com">PubNub</a> to gather realtime data</li>
+                <li><a href="http://c3js.org/">C3.js</a> for charts </li>
+                <li><a href="https://www.mapbox.com/">mapbox</a> for maps</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Realtime data</h4>
+            <textarea id="realtime-window" class="form-control" rows="4"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="pull-right">
+          <span>developed with ♥ by the SwAT team ;)</span>
+          <img src="app/images/logo_swat.png" />
+        </div>
+      </footer>
+    </div> <!-- /container -->
+
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/lodash/dist/lodash.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/backbone/backbone.js"></script>
+	<script src="bower_components/backbone.localStorage/backbone.localStorage.js"></script>
+	<script src="bower_components/es6-module-loader/dist/es6-module-loader.js"></script>
+	<script>System.import('app/js/lora')</script>
+  </body>
+</html>
