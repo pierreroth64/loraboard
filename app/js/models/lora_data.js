@@ -9,7 +9,8 @@ export class LoRaData extends Backbone.Model {
   defaults() {
     return {
       title: 'title unset',
-      value: 10
+      value: 10,
+      unit: 'unset'
     };
   }
 
