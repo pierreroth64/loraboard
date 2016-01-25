@@ -6,11 +6,13 @@ var PUBNUB_SUBSCRIBE_KEY = 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe';
 export class LoRaMoteDataCollector  {
 
     constructor(models) {
+        this.name = "LoRaMote data collector through PubNub service";
         this.models = models;
         this.pubnubConn = PUBNUB({
                     subscribe_key: PUBNUB_SUBSCRIBE_KEY
         });
         this.decoder = new LoRaMoteDataDecoder();
+        this.isStarted = undefined;
     }
 
     start() {
@@ -33,13 +35,16 @@ export class LoRaMoteDataCollector  {
                 },
                 connect: this.connected
                 });
+        this.isStarted = true;
     }
 
     stop() {
         console.log("Stopping LoRa data gathering...");
+        this.isStarted = false;
         this.pubnubConn.unsubscribe({
                 channel: PUBNUB_CHANNEL
         });
+
     }
 
     connected() {
