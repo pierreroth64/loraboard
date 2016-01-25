@@ -66,5 +66,5 @@ To run the tests:
 npm test
 ```
 
-As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the AUTHORS file ;)
+As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the CONTRIBUTORS file ;)
 
