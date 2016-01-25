@@ -32,12 +32,13 @@ export class MainView extends Backbone.View {
     new BatteryGraphView({model: batteryData});
     new MapView({model: mapPositionData});
     new FrameIndicatorView();
+    new ToolBoxView();
+    new TechnicalView();
+
     new LoRaMoteDataCollector({'temp': temperatureData,
                                'press': pressureData,
                                'batt': batteryData,
                                'position': mapPositionData}).start();
-    new ToolBoxView();
-    new TechnicalView();
     super(options);
   }
 }

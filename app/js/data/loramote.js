@@ -88,7 +88,6 @@ export class LoRaMoteDataCollector  {
                 channel: PUBNUB_CHANNEL,
                 message: function(message, env, ch, timer, magicCh) {
                     if (message.data) {
-                        //logData(`LoRa frame #${message.fcnt}: ${message.data} from: ${message.EUI}\nDecoded as:` + JSON.stringify(decoder.decode(message.data)));
                         this.models.temp.set({value: this.decoder.decodeTemperature(message.data).value});
                         this.models.press.set({value: this.decoder.decodePressure(message.data).value});
                         this.models.batt.set({value: this.decoder.decodeBatteryLevel(message.data).value});
@@ -96,7 +95,9 @@ export class LoRaMoteDataCollector  {
                                                         latitude: this.decoder.decodeLatitude(message.data).value,
                                                         longitude: this.decoder.decodeLongitude(message.data).value})
                                                 });
-                        Backbone.Mediator.publish('data:newFrame');
+                        var rawFrame = JSON.stringify(message);
+                        var decodedFrame = JSON.stringify(this.decoder.decode(message.data));
+                        Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);
                     }
                 },
                 connect: this.connected
