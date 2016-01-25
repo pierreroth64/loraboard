@@ -36,15 +36,16 @@ export class LoRaMoteDataCollector  {
                 connect: this.connected
                 });
         this.isStarted = true;
+        console.log("Started LoRa data gathering.");
     }
 
     stop() {
         console.log("Stopping LoRa data gathering...");
-        this.isStarted = false;
         this.pubnubConn.unsubscribe({
                 channel: PUBNUB_CHANNEL
         });
-
+        this.isStarted = false;
+        console.log("Stopped LoRa data gathering.");
     }
 
     connected() {
