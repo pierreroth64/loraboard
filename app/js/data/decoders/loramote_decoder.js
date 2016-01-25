@@ -24,20 +24,20 @@ export class LoRaMoteDataDecoder {
         return {'raw': raw, 'value': parseInt(raw, 16), 'unit': 'm'};
     }
 
-  decodeBatteryLevel(frame) {
-    var raw = frame.substr(14, 2);
-    var value = parseInt(raw, 16);
-    if (value === 0) {
-      // connected to external source -> display 100%
-      value = 100;
-    } else if (value === 255) {
-      // could not determine batt level -> display 0%
-      value = 0;
-    } else {
-      value = (value * 100 / 254).toFixed(0);
+    decodeBatteryLevel(frame) {
+        var raw = frame.substr(14, 2);
+        var value = parseInt(raw, 16);
+        if (value === 0) {
+          // connected to external source -> display 100%
+          value = 100;
+        } else if (value === 255) {
+          // could not determine batt level -> display 0%
+          value = 0;
+        } else {
+          value = (value * 100 / 254).toFixed(0);
+        }
+        return {'raw': raw, 'value': value, 'unit': '%'};
     }
-    return {'raw': raw, 'value': value, 'unit': '%'};
-  }
 
     decodeLatitude(frame) {
     var raw = frame.substr(16, 6);
