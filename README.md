@@ -41,12 +41,27 @@ Here you are: your LoRaMote device is pushing its data to the PubNub service! Yo
 
 This web app subscribes to the previously configured PubNub service and decodes and displays live data.
 
-It was developed with [Backbone JS](http://backbonejs.org/).
-
 You'll have to change the *PUBNUB_CHANNEL* and *PUBNUB_SUBSCRIBE_KEY* variables in the source code to point to your pubnub channel.
-
-Then, just run the following command to serve the single page app and open your browser to http://localhost:9000:
+Install the dependencies:
 
 ```
-python -m SimpleHTTPServer 9000
+bower install
+npm install
 ```
+... and run the following command to serve the single page app and open your browser to http://localhost:9000:
+
+```
+npm start
+```
+
+## Developers
+
+This app uses [Backbone JS](http://backbonejs.org/).
+
+To run the tests:
+
+```
+npm test
+```
+
+
