@@ -6,7 +6,7 @@ Single page web application displaying live data from a LoRaMote thanks to [Semt
 
 ## Overview
 
-![Alt text](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png)
+![Lora setup](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png)
 
 Using the starter kit and some web based services, this web app displays data coming from your LoRaMote.
 
