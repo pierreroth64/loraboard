@@ -96,7 +96,7 @@ export class LoRaMoteDataCollector  {
                                                         latitude: this.decoder.decodeLatitude(message.data).value,
                                                         longitude: this.decoder.decodeLongitude(message.data).value})
                                                 });
-                        Backbone.Mediator.publish('lora:newFrame');
+                        Backbone.Mediator.publish('data:newFrame');
                     }
                 },
                 connect: this.connected

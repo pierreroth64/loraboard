@@ -3,7 +3,7 @@ export class FrameIndicatorView extends Backbone.View {
 
   constructor(options) {
     super(options);
-    Backbone.Mediator.subscribe('lora:newFrame', this.newFrame, this);
+    Backbone.Mediator.subscribe('data:newFrame', this.newFrame, this);
   }
 
   newFrame() {
