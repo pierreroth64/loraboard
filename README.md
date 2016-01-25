@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pierreroth/loraboard.svg?branch=master)](https://travis-ci.org/pierreroth/loraboard)
+
 # LoRa dashboard demo
 
 Single page web application displaying live data from a LoRaMote thanks to [Semtech](http://www.semtech.com/) starter kit.
