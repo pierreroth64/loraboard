@@ -54,6 +54,8 @@ npm install
 npm start
 ```
 
+To deploy, copy paste the entire directory in your webserver virtualhost basedir. Work in Progress: use a builder such as brunch.io to pack everything and make production build easier.
+
 ## Developers
 
 This app uses [Backbone JS](http://backbonejs.org/).
