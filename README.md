@@ -60,12 +60,11 @@ To deploy, copy paste the entire directory in your webserver virtualhost basedir
 
 ## Developers
 
-This app uses [Backbone JS](http://backbonejs.org/).
-
 To run the tests:
 
 ```
 npm test
 ```
 
+As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the AUTHORS file ;)
 
