@@ -33,7 +33,9 @@ export class LoRaMoteDataCollector  {
                         Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);
                     }
                 },
-                connect: this.connected
+                connect: this.onConnected,
+                disconnect: this.onDisconnected,
+                error: this.onError
                 });
         this.isStarted = true;
     }
@@ -47,8 +49,17 @@ export class LoRaMoteDataCollector  {
         console.log("Stopped LoRa data gathering.");
     }
 
-    connected() {
+    onConnected() {
         console.log(`Connected to '${PUBNUB_CHANNEL}' channel`);
         console.log("Started LoRa data gathering.");
+    }
+
+    onDisconnected() {
+        console.log(`Disconnected from'${PUBNUB_CHANNEL}' channel`);
+    }
+
+    onError(error) {
+        var errorMsg = JSON.stringify(error);
+        console.log(`Network error on '${PUBNUB_CHANNEL}' channel: ${errorMsg}`);
     }
 }
