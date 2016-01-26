@@ -38,12 +38,12 @@ export class ToolBoxView extends Backbone.View {
 
   clickStartStop() {
     if (this.dataCollector.isStarted) {
-      $('#technical-start-stop-button-icon').removeClass("glyphicon-play");
-      $('#technical-start-stop-button-icon').addClass("glyphicon-stop");
-      this.dataCollector.stop();
-    } else {
       $('#technical-start-stop-button-icon').removeClass("glyphicon-stop");
       $('#technical-start-stop-button-icon').addClass("glyphicon-play");
+      this.dataCollector.stop();
+    } else {
+      $('#technical-start-stop-button-icon').removeClass("glyphicon-play");
+      $('#technical-start-stop-button-icon').addClass("glyphicon-stop");
       this.dataCollector.start();
     }
   }
