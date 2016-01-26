@@ -36,7 +36,6 @@ export class LoRaMoteDataCollector  {
                 connect: this.connected
                 });
         this.isStarted = true;
-        console.log("Started LoRa data gathering.");
     }
 
     stop() {
@@ -50,5 +49,6 @@ export class LoRaMoteDataCollector  {
 
     connected() {
         console.log(`Connected to '${PUBNUB_CHANNEL}' channel`);
+        console.log("Started LoRa data gathering.");
     }
 }
