@@ -8,6 +8,7 @@ import {MapView} from "./map_view";
 import {FrameIndicatorView} from "./frame_indicator_view";
 import {ToolBoxView} from "./toolbox_view";
 import {TechnicalView} from "./technical_view";
+import {SettingsView} from "./settings_view";
 
 import {LoRaMoteDataCollector} from "../data/loramote";
 
@@ -40,6 +41,7 @@ export class MainView extends Backbone.View {
     new FrameIndicatorView();
     new ToolBoxView({dataCollector: this.dataCollector});
     new TechnicalView();
+    new SettingsView();
 
     super(options);
   }
