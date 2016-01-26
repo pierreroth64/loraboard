@@ -43,7 +43,8 @@ Here you are: your LoRaMote device is pushing its data to the PubNub service! Yo
 
 This web app subscribes to the previously configured PubNub service and decodes and displays live data.
 
-You'll have to change the *PUBNUB_CHANNEL* and *PUBNUB_SUBSCRIBE_KEY* variables in the source code to point to your pubnub channel.
+You'll have to change the *PubNub channel and subscribe key* point to your pubnub account. Just open, the popup window to enter your PubNub credentials (click on Details and then Setup icon)
+
 Install the dependencies:
 
 ```
