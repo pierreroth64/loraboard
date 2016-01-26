@@ -13,7 +13,11 @@ export class SettingsView extends Backbone.View {
   }
 
   render() {
-    var creds = this.api.get();
+    var channel = this.api.get('channel');
+    var htmlChannelValue = (channel == null || channel == undefined) ? '': `value="${channel}"`;
+    var subscribeKey = this.api.get('subscribeKey');
+    var htmlSubscribeKeyValue = (subscribeKey == null || subscribeKey == undefined) ? '': `value="${subscribeKey}"`;
+
     var html = `<div class="modal fade" id="pubnub-setttings" tabindex="-1" role="dialog" aria-labelledby="pubnub-title">
                    <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -24,12 +28,12 @@ export class SettingsView extends Backbone.View {
                       <div class="modal-body">
                         <div class="input-group">
                           <span class="input-group-addon">Channel</span>
-                          <input type="text" id="pubnub-channel" class="form-control" placeholder="PubNub channel" aria-describedby="basic-addon1">
+                          <input type="text" id="pubnub-channel" class="form-control" placeholder="PubNub channel" ${htmlChannelValue} aria-describedby="basic-addon1">
                         </div>
                         <br />
                         <div class="input-group">
                           <span class="input-group-addon">Subscribe Key</span>
-                          <input type="text" id="pubnub-subscribe-key" class="form-control" placeholder="PubNub subscribe key" aria-describedby="basic-addon1">
+                          <input type="text" id="pubnub-subscribe-key" class="form-control" placeholder="PubNub subscribe key" ${htmlSubscribeKeyValue} aria-describedby="basic-addon1">
                         </div>
                       </div>
                       <div class="modal-footer">
