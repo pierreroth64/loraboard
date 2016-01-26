@@ -1,19 +1,43 @@
 export class SettingsStorageAPI {
 
   constructor(storageName) {
-    this.channelItem = storageName + '-channel';
-    this.SubscribeKeyItem = storageName + '-subscribe-key';
+    this.storageName = storageName;
+    this.stored = {};
+  }
+
+  buildItemFromKey(key) {
+    return this.storageName + '-' + key;
   }
 
   store(settings) {
-    localStorage.setItem(this.channelItem, settings.channel);
-    localStorage.setItem(this.SubscribeKeyItem, settings.subscribeKey);
+    for (let k in settings) {
+      let storageKey = this.buildItemFromKey(k);
+      localStorage.setItem(storageKey, settings[k]);
+      this.stored[k] = storageKey;
+    }
   }
 
   get() {
-    return {
-      channel: localStorage.getItem(this.channelItem),
-      subscribeKey: localStorage.getItem(this.SubscribeKeyItem),
+    var entries = {};
+    for (let k in this.stored) {
+      entries[k] = localStorage.getItem(this.stored[k]);
     }
+    return entries;
+  }
+
+  clear() {
+    for (let k in this.stored) {
+      localStorage.removeItem(this.stored[k]);
+    }
+    this.stored = {};
+  }
+
+  getStoredNb() {
+    return Object.keys(this.stored).length;
+  }
+
+  hasStoredValue(key) {
+    var value = localStorage.getItem(this.buildItemFromKey(key));
+    return ((value == null || value == undefined)) ? false: true;
   }
 }
