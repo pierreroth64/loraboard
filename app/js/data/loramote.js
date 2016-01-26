@@ -17,14 +17,15 @@ export class LoRaMoteDataCollector  {
 
     updateCredentials() {
         var api = new SettingsStorageAPI('pubnub');
-        if (api.hasStoredValue('subscribeKey')) {
-            this.currentChannel = api.get('channel');
-            this.currentSubscribeKey = api.get('subscribeKey');
-        } else {
+        if (!api.hasStoredValue('subscribeKey')) {
             console.log('Pubnub credentials not set, using default ones.');
-            this.currentChannel = PUBNUB_DEFAULT_CHANNEL;
-            this.currentSubscribeKey = PUBNUB_DEFAULT_SUBSCRIBE_KEY;
+            api.store({
+                        channel: PUBNUB_DEFAULT_CHANNEL,
+                        subscribeKey: PUBNUB_DEFAULT_SUBSCRIBE_KEY
+                      });
         }
+        this.currentChannel = api.get('channel');
+        this.currentSubscribeKey = api.get('subscribeKey');
     }
 
     createConnection() {
