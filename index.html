@@ -24,6 +24,8 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <div id="settings-popup">
+    </div>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="dashboard-header container">
@@ -72,7 +74,9 @@
       <div id="technical-window" class="graph-box">
         <div class="row">
           <div class="col-md-6">
-            <h4>Setup</h4>
+            <h4>Setup <button id="settings-btn" type="button" class="btn btn-default" data-toggle="modal" data-target="#pubnub-setttings">
+                             <span id="settings-btn-icon" class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                           </button></h4>
             <p>The LoRa endpoint talks to a LoRa gateway which in turns talks to the <a href="http://www.loriot.io">Loriot</a> service.
               The Loriot.io service has been configured to publish its received data to the <a href="http://www.pubnub.com">PubNub</a> service.
               This page subscribes to the corresponding PubNub channel to get the realtime LoRa data, decodes it and displays live charts. </p>
