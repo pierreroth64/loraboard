@@ -16,16 +16,16 @@ import {SettingsStorageAPI} from '../../app/js/lib/storage';
     it('should store credentials', function () {
       var creds = {channel: 'my-channel', subscribeKey: 'my-key'};
       this.api.store(creds);
-      assert.equal(this.api.get().channel, 'my-channel');
-      assert.equal(this.api.get().subscribeKey, 'my-key');
+      assert.equal(this.api.get('channel'), 'my-channel');
+      assert.equal(this.api.get('subscribeKey'), 'my-key');
     });
 
     it('should clear stored credentials', function () {
       var creds = {channel: 'my-channel', subscribeKey: 'my-key'};
       this.api.store(creds);
-      assert.equal(this.api.get().channel, 'my-channel');
+      assert.equal(this.api.get('channel'), 'my-channel');
       this.api.clear();
-      assert.equal(this.api.get().channel, null);
+      assert.equal(this.api.get('channel'), null);
     });
 
     it('should have no values on startup', function () {

@@ -10,23 +10,24 @@ export class SettingsStorageAPI {
   }
 
   store(settings) {
-    for (let k in settings) {
-      let storageKey = this.buildItemFromKey(k);
+    for (var k in settings) {
+      var storageKey = this.buildItemFromKey(k);
       localStorage.setItem(storageKey, settings[k]);
       this.stored[k] = storageKey;
     }
   }
 
-  get() {
-    var entries = {};
-    for (let k in this.stored) {
-      entries[k] = localStorage.getItem(this.stored[k]);
+  get(key) {
+    var storageKey = this.buildItemFromKey(key);
+    var value = localStorage.getItem(storageKey);
+    if (value != null && value != undefined) {
+      this.stored[key] = storageKey;
     }
-    return entries;
+    return value;
   }
 
   clear() {
-    for (let k in this.stored) {
+    for (var k in this.stored) {
       localStorage.removeItem(this.stored[k]);
     }
     this.stored = {};
@@ -37,7 +38,7 @@ export class SettingsStorageAPI {
   }
 
   hasStoredValue(key) {
-    var value = localStorage.getItem(this.buildItemFromKey(key));
+    var value = this.get(key);
     return ((value == null || value == undefined)) ? false: true;
   }
 }
