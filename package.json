@@ -13,11 +13,12 @@
     "chai": "^3.4.1",
     "gulp-util": "^3.0.7",
     "http-server": "^0.8.5",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "mock-local-storage": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha --recursive --compilers js:babel-register",
+    "test": "mocha -r mock-local-storage --recursive --compilers js:babel-register",
     "start": "http-server -a localhost -p 9000"
   },
   "repository": {
