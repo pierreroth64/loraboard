@@ -27,18 +27,20 @@ var mapPositionData = new LoRaData({title: "position",
 export class MainView extends Backbone.View {
 
   constructor(options) {
+    this.dataCollector = new LoRaMoteDataCollector({'temp': temperatureData,
+                           'press': pressureData,
+                           'batt': batteryData,
+                           'position': mapPositionData})
+    this.dataCollector.start();
+
     new TemperatureGraphView({model: temperatureData});
     new PressureGraphView({model: pressureData});
     new BatteryGraphView({model: batteryData});
     new MapView({model: mapPositionData});
     new FrameIndicatorView();
-    new ToolBoxView();
+    new ToolBoxView({dataCollector: this.dataCollector});
     new TechnicalView();
 
-    new LoRaMoteDataCollector({'temp': temperatureData,
-                               'press': pressureData,
-                               'batt': batteryData,
-                               'position': mapPositionData}).start();
     super(options);
   }
 }
