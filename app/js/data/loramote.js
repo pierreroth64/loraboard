@@ -13,6 +13,7 @@ export class LoRaMoteDataCollector  {
         this.decoder = new LoRaMoteDataDecoder();
         this.isStarted = undefined;
         Backbone.Mediator.subscribe('settings:new', this.onNewSettings, this);
+        this.processData = (message, env, ch, timer, magicCh) => { this._processData(message); };
     }
 
     updateCredentials() {
@@ -45,26 +46,31 @@ export class LoRaMoteDataCollector  {
         this.start();
     }
 
+    _processData(message) {
+        console.log("received data:", message);
+        message = JSON.parse(message);
+        if (message.data) {
+            this.models.temp.set({value: this.decoder.decodeTemperature(message.data).value});
+            this.models.press.set({value: this.decoder.decodePressure(message.data).value});
+            this.models.batt.set({value: this.decoder.decodeBatteryLevel(message.data).value});
+            this.models.position.set({value: {
+                                                latitude: this.decoder.decodeLatitude(message.data).value,
+                                                longitude: this.decoder.decodeLongitude(message.data).value
+                                             }
+                                     });
+            var rawFrame = JSON.stringify(message);
+            var decodedFrame = JSON.stringify(this.decoder.decode(message.data));
+            Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);
+        }
+    }
+
     start() {
         console.log("Starting LoRa data gathering...");
         console.log(`Pubnub info > subscribeKey: '${this.currentSubscribeKey}', and channel:'${this.currentChannel}'`);
         try {
             this.pubnubConn.subscribe({
                     channel: this.currentChannel,
-                    message: function(message, env, ch, timer, magicCh) {
-                        if (message.data) {
-                            this.models.temp.set({value: this.decoder.decodeTemperature(message.data).value});
-                            this.models.press.set({value: this.decoder.decodePressure(message.data).value});
-                            this.models.batt.set({value: this.decoder.decodeBatteryLevel(message.data).value});
-                            this.models.position.set({value: JSON.stringify({
-                                                            latitude: this.decoder.decodeLatitude(message.data).value,
-                                                            longitude: this.decoder.decodeLongitude(message.data).value})
-                                                     });
-                            var rawFrame = JSON.stringify(message);
-                            var decodedFrame = JSON.stringify(this.decoder.decode(message.data));
-                            Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);
-                        }
-                    },
+                    message: this.processData,
                     connect: this.onConnected,
                     disconnect: this.onDisconnected,
                     error: this.onError

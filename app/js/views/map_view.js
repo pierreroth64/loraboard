@@ -19,9 +19,8 @@ export class MapView extends Backbone.View {
   }
 
   updatePosition() {
-    var value = this.model.attributes.value.toJSON();
-    var latitude = value.latitude;
-    var longitude = value.longitude;
+    var latitude = this.model.attributes.value.latitude;
+    var longitude = this.model.attributes.value.longitude;
     var latlng = L.latLng(latitude, longitude);
     this.gpsMarker.setLatLng(latlng);
     this.gpsMarker.closePopup();
