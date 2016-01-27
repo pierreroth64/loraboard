@@ -46,18 +46,23 @@ export class LoRaMoteDataCollector  {
         this.start();
     }
 
+    setValue(model, value) {
+        // force trigger event if value is the same
+        model.set({value: value}, {silent: true});
+        model.trigger("change");
+    }
+
     _processData(message) {
         console.log("received data:", message);
         message = JSON.parse(message);
         if (message.data) {
-            this.models.temp.set({value: this.decoder.decodeTemperature(message.data).value});
-            this.models.press.set({value: this.decoder.decodePressure(message.data).value});
-            this.models.batt.set({value: this.decoder.decodeBatteryLevel(message.data).value});
-            this.models.position.set({value: {
-                                                latitude: this.decoder.decodeLatitude(message.data).value,
-                                                longitude: this.decoder.decodeLongitude(message.data).value
-                                             }
-                                     });
+            this.setValue(this.models.temp, this.decoder.decodeTemperature(message.data).value);
+            this.setValue(this.models.press, this.decoder.decodePressure(message.data).value);
+            this.setValue(this.models.batt, this.decoder.decodeBatteryLevel(message.data).value);
+            this.setValue(this.models.position, {
+                                                    latitude: this.decoder.decodeLatitude(message.data).value,
+                                                    longitude: this.decoder.decodeLongitude(message.data).value
+                                                });
             var rawFrame = JSON.stringify(message);
             var decodedFrame = JSON.stringify(this.decoder.decode(message.data));
             Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);

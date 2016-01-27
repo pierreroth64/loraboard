@@ -8,7 +8,7 @@ export class PressureGraphView extends Backbone.View {
   constructor(options) {
     super(options);
     this.chart = this.initChart();
-    this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.model, 'change', this.updateChart);
   }
 
   initChart() {
