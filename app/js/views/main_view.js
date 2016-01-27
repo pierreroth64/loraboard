@@ -29,10 +29,10 @@ export class MainView extends Backbone.View {
 
   constructor(options) {
     super(options);
-    this.dataCollector = new LoRaMoteDataCollector({'temp': temperatureData,
-                           'press': pressureData,
-                           'batt': batteryData,
-                           'position': mapPositionData})
+    this.dataCollector = new LoRaMoteDataCollector( {'temp': temperatureData,
+                                                     'press': pressureData,
+                                                     'batt': batteryData,
+                                                     'position': mapPositionData})
     this.dataCollector.start();
 
     new TemperatureGraphView({model: temperatureData});
@@ -43,8 +43,5 @@ export class MainView extends Backbone.View {
     new ToolBoxView({dataCollector: this.dataCollector});
     new TechnicalView();
     new SettingsView();
-
-
   }
 }
-

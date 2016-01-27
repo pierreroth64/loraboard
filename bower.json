@@ -6,12 +6,6 @@
     "jquery": "~2.1.0",
     "lodash": "~2.4.0",
     "backbone": "~1.1.0",
-    "es6-module-loader": "~0.4.2",
-    "backbone.localStorage": "~1.1.7",
-    "bootstrap": "~3.3.6",
-    "modernizr": "~3.3.1"
-  },
-  "resolutions": {
-    "backbone": "~1.1.0"
+    "bootstrap": "~3.3.6"
   }
 }
