@@ -1,3 +1,10 @@
 language: node_js
 node_js:
   - "4.1"
+install:
+  - bower install
+  - npm install
+script:
+  - brunch b
+  - brunch b -p
+  - npm test
