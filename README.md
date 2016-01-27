@@ -45,27 +45,31 @@ This web app subscribes to the previously configured PubNub service and decodes 
 
 You'll have to change the *PubNub channel and subscribe key* point to your pubnub account. Just open, the popup window to enter your PubNub credentials (click on Details and then Setup icon)
 
-Install the dependencies:
+## Developers
+
+First, install the dependencies:
 
 ```
 bower install
 npm install
 ```
-... and run the following command to serve the single page app and open your browser to http://localhost:9000:
+Then watch your changes at http://localhost:3333:
 
 ```
-npm start
+brunch w --server
 ```
-
-To deploy, copy paste the entire directory in your webserver virtualhost basedir. Work in Progress: use a builder such as brunch.io to pack everything and make production build easier.
-
-## Developers
-
-To run the tests:
+Do not forget to run the tests
 
 ```
 npm test
 ```
+And finally, deploy to production:
 
-As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the CONTRIBUTORS file ;)
+```
+brunch b -p
+```
+and copy/paste the public directory to your web server directory. That's it :)
+
+
+note: As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the CONTRIBUTORS file ;)
 
