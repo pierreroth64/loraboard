@@ -4,6 +4,8 @@
 
 Single page web application displaying live data from a LoRaMote thanks to [Semtech](http://www.semtech.com/) starter kit.
 
+Deployed demo available [here](http://loraserver.cloudapp.net/) without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
+
 ## Overview
 
 ![Lora setup](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png)
