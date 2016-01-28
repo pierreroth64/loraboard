@@ -35,8 +35,8 @@ export class MainView extends Backbone.View {
                                                      'position': mapPositionData})
     this.dataCollector.start();
 
-    new TemperatureGraphView({model: temperatureData});
-    new PressureGraphView({model: pressureData});
+    new TemperatureGraphView({model: temperatureData}, "Temperature graph");
+    new PressureGraphView({model: pressureData}, "Pressure graph");
     new BatteryGraphView({model: batteryData});
     new MapView({model: mapPositionData});
     new FrameIndicatorView();
