@@ -53,7 +53,8 @@ export class LoRaMoteDataCollector  {
     }
 
     _processData(message) {
-        console.log("received data:", message);
+        // uncomment to see the received raw message
+        //console.log("received data:", message);
         message = JSON.parse(message);
         if (message.data) {
             this.setValue(this.models.temp, this.decoder.decodeTemperature(message.data).value);
