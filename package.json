@@ -12,6 +12,7 @@
     "babel-brunch": "^6.0.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.4.3",
+    "bower": "^1.7.7",
     "brunch": "^2.2.1",
     "chai": "^3.4.1",
     "clean-css-brunch": "^1.8.0",

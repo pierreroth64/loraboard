@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - "4.1"
 install:
-  - bower install
   - npm install
+  - bower install
 script:
   - brunch b
   - brunch b -p
