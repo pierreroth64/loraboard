@@ -1,15 +1,15 @@
+import {GraphView} from './graph_view';
 
 var TEMPERATURE_COLOR = '#c40079';
 var INITIAL_TEMPERATURES = [0, 0, 0, 0, 0, 0, 0, 0];
 var MAX_TEMPERATURE = 50;
 var MIN_TEMPERATURE = 0;
 
-export class TemperatureGraphView extends Backbone.View {
+export class TemperatureGraphView extends GraphView {
 
-  constructor(options) {
-    super(options);
-    this.chart = this.initChart();
-    this.listenTo(this.model, 'change', this.updateChart);
+  constructor(options, ...extras) {
+    super(options, ...extras);
+    this.initializeGraph();
   }
 
   initChart() {
@@ -34,7 +34,7 @@ export class TemperatureGraphView extends Backbone.View {
               });
   }
 
-  updateChart() {
+  updateChartData() {
     this.chart.flow({
         columns: [
             ['temperature', this.model.attributes.value]

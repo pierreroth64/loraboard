@@ -1,14 +1,15 @@
+import {GraphView} from './graph_view';
+
 var PRESSURE_COLOR = '#f5d304';
 var INITIAL_PRESSURES = [800, 800, 800, 800, 800, 800, 800, 800];
 var MAX_PRESSURE = 1100;
 var MIN_PRESSURE = 800;
 
-export class PressureGraphView extends Backbone.View {
+export class PressureGraphView extends GraphView {
 
-  constructor(options) {
-    super(options);
-    this.chart = this.initChart();
-    this.listenTo(this.model, 'change', this.updateChart);
+  constructor(options, ...extras) {
+    super(options, ...extras);
+    this.initializeGraph();
   }
 
   initChart() {
@@ -33,7 +34,7 @@ export class PressureGraphView extends Backbone.View {
               });
   }
 
-  updateChart() {
+  updateChartData() {
     this.chart.flow({
         columns: [
             ['pressure', this.model.attributes.value]
