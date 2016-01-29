@@ -52,7 +52,6 @@ You'll have to change the *PubNub channel and subscribe key* point to your pubnu
 First, install the dependencies:
 
 ```
-bower install
 npm install
 ```
 Then watch your changes at http://localhost:3333:
