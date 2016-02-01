@@ -23,6 +23,11 @@ module.exports = config:
                     'vendor/styles/bootstrap-3.3.6.css',
                     'vendor/styles/animate-3.5.1.css'
                 ],
+    conventions:
+        ignored: [
+          /^test/,
+        ],
+
 
 
 
