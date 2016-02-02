@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {LoRaMoteDataDecoder} from '../../app/js/data/decoders/loramote_decoder';
+import {LoRaMoteDataDecoder} from '../app/js/data/decoders/loramote_decoder';
 
 var VALID_FRAME = '00270a0abe0157343d9cd8ffc6bd00ee';
 (function () {

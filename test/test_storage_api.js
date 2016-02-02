@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {SettingsStorageAPI} from '../../app/js/lib/storage';
+import {SettingsStorageAPI} from '../app/js/lib/storage';
 
 (function () {
   'use strict';
