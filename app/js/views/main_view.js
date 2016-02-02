@@ -10,7 +10,7 @@ import {ToolBoxView} from "./toolbox_view";
 import {TechnicalView} from "./technical_view";
 import {SettingsView} from "./settings_view";
 
-import {LoRaMoteDataCollector} from "../data/loramote";
+import {PubNubDataService} from "../cloud/pubnub_data_service";
 
 var temperatureData = new LoRaData({title: "temperature",
                                     value: 25,
@@ -29,18 +29,15 @@ export class MainView extends Backbone.View {
 
   constructor(options) {
     super(options);
-    this.dataCollector = new LoRaMoteDataCollector( {'temp': temperatureData,
-                                                     'press': pressureData,
-                                                     'batt': batteryData,
-                                                     'position': mapPositionData})
-    this.dataCollector.start();
+    this.dataService = new PubNubDataService();
+    this.dataService.start();
 
     new TemperatureGraphView({model: temperatureData}, "Temperature graph");
     new PressureGraphView({model: pressureData}, "Pressure graph");
     new BatteryGraphView({model: batteryData});
     new MapView({model: mapPositionData});
     new FrameIndicatorView();
-    new ToolBoxView({dataCollector: this.dataCollector});
+    new ToolBoxView({dataService: this.dataService});
     new TechnicalView();
     new SettingsView();
   }

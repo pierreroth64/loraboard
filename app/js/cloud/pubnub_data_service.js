@@ -1,19 +1,19 @@
-import {LoRaMoteDataDecoder} from './decoders/loramote_decoder';
 import {SettingsStorageAPI} from '../lib/storage';
+import {DataService} from './data_service';
 
 var PUBNUB_DEFAULT_CHANNEL = 'pubnub pierreroth';
 var PUBNUB_DEFAULT_SUBSCRIBE_KEY = 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe';
 
-export class LoRaMoteDataCollector  {
+export class PubNubDataService extends DataService  {
 
-    constructor(models) {
-        this.name = "LoRaMote data collector through PubNub service";
-        this.models = models;
+    constructor() {
+        super("PubNub");
         this.resetConnection();
-        this.decoder = new LoRaMoteDataDecoder();
-        this.isStarted = undefined;
         Backbone.Mediator.subscribe('settings:new', this.onNewSettings, this);
+
+        // Setting pubnub handlers with arrow functions makes 'this' available from them
         this.processData = (message, env, ch, timer, magicCh) => { this._processData(message); };
+        this.onError = (error) => { this._onError(error); };
     }
 
     updateCredentials() {
@@ -46,32 +46,19 @@ export class LoRaMoteDataCollector  {
         this.start();
     }
 
-    setValue(model, value) {
-        // force trigger event if value is the same
-        model.set({value: value}, {silent: true});
-        model.trigger("change");
-    }
-
     _processData(message) {
-        // uncomment to see the received raw message
-        //console.log("received data:", message);
         message = JSON.parse(message);
-        if (message.data) {
-            this.setValue(this.models.temp, this.decoder.decodeTemperature(message.data).value);
-            this.setValue(this.models.press, this.decoder.decodePressure(message.data).value);
-            this.setValue(this.models.batt, this.decoder.decodeBatteryLevel(message.data).value);
-            this.setValue(this.models.position, {
-                                                    latitude: this.decoder.decodeLatitude(message.data).value,
-                                                    longitude: this.decoder.decodeLongitude(message.data).value
-                                                });
-            var rawFrame = JSON.stringify(message);
-            var decodedFrame = JSON.stringify(this.decoder.decode(message.data));
-            Backbone.Mediator.publish('data:newFrame', rawFrame, decodedFrame);
-        }
+        var rawFrame = JSON.stringify(message);
+        super.onNewData(rawFrame);
     }
 
-    start() {
-        console.log("Starting LoRa data gathering...");
+    _onError(error) {
+        var errorMsg = JSON.stringify(error);
+        console.log(`Network error on PubNub: ${errorMsg}`);
+        super.onError(errorMsg);
+    }
+
+    onStart() {
         console.log(`Pubnub info > subscribeKey: '${this.currentSubscribeKey}', and channel:'${this.currentChannel}'`);
         try {
             this.pubnubConn.subscribe({
@@ -81,35 +68,24 @@ export class LoRaMoteDataCollector  {
                     disconnect: this.onDisconnected,
                     error: this.onError
                     });
-            this.isStarted = true;
         } catch (e) {
             var errorMsg = JSON.stringify(e);
             console.log(`Error when subscribing to PubNub: ${errorMsg}`);
+            throw e;
         }
     }
 
-    stop() {
-        if (this.isStarted) {
-            console.log("Stopping LoRa data gathering...");
-            this.pubnubConn.unsubscribe({
-                channel: this.currentChannel
-            });
-            this.isStarted = false;
-            console.log("Stopped LoRa data gathering.");
-        }
+    onStop() {
+        this.pubnubConn.unsubscribe({
+            channel: this.currentChannel
+        });
     }
 
     onConnected() {
         console.log("Connected to PubNub");
-        console.log("Started LoRa data gathering.");
     }
 
     onDisconnected() {
         console.log("Disconnected from PubNub");
-    }
-
-    onError(error) {
-        var errorMsg = JSON.stringify(error);
-        console.log(`Network error on PubNub: ${errorMsg}`);
     }
 }

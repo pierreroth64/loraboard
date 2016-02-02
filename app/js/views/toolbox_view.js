@@ -7,13 +7,13 @@ export class ToolBoxView extends Backbone.View {
       "click #technical-details-button" : "clickTechnical",
       "click #technical-start-stop-button" : "clickStartStop"
     };
-    this.dataCollector = options.dataCollector;
+    this.dataService = options.dataService;
     this.setElement('#tool-box');
     this.render();
   }
 
   render() {
-    var startStopClass = this.dataCollector.isStarted ? "glyphicon-stop": "glyphicon-play";
+    var startStopClass = this.dataService.isStarted ? "glyphicon-stop": "glyphicon-play";
     var html = `<button id="technical-details-button" type="button" class="btn btn-default">
                    <span id="technical-details-button-icon" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Details
                 </button>
@@ -37,14 +37,14 @@ export class ToolBoxView extends Backbone.View {
   }
 
   clickStartStop() {
-    if (this.dataCollector.isStarted) {
+    if (this.dataService.isStarted) {
       $('#technical-start-stop-button-icon').removeClass("glyphicon-stop");
       $('#technical-start-stop-button-icon').addClass("glyphicon-play");
-      this.dataCollector.stop();
+      this.dataService.stop();
     } else {
       $('#technical-start-stop-button-icon').removeClass("glyphicon-play");
       $('#technical-start-stop-button-icon').addClass("glyphicon-stop");
-      this.dataCollector.start();
+      this.dataService.start();
     }
   }
 }
