@@ -1,4 +1,4 @@
-export class LoRaMoteDataDecoder {
+export class LoRaMoteDecoder {
 
     constructor() {
         this.deviceName = 'LoRaMote';

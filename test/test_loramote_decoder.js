@@ -1,12 +1,12 @@
 import {assert} from 'chai';
-import {LoRaMoteDataDecoder} from '../app/js/data/decoders/loramote_decoder';
+import {LoRaMoteDecoder} from '../app/js/devices/loramote/loramote_decoder';
 
 var VALID_FRAME = '00270a0abe0157343d9cd8ffc6bd00ee';
 (function () {
   'use strict';
 
   beforeEach(function() {
-    this.decoder = new LoRaMoteDataDecoder();
+    this.decoder = new LoRaMoteDecoder();
   });
 
   describe('LoraMote data decoding', function () {
