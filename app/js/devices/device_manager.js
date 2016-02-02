@@ -13,6 +13,10 @@ export class DeviceManager {
   }
 
   createDevice(eui, type) {
+    if (this.findDevice(eui) != undefined) {
+      throw new Error("Device with this EUI already exists");
+    }
+
     switch (type) {
         case types.DEV_TYPE_LORAMOTE:
             var dev = new LoRaMoteDevice(eui);
@@ -28,5 +32,17 @@ export class DeviceManager {
             throw Error('unsupported device type');
         break;
     }
+  }
+
+  removeDevice(eui) {
+    delete this.devices[eui];
+  }
+
+  findDevice(eui) {
+    return this.devices[eui];
+  }
+
+  getDeviceNb() {
+    return Object.keys(this.devices).length;
   }
 }
