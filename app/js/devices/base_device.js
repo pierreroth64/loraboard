@@ -1,7 +1,9 @@
 export class BaseDevice {
 
-  constructor(decoder) {
-    this.setDecoder(decoder);
+  constructor(codec, eui, type) {
+    this.codec = codec;
+    this.eui = eui;
+    this.type = type;
   }
 
   setValue(model, value) {
@@ -10,12 +12,12 @@ export class BaseDevice {
     model.trigger("change");
   }
 
-  setDecoder(decoder) {
-    this.decoder = decoder;
+  getType() {
+    return this.type;
   }
 
-  getDecoder() {
-    return this.decoder;
+  getCodec() {
+    return this.codec;
   }
 
   processData(data) {

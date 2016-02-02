@@ -1,8 +1,6 @@
-export class LoRaMoteDecoder {
+export class LoRaMoteCodec {
 
-    constructor() {
-        this.deviceName = 'LoRaMote';
-    }
+    constructor() { }
 
     decodePressure(frame) {
         var raw = frame.substr(2, 4);

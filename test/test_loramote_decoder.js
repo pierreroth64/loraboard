@@ -1,35 +1,41 @@
 import {assert} from 'chai';
-import {LoRaMoteDecoder} from '../app/js/devices/loramote/loramote_decoder';
+import {LoRaMoteCodec} from '../app/js/devices/loramote/loramote_codec';
 
 var VALID_FRAME = '00270a0abe0157343d9cd8ffc6bd00ee';
 (function () {
   'use strict';
 
-  beforeEach(function() {
-    this.decoder = new LoRaMoteDecoder();
-  });
+  describe('LoraMote codec', function () {
+    beforeEach(function() {
+        this.codec = new LoRaMoteCodec();
+    });
 
-  describe('LoraMote data decoding', function () {
     it('should decode temperature', function () {
-      assert.equal(this.decoder.decodeTemperature(VALID_FRAME).value, 27.5);
+      assert.equal(this.codec.decodeTemperature(VALID_FRAME).value, 27.5);
     });
+
     it('should decode pressure', function () {
-      assert.equal(this.decoder.decodePressure(VALID_FRAME).value, 999.4);
+      assert.equal(this.codec.decodePressure(VALID_FRAME).value, 999.4);
     });
+
     it('should decode battery level', function () {
-      assert.equal(this.decoder.decodeBatteryLevel(VALID_FRAME).value, 20);
+      assert.equal(this.codec.decodeBatteryLevel(VALID_FRAME).value, 20);
     });
+
     it('should decode latitude', function () {
-      assert.equal(this.decoder.decodeLatitude(VALID_FRAME).value, 43.321414389778894);
+      assert.equal(this.codec.decodeLatitude(VALID_FRAME).value, 43.321414389778894);
     });
+
     it('should decode longitude', function () {
-      assert.equal(this.decoder.decodeLongitude(VALID_FRAME).value, -0.3145051377421737);
+      assert.equal(this.codec.decodeLongitude(VALID_FRAME).value, -0.3145051377421737);
     });
+
     it('should decode altitude', function () {
-      assert.equal(this.decoder.decodeAltitude(VALID_FRAME).value, 238);
+      assert.equal(this.codec.decodeAltitude(VALID_FRAME).value, 238);
     });
+
     it('should decode measured altitude', function () {
-      assert.equal(this.decoder.decodeMeasuredAltitude(VALID_FRAME).value, 34.3);
+      assert.equal(this.codec.decodeMeasuredAltitude(VALID_FRAME).value, 34.3);
     });
   });
 })();

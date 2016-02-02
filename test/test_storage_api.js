@@ -4,15 +4,15 @@ import {SettingsStorageAPI} from '../app/js/lib/storage';
 (function () {
   'use strict';
 
-  beforeEach(function() {
-    this.api = new SettingsStorageAPI("test-storage");
-  });
-
-  afterEach(function() {
-    this.api.clear();
-  });
-
   describe('Settings API', function () {
+    beforeEach(function() {
+      this.api = new SettingsStorageAPI("test-storage");
+    });
+
+    afterEach(function() {
+      this.api.clear();
+    });
+
     it('should store credentials', function () {
       var creds = {channel: 'my-channel', subscribeKey: 'my-key'};
       this.api.store(creds);

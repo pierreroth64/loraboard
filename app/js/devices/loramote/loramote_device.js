@@ -1,11 +1,12 @@
 import {BaseDevice} from '../base_device';
-import {LoRaMoteDecoder} from './loramote_decoder';
+import * as devTypes from '../device_types';
+import {LoRaMoteCodec} from './loramote_codec';
 import {LoRaData} from '../../models/lora_data'
 
 export class LoRaMoteDevice extends BaseDevice {
 
-  constructor() {
-    super();
+  constructor(eui) {
+    super(new LoRaMoteCodec(), eui, devTypes.DEV_TYPE_LORAMOTE);
     this.temperatureData = new LoRaData({ title: "temperature",
                                           value: 25,
                                           unit:"°C" });
@@ -18,23 +19,16 @@ export class LoRaMoteDevice extends BaseDevice {
     this.mapPositionData = new LoRaData({ title: "position",
                                           value: JSON.stringify({latitude: 0, longitude: 360}),
                                           unit:"%"});
-    this.setDecoder(new LoRaMoteDecoder());
   }
 
-  setValue(model, value) {
-    // force trigger event if value is the same
-    model.set({value: value}, {silent: true});
-    model.trigger("change");
-  }
-
-  process(data) {
-    decoder = this.getDecoder();
-    this.setValue(this.temperatureData, this.decoder.decodeTemperature(message.data).value);
-    this.setValue(this.pressureData, this.decoder.decodePressure(message.data).value);
-    this.setValue(this.batteryData, this.decoder.decodeBatteryLevel(message.data).value);
+  processData(data) {
+    var codec = this.getCodec();
+    this.setValue(this.temperatureData, codec.decodeTemperature(data.data).value);
+    this.setValue(this.pressureData, codec.decodePressure(data.data).value);
+    this.setValue(this.batteryData, codec.decodeBatteryLevel(data.data).value);
     this.setValue(this.mapPositionData, {
-                                            latitude: this.decoder.decodeLatitude(message.data).value,
-                                            longitude: this.decoder.decodeLongitude(message.data).value
+                                            latitude: codec.decodeLatitude(data.data).value,
+                                            longitude: codec.decodeLongitude(data.data).value
                                         });
   }
 }
