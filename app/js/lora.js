@@ -18,10 +18,10 @@
 // #### Imports
 // We import the classes we defined in the TodoApp module using the `import`
 // keyword.
-import {MainView} from './views/main_view';
+import {DeviceView} from './views/device_view';
 
 $(() => {
-  new MainView();
+  new DeviceView();
   Backbone.history.start();
 });
 

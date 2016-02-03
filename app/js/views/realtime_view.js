@@ -23,8 +23,7 @@ export class RealTimeView extends Backbone.View {
     return this;
   }
 
-  logFrame(raw, decoded) {
-    var message = JSON.parse(raw);
+  logFrame(message, decoded) {
     var data = `LoRa frame #${message.fcnt}: ${message.data} from: ${message.EUI}\nDecoded as: ${decoded}`;
     this.logData(data);
   }
