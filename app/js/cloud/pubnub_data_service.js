@@ -46,10 +46,9 @@ export class PubNubDataService extends DataService  {
         this.start();
     }
 
-    _processData(message) {
-        message = JSON.parse(message);
-        var rawFrame = JSON.stringify(message);
-        super.onNewData(rawFrame);
+    _processData(data) {
+        data = JSON.parse(data);
+        super.onNewData(data);
     }
 
     _onError(error) {

@@ -50,7 +50,19 @@ export class DataService  {
         throw new Error("onStop has to be implemented in your DataService");
     }
 
+    isDataFormatValid(data) {
+        //FIXME: validate data. Must contain the following fields:
+        // - data:  containing the payload
+        // - fcnt: field counter (corresponding to the sequence number)
+        // - EUI: is the device EUI (unique ID)
+        return true;
+    }
+
     onNewData(data) {
-        Backbone.Mediator.publish('data:newFrame', data);
+        if (this.isDataFormatValid(data)) {
+            Backbone.Mediator.publish('data:newFrame', data);
+        } else {
+            console.log('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');
+        }
     }
 }
