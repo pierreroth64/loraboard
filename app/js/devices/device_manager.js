@@ -6,6 +6,7 @@ export class DeviceManager {
 
   constructor() {
     this.devices = {};
+    Backbone.Mediator.subscribe('data:newFrame', this.onNewFrame, this);
   }
 
   getDevices() {
@@ -14,7 +15,7 @@ export class DeviceManager {
 
   createDevice(eui, type) {
     if (this.findDevice(eui) != undefined) {
-      throw new Error("Device with this EUI already exists");
+      throw new Error('Device with this EUI already exists');
     }
 
     switch (type) {
@@ -44,5 +45,16 @@ export class DeviceManager {
 
   getDeviceNb() {
     return Object.keys(this.devices).length;
+  }
+
+  onNewFrame(data) {
+    console.log('new frame received by dev mgr:', data);
+    var eui = data.EUI;
+    var dev = this.findDevice(eui);
+    if (dev == undefined) {
+      console.log(`device with eui: ${eui} is unknown, creating it...`);
+      dev = this.createDevice(eui, types.DEV_TYPE_LORAMOTE);
+    }
+    dev.processData(data.data);
   }
 }

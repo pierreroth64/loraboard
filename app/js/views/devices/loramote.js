@@ -1,26 +1,23 @@
 /*jshint esnext:true */
 
-import {LoRaData} from "../models/lora_data";
-import {TemperatureGraphView} from "./temp_view";
-import {PressureGraphView} from "./press_view";
-import {BatteryGraphView} from "./battery_view";
-import {MapView} from "./map_view";
-import {FrameIndicatorView} from "./frame_indicator_view";
-import {ToolBoxView} from "./toolbox_view";
-import {TechnicalView} from "./technical_view";
-import {SettingsView} from "./settings_view";
+import {LoRaData} from "../../models/lora_data";
+import {TemperatureGraphView} from "./../temp_view";
+import {PressureGraphView} from "./../press_view";
+import {BatteryGraphView} from "./../battery_view";
+import {MapView} from "./../map_view";
+import {FrameIndicatorView} from "./../frame_indicator_view";
+import {ToolBoxView} from "./../toolbox_view";
+import {TechnicalView} from "./../technical_view";
+import {SettingsView} from "./../settings_view";
 
-export class DeviceView extends Backbone.View {
+export class LoRaMoteDeviceView extends Backbone.View {
 
   constructor(options) {
     super(options);
     this.models = options.models;
     this.dataService = options.dataService;
-
-    console.log('creating device view with models:', this.models);
-
-    this.setElement('#device');
-    this.render();
+    this.setElement('#main');
+    this.render(); // render first so the next views can refer to DOM ids
 
     new TemperatureGraphView({model: this.models.temperature}, 'Temperature graph');
     new PressureGraphView({model: this.models.pressure}, 'Pressure graph');
