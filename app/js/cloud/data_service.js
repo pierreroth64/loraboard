@@ -36,20 +36,6 @@ export class DataService  {
             console.log(`Error when stopping ${this.name} data service: ${errorMsg}`);
         }
     }
-
-    onError(msg) {
-        console.log(`${this.name} data service error: ${msg}`);
-    }
-
-    // methods to ne implemented by concrete classes
-    onStart() {
-        throw new Error("onStart has to be implemented in your DataService");
-    }
-
-    onStop() {
-        throw new Error("onStop has to be implemented in your DataService");
-    }
-
     isDataFormatValid(data) {
         //FIXME: validate data. Must contain the following fields:
         // - data:  containing the payload
@@ -62,7 +48,21 @@ export class DataService  {
         if (this.isDataFormatValid(data)) {
             Backbone.Mediator.publish('data:newFrame', data);
         } else {
+            //FIXME: actually write this "documentation" ;)
             console.log('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');
         }
+    }
+
+    onError(msg) {
+        console.log(`${this.name} data service error: ${msg}`);
+    }
+
+    // methods to be implemented by concrete classes
+    onStart() {
+        throw new Error("onStart has to be implemented in your DataService");
+    }
+
+    onStop() {
+        throw new Error("onStop has to be implemented in your DataService");
     }
 }

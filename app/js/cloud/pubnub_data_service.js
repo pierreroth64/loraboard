@@ -47,7 +47,6 @@ export class PubNubDataService extends DataService  {
     }
 
     _processData(data) {
-        data = JSON.parse(data);
         super.onNewData(data);
     }
 
