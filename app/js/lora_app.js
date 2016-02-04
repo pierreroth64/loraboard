@@ -16,6 +16,8 @@ export class LoRaApp extends Backbone.Router {
         this.dataService = new PubNubDataService();
         this.deviceMgr = new DeviceManager();
         this._bindRoutes();
+        this.deviceViews = {};
+        this.mainView = new MainView();
     }
 
     start() {
@@ -24,35 +26,33 @@ export class LoRaApp extends Backbone.Router {
     }
 
     showDevice(eui) {
-        console.log('show device with eui', eui);
+        if (this.deviceViews[eui] != undefined) {
+            this.deviceViews[eui].render();
+        } else {
+            this.createDeviceView(eui).render();
+        }
+    }
+
+    createDeviceView(eui) {
         var dev = this.deviceMgr.findDevice(eui);
-        console.log('found device:', dev);
         if (dev) {
             var type = dev.getType();
             switch(type) {
                 case devTypes.DEV_TYPE_LORAMOTE:
-                    new LoRaMoteDeviceView({models: dev.getModels(), dataService: this.dataService});
+                    return new LoRaMoteDeviceView({models: dev.getModels(), dataService: this.dataService});
                 break;
                 default:
-                    new ErrorView(`unknown device type ${type} for device with eui ${eui}`);
+                    return new ErrorView(`unknown device type ${type} for device with eui ${eui}`);
                 break;
             }
         } else {
-            new ErrorView(`device with eui ${eui} not found`);
+            return new ErrorView(`device with eui ${eui} not found`);
         }
     }
 
     showMain() {
-        new MainView();
-    /*        var eui = '1222222';
-        this.deviceMgr.createDevice(eui, devTypes.DEV_TYPE_LORAMOTE);
-        this.showDevice(eui);*/
+        this.mainView.render();
     }
-
-    /*execute(callback, args, name) {
-        console.log('calling execute with args:', callback, args, name);
-        super.execute(callback,args, name);
-    }*/
 }
 
 

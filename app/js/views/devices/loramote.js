@@ -17,16 +17,6 @@ export class LoRaMoteDeviceView extends Backbone.View {
     this.models = options.models;
     this.dataService = options.dataService;
     this.setElement('#main');
-    this.render(); // render first so the next views can refer to DOM ids
-
-    new TemperatureGraphView({model: this.models.temperature}, 'Temperature graph');
-    new PressureGraphView({model: this.models.pressure}, 'Pressure graph');
-    new BatteryGraphView({model: this.models.battery});
-    new MapView({model: this.models.position});
-    new FrameIndicatorView();
-    new ToolBoxView({dataService: this.dataService});
-    new TechnicalView();
-    new SettingsView();
   }
 
   render() {
@@ -94,6 +84,14 @@ export class LoRaMoteDeviceView extends Backbone.View {
         </div>
       </div>`;
     this.$el.html(html);
+    new TemperatureGraphView({model: this.models.temperature}, 'Temperature graph');
+    new PressureGraphView({model: this.models.pressure}, 'Pressure graph');
+    new BatteryGraphView({model: this.models.battery});
+    new MapView({model: this.models.position});
+    new FrameIndicatorView();
+    new ToolBoxView({dataService: this.dataService});
+    new TechnicalView();
+    new SettingsView();
     return this;
   }
 }

@@ -4,15 +4,32 @@ export class MainView extends Backbone.View {
 
   constructor(options) {
     super(options);
+    this.deviceMarkers = {};
     this.setElement('#main');
-    this.render();
-    this.initMap();
   }
 
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
       var initialMapPosition = [45.824203, 1.277746];
       this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialMapPosition, 2);
+  }
+
+  initMarkers() {
+    this.addDeviceMarker("1234", 45.824203, 1.277746);
+    this.addDeviceMarker("5678", 45.824203, 1.278750);
+  }
+
+  addDeviceMarker(eui, latitude, longitude) {
+    var marker = L.marker([latitude, longitude]);
+    marker.bindPopup(`<strong>Device #${eui}</strong>`);
+    marker.addTo(this.map);
+    marker.on('dblclick', function(e) {
+      Backbone.history.navigate(`devices/${eui}`, {trigger: true});
+    });
+    marker.on('click', function(e) {
+      marker.openPopup();
+    });
+    this.deviceMarkers[eui] = marker;
   }
 
   render() {
@@ -27,6 +44,8 @@ export class MainView extends Backbone.View {
       </div>
       </div>`;
     this.$el.html(html);
+    this.initMap();
+    this.initMarkers();
     return this;
   }
 }
