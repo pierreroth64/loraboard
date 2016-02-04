@@ -11,11 +11,8 @@ export class MainView extends Backbone.View {
 
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-      var initialPosition = [45.823616, 1.277663];
-      this.gpsMarker = L.marker(initialPosition);
-      this.gpsMarker.bindPopup('<strong>LoRa Gateway</strong>');
-      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialPosition, 18);
-      this.gpsMarker.addTo(this.map);
+      var initialMapPosition = [45.824203, 1.277746];
+      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialMapPosition, 2);
   }
 
   render() {
