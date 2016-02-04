@@ -17,6 +17,7 @@
     "chai": "^3.4.1",
     "clean-css-brunch": "^1.8.0",
     "css-brunch": "^2.0.0",
+    "docco": "^0.7.0",
     "eslint-brunch": "^2.0.0",
     "http-server": "^0.8.5",
     "javascript-brunch": "^1.8.0",
@@ -27,7 +28,8 @@
   },
   "scripts": {
     "test": "mocha -r mock-local-storage -r test/global --recursive --compilers js:babel-register",
-    "start": "http-server -a localhost -p 9000"
+    "start": "http-server -a localhost -p 9000",
+    "docs": "./node_modules/docco/bin/docco app/js/**/*.*"
   },
   "repository": {
     "type": "git",
