@@ -4,8 +4,8 @@ export class ToolBoxView extends Backbone.View {
   constructor(options) {
     super(options);
     this.events = {
-      "click #technical-details-button" : "clickTechnical",
-      "click #technical-start-stop-button" : "clickStartStop"
+      'click #technical-details-button' : 'clickTechnical',
+      'click #technical-start-stop-button' : 'clickStartStop'
     };
     this.dataService = options.dataService;
     this.setElement('#tool-box');

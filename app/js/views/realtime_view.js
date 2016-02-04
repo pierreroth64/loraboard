@@ -6,7 +6,7 @@ export class RealTimeView extends Backbone.View {
   constructor(options) {
     super(options);
     this.events = {
-      "click #clear-logs-btn": "clearScreenLogs"
+      'click #clear-logs-btn': 'clearScreenLogs'
     };
     this.logsNumber = 0;
     this.setElement('#realtime-box');

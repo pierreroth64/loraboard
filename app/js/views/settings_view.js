@@ -5,7 +5,7 @@ export class SettingsView extends Backbone.View {
   constructor(options) {
     super(options);
     this.events = {
-      "click #save-settings" : "saveSettings"
+      'click #save-settings' : 'saveSettings'
     };
     this.setElement('#settings-popup');
     this.api = new SettingsStorageAPI('pubnub');

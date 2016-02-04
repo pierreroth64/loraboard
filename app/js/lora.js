@@ -27,7 +27,7 @@ $(() => {
   var dataService = new PubNubDataService();
   dataService.start();
   var deviceMgr = new DeviceManager();
-  var dev = deviceMgr.createDevice("123131313", devTypes.DEV_TYPE_LORAMOTE);
+  var dev = deviceMgr.createDevice('123131313', devTypes.DEV_TYPE_LORAMOTE);
 
   new DeviceView({models: dev.getModels(), dataService});
   Backbone.history.start();

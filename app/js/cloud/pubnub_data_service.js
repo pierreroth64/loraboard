@@ -7,7 +7,7 @@ var PUBNUB_DEFAULT_SUBSCRIBE_KEY = 'sub-c-addd8e9e-b938-11e5-85eb-02ee2ddab7fe';
 export class PubNubDataService extends DataService  {
 
     constructor() {
-        super("PubNub");
+        super('PubNub');
         this.resetConnection();
         Backbone.Mediator.subscribe('settings:new', this.onNewSettings, this);
 
@@ -80,10 +80,10 @@ export class PubNubDataService extends DataService  {
     }
 
     onConnected() {
-        console.log("Connected to PubNub");
+        console.log('Connected to PubNub');
     }
 
     onDisconnected() {
-        console.log("Disconnected from PubNub");
+        console.log('Disconnected from PubNub');
     }
 }

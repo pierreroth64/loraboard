@@ -17,13 +17,13 @@ export class DeviceView extends Backbone.View {
     this.models = options.models;
     this.dataService = options.dataService;
 
-    console.log("creating device view with models:", this.models);
+    console.log('creating device view with models:', this.models);
 
     this.setElement('#device');
     this.render();
 
-    new TemperatureGraphView({model: this.models.temperature}, "Temperature graph");
-    new PressureGraphView({model: this.models.pressure}, "Pressure graph");
+    new TemperatureGraphView({model: this.models.temperature}, 'Temperature graph');
+    new PressureGraphView({model: this.models.pressure}, 'Pressure graph');
     new BatteryGraphView({model: this.models.battery});
     new MapView({model: this.models.position});
     new FrameIndicatorView();

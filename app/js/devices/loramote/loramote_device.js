@@ -7,18 +7,18 @@ export class LoRaMoteDevice extends BaseDevice {
 
   constructor(eui) {
     super(new LoRaMoteCodec(), eui, devTypes.DEV_TYPE_LORAMOTE);
-    this.models.temperature = new LoRaData({ title: "temperature",
+    this.models.temperature = new LoRaData({ title: 'temperature',
                                              value: 25,
-                                             unit:"°C" });
-    this.models.pressure = new LoRaData({ title: "pressure",
+                                             unit:'°C' });
+    this.models.pressure = new LoRaData({ title: 'pressure',
                                           value: 800,
-                                          unit:"hPa" });
-    this.models.battery = new LoRaData({ title: "battery",
+                                          unit:'hPa' });
+    this.models.battery = new LoRaData({ title: 'battery',
                                          value: 50,
-                                         unit:"%" });
-    this.models.position = new LoRaData({ title: "position",
+                                         unit:'%' });
+    this.models.position = new LoRaData({ title: 'position',
                                           value: JSON.stringify({latitude: 0, longitude: 360}),
-                                          unit:"%"});
+                                          unit:'%'});
   }
 
   processData(data) {

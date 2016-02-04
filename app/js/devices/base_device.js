@@ -10,7 +10,7 @@ export class BaseDevice {
   setValue(model, value) {
     // force trigger event if value is the same
     model.set({value: value}, {silent: true});
-    model.trigger("change");
+    model.trigger('change');
   }
 
   getModels() {

@@ -59,10 +59,10 @@ export class DataService  {
 
     // methods to be implemented by concrete classes
     onStart() {
-        throw new Error("onStart has to be implemented in your DataService");
+        throw new Error('onStart has to be implemented in your DataService');
     }
 
     onStop() {
-        throw new Error("onStop has to be implemented in your DataService");
+        throw new Error('onStop has to be implemented in your DataService');
     }
 }

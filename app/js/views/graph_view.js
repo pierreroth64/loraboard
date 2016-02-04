@@ -15,7 +15,7 @@ export class GraphView extends Backbone.View {
   }
 
   initChart() {
-    console.log("initChart() to be overriden!");
+    throw new Error('your must implement the initChart() method in your inherited class!');
     return null;
   }
 
