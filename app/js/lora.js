@@ -19,9 +19,17 @@
 // We import the classes we defined in the TodoApp module using the `import`
 // keyword.
 import {DeviceView} from './views/device_view';
+import {DeviceManager} from './devices/device_manager';
+import * as devTypes from './devices/device_types';
+import {PubNubDataService} from "./cloud/pubnub_data_service";
 
 $(() => {
-  new DeviceView();
+  var dataService = new PubNubDataService();
+  dataService.start();
+  var deviceMgr = new DeviceManager();
+  var dev = deviceMgr.createDevice("123131313", devTypes.DEV_TYPE_LORAMOTE);
+
+  new DeviceView({models: dev.getModels(), dataService});
   Backbone.history.start();
 });
 
