@@ -1,6 +1,15 @@
-export class LoRaMoteCodec {
+import {BaseCodec} from '../base_codec';
 
-    constructor() { }
+const FRAME_LENGTH = 32;
+export class LoRaMoteCodec extends BaseCodec {
+
+    constructor() {
+        super();
+    }
+
+    mayMatch(data) {
+        return (data.length == FRAME_LENGTH);
+    }
 
     decodePressure(frame) {
         var raw = frame.substr(2, 4);
