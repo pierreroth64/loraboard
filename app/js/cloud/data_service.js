@@ -1,8 +1,10 @@
 export class DataService  {
 
-    constructor(name) {
+    constructor(name, deviceManager) {
         this.name = name;
         this.isStarted = false;
+        this.deviceManager = deviceManager;
+        Backbone.Mediator.subscribe('datasrvc:outgoing', this.sendData, this);
     }
 
     start() {
@@ -44,13 +46,17 @@ export class DataService  {
         return true;
     }
 
-    onNewData(data) {
+    onReceivedData(data) {
         if (this.isDataFormatValid(data)) {
-            Backbone.Mediator.publish('data:newFrame', data);
+            Backbone.Mediator.publish('datasrvc:incoming', data);
         } else {
             //FIXME: actually write this "documentation" ;)
             console.log('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');
         }
+    }
+
+    sendData(data) {
+        this.onSendData(data);
     }
 
     onError(msg) {
@@ -64,5 +70,9 @@ export class DataService  {
 
     onStop() {
         throw new Error('onStop has to be implemented in your DataService');
+    }
+
+    onSendData(data) {
+        throw new Error('onSendData has to be implemented in your DataService');
     }
 }

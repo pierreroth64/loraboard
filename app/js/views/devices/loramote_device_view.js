@@ -20,7 +20,8 @@ export class LoRaMoteDeviceView extends Backbone.View {
   }
 
   render() {
-    var html = `<div class="row">
+    var html = `
+      <div class="row">
         <div class="center-block">
         </div>
       </div>

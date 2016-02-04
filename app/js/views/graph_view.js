@@ -16,7 +16,6 @@ export class GraphView extends Backbone.View {
 
   initChart() {
     throw new Error('your must implement the initChart() method in your inherited class!');
-    return null;
   }
 
   updateChart() {

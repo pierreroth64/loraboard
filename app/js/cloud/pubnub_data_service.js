@@ -1,35 +1,41 @@
 import {SettingsStorageAPI} from '../lib/storage';
 import {DataService} from './data_service';
-import {PUBNUB_DEFAULT_SUBSCRIBE_KEY, PUBNUB_DEFAULT_CHANNEL} from '../constants/pubnub_const';
+import * as pubnubCreds from '../constants/pubnub_const';
 
 export class PubNubDataService extends DataService  {
 
-    constructor() {
-        super('PubNub');
+    constructor(deviceManager) {
+        super('PubNub', deviceManager);
         this.resetConnection();
         Backbone.Mediator.subscribe('settings:new', this.onNewSettings, this);
 
         // Setting pubnub handlers with arrow functions makes 'this' available from them
-        this.processData = (message, env, ch, timer, magicCh) => { this._processData(message); };
+        this.processReceivedData = (message, env, ch, timer, magicCh) => { this._processReceivedData(message); };
         this.onError = (error) => { this._onError(error); };
     }
 
     updateCredentials() {
         var api = new SettingsStorageAPI('pubnub');
-        if (!api.hasStoredValue('subscribeKey')) {
+        if (!api.hasStoredValue('publishKey') || !api.hasStoredValue('subscribeKey')) {
             console.log('Pubnub credentials not set, using default ones.');
             api.store({
-                        channel: PUBNUB_DEFAULT_CHANNEL,
-                        subscribeKey: PUBNUB_DEFAULT_SUBSCRIBE_KEY
+                        downStreamChannel: pubnubCreds.PUBNUB_DEFAULT_DOWNSTREAM_CHANNEL,
+                        upStreamChannel: pubnubCreds.PUBNUB_DEFAULT_UPSTREAM_CHANNEL,
+                        subscribeKey: pubnubCreds.PUBNUB_DEFAULT_SUBSCRIBE_KEY,
+                        publishKey: pubnubCreds.PUBNUB_DEFAULT_PUBLISH_KEY
                       });
         }
-        this.currentChannel = api.get('channel');
-        this.currentSubscribeKey = api.get('subscribeKey');
+        this.creds = {}
+        this.creds.currentSubscribeKey = api.get('subscribeKey');
+        this.creds.currentPublishKey = api.get('publishKey');
+        this.creds.currentUpChannel = api.get('upStreamChannel');
+        this.creds.currentDownChannel = api.get('downStreamChannel');
     }
 
     createConnection() {
         this.pubnubConn = PUBNUB({
-            subscribe_key: this.currentSubscribeKey
+            subscribe_key: this.creds.currentSubscribeKey,
+            publish_key: this.creds.currentPublishKey
         });
     }
 
@@ -44,7 +50,7 @@ export class PubNubDataService extends DataService  {
         this.start();
     }
 
-    _processData(data) {
+    _processReceivedData(data) {
         super.onNewData(data);
     }
 
@@ -55,11 +61,11 @@ export class PubNubDataService extends DataService  {
     }
 
     onStart() {
-        console.log(`Pubnub info > subscribeKey: '${this.currentSubscribeKey}', and channel:'${this.currentChannel}'`);
+        console.log('Pubnub info:', this.creds);
         try {
             this.pubnubConn.subscribe({
-                    channel: this.currentChannel,
-                    message: this.processData,
+                    channel: this.creds.currentUpChannel,
+                    message: this.processReceivedData,
                     connect: this.onConnected,
                     disconnect: this.onDisconnected,
                     error: this.onError
@@ -73,8 +79,18 @@ export class PubNubDataService extends DataService  {
 
     onStop() {
         this.pubnubConn.unsubscribe({
-            channel: this.currentChannel
+            channel: this.creds.currentDownChannel
         });
+    }
+
+    onSendData(data) {
+        this.pubnubConn.publish({
+            channel : this.creds.currentDownChannel,
+            message : data,
+            callback: function(m){
+                console.log('sent pubnub message', m);
+            }
+       });
     }
 
     onConnected() {

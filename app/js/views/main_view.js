@@ -18,11 +18,11 @@ export class MainView extends Backbone.View {
       this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
       this.map.on('zoomend', (e) => {
         this.currentZoom = this.map.getZoom();
-      })
+      });
       this.map.on('dragend', (e) => {
         let center = this.map.getCenter()
         this.currentPosition = [center.lat, center.lng];
-      })
+      });
   }
 
   initMarkers() {
