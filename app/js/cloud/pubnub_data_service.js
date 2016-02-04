@@ -4,8 +4,8 @@ import * as pubnubCreds from '../constants/pubnub_const';
 
 export class PubNubDataService extends DataService  {
 
-    constructor(deviceManager) {
-        super('PubNub', deviceManager);
+    constructor() {
+        super('PubNub');
         this.resetConnection();
         Backbone.Mediator.subscribe('settings:new', this.onNewSettings, this);
 
@@ -51,7 +51,7 @@ export class PubNubDataService extends DataService  {
     }
 
     _processReceivedData(data) {
-        super.onNewData(data);
+        super.onReceivedData(data);
     }
 
     _onError(error) {

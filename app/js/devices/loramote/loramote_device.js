@@ -31,4 +31,9 @@ export class LoRaMoteDevice extends BaseDevice {
                                             longitude: codec.decodeLongitude(data).value
                                         });
   }
+
+  getPosition() {
+    var position = this.models.position.attributes.value;
+    return position ;
+  }
 }

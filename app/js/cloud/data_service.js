@@ -1,10 +1,9 @@
 export class DataService  {
 
-    constructor(name, deviceManager) {
+    constructor(name) {
         this.name = name;
         this.isStarted = false;
-        this.deviceManager = deviceManager;
-        Backbone.Mediator.subscribe('datasrvc:outgoing', this.sendData, this);
+        Backbone.Mediator.subscribe('data:downstream', this.sendData, this);
     }
 
     start() {
@@ -39,16 +38,16 @@ export class DataService  {
         }
     }
     isDataFormatValid(data) {
-        //FIXME: validate data. Must contain the following fields:
-        // - data:  containing the payload
-        // - fcnt: field counter (corresponding to the sequence number)
-        // - EUI: is the device EUI (unique ID)
+        if (data.data == undefined || data.EUI == undefined || data.fcnt == undefined) {
+            return false;
+        }
         return true;
     }
 
     onReceivedData(data) {
+        data = JSON.parse(data);
         if (this.isDataFormatValid(data)) {
-            Backbone.Mediator.publish('datasrvc:incoming', data);
+            Backbone.Mediator.publish('data:upstream', data);
         } else {
             //FIXME: actually write this "documentation" ;)
             console.log('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');

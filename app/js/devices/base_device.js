@@ -7,6 +7,14 @@ export class BaseDevice {
     this.models = {};
   }
 
+  getEUI() {
+    return this.eui;
+  }
+
+  getPosition() {
+    return {latitude: undefined, longitude: undefined};
+  }
+
   setValue(model, value) {
     // force trigger event if value is the same
     model.set({value: value}, {silent: true});
