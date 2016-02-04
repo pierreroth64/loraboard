@@ -1,17 +1,28 @@
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 
+const MAP_INITIAL_POSITION = [45.824203, 1.277746];
+const MAP_INITIAL_ZOOM = 2;
+
 export class MainView extends Backbone.View {
 
   constructor(options) {
     super(options);
     this.deviceMarkers = {};
     this.setElement('#main');
+    this.currentPosition = MAP_INITIAL_POSITION;
+    this.currentZoom = MAP_INITIAL_ZOOM;
   }
 
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-      var initialMapPosition = [45.824203, 1.277746];
-      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialMapPosition, 2);
+      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
+      this.map.on('zoomend', (e) => {
+        this.currentZoom = this.map.getZoom();
+      })
+      this.map.on('dragend', (e) => {
+        let center = this.map.getCenter()
+        this.currentPosition = [center.lat, center.lng];
+      })
   }
 
   initMarkers() {
