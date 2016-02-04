@@ -4,12 +4,17 @@ export class BaseDevice {
     this.codec = codec;
     this.eui = eui;
     this.type = type;
+    this.models = {};
   }
 
   setValue(model, value) {
     // force trigger event if value is the same
     model.set({value: value}, {silent: true});
     model.trigger("change");
+  }
+
+  getModels() {
+    return this.models;
   }
 
   getType() {
