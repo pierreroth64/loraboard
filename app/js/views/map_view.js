@@ -33,6 +33,23 @@ export class MapView extends Backbone.View {
                   "className": "dot"
               }
           }
+      }, 
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [-0.314852, 43.321219]
+          },
+          "properties": {
+              "title": "LoRaMote",
+              "icon": {
+                  "iconUrl": "images/logo_lora.png",
+                  "iconSize": [50, 38], // size of the icon
+                  "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                  "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                  "className": "dot"
+              }
+          }
       }];
 
       // Set a custom icon on each marker based on feature properties.
