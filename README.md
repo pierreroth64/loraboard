@@ -14,9 +14,9 @@ Using the starter kit and some web based services, this web app displays data co
 
 ## Setup
 
-### LoRaMote (end point)
+### LoRaMotes
 
-Follow the Semtech user guide to setup the LoRaMote devices.
+Follow the Semtech user guide to setup the LoRaMote end-point devices.
 
 ### LoRa gateway
 
