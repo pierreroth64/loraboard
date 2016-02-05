@@ -45,5 +45,8 @@
   "bugs": {
     "url": "https://github.com/pierreroth/loraboard/issues"
   },
-  "homepage": "https://github.com/pierreroth/loraboard#readme"
+  "homepage": "https://github.com/pierreroth/loraboard#readme",
+  "dependencies": {
+    "backbone": "^1.2.3"
+  }
 }
