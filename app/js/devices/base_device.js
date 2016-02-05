@@ -1,10 +1,15 @@
 export class BaseDevice {
 
-  constructor(codec, eui, type) {
+  constructor(codec, eui, type, name='Default name') {
     this.codec = codec;
     this.eui = eui;
     this.type = type;
+    this.name = name;
     this.models = {};
+  }
+
+  getName() {
+    return this.name;
   }
 
   getEUI() {

@@ -6,7 +6,7 @@ import {LoRaData} from '../../models/lora_data'
 export class NucleoDevice extends BaseDevice {
 
   constructor(eui) {
-    super(new NucleoCodec(), eui, devTypes.DEV_TYPE_NUCLEO);
+    super(new NucleoCodec(), eui, devTypes.DEV_TYPE_NUCLEO, `Nucleo ${eui}`);
   }
 
   processData(data) {
