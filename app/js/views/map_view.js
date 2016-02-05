@@ -12,25 +12,23 @@ export class MapView extends Backbone.View {
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
       var initialPosition = [43.3188648, -0.3203877];
-//      this.gpsMarker = L.marker(initialPosition);
-//      this.gpsMarker.bindPopup(this.buildMarkerInfo(...initialPosition));
-      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialPosition, 15);
-//      this.gpsMarker.addTo(this.map);
+      var map = L.mapbox.map('lora-map', 'mapbox.streets')
+          .setView(initialPosition, 15);
 
-      var myLayer = L.mapbox.featureLayer().addTo(this.map);
+      var myLayer = L.mapbox.featureLayer().addTo(map);
 
       var geoJson = [{
           "type": "Feature",
           "geometry": {
               "type": "Point",
-              "coordinates": [43.3188648, -0.3203877]
+              "coordinates": [-0.3203877, 43.3188648]
           },
           "properties": {
-              "title": "Mote",
+              "title": "LoRaMote",
               "icon": {
-                  "iconUrl": "/images/logo_lora2.png",
+                  "iconUrl": "images/logo_lora.png",
                   "iconSize": [50, 38], // size of the icon
-                  "iconAnchor": [25, 19], // point of the icon which will correspond to marker's location
+                  "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
                   "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
                   "className": "dot"
               }
