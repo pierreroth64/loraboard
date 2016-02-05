@@ -13,21 +13,22 @@ export class MainView extends Backbone.View {
     this.setElement('#main');
     this.currentPosition = MAP_INITIAL_POSITION;
     this.currentZoom = MAP_INITIAL_ZOOM;
-    this.populateInitialMarkers();
     Backbone.Mediator.subscribe('device:updatePosition', this.onUpdatePosition, this);
     this.settingsView = new SettingsView();
+    this.populateInitialMarkers();
   }
 
   initMap() {
-      L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-      this.map = L.mapbox.map('global-lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
-      this.map.on('zoomend', (e) => {
-        this.currentZoom = this.map.getZoom();
-      });
-      this.map.on('dragend', (e) => {
-        let center = this.map.getCenter()
-        this.currentPosition = [center.lat, center.lng];
-      });
+    L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
+    this.map = L.mapbox.map('global-lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
+    L.control.scale().addTo(this.map);
+    this.map.on('zoomend', (e) => {
+      this.currentZoom = this.map.getZoom();
+    });
+    this.map.on('dragend', (e) => {
+      let center = this.map.getCenter()
+      this.currentPosition = [center.lat, center.lng];
+    });
   }
 
   populateInitialMarkers() {
@@ -35,16 +36,23 @@ export class MainView extends Backbone.View {
     this.createDeviceMarker("5678", 45.824203, 1.278750);*/
   }
 
+  // As the map is recreated when rendering the view, the markers have to be recreated to
   updateMarkersOnMap() {
-    console.log("update markers", this.deviceMarkers);
-    for (let markerEUI in this.deviceMarkers) {
-      console.log('adding marker to map', markerEUI);
-      this.deviceMarkers[markerEUI].addTo(this.map);
+    var newMarkers = {};
+    for (let eui in this.deviceMarkers) {
+      let {marker, name} = this.deviceMarkers[eui];
+      let {lat, lng} = marker.getLatLng();
+      this.map.removeLayer(marker);
+      let newMarker = this.createDeviceMarker(eui, name, lat, lng);
+      newMarker.addTo(this.map);
+      newMarkers[eui] = {};
+      newMarkers[eui].marker = newMarker;
+      newMarkers[eui].name = name;
     }
+    this.deviceMarkers = newMarkers;
   }
 
   createDeviceMarker(eui, name, latitude, longitude) {
-    console.log("added marker:", eui, latitude, longitude);
     var marker = L.marker([latitude, longitude]);
     marker.bindPopup(`<strong>${name}</strong>`);
     marker.on('dblclick', function(e) {
@@ -53,7 +61,9 @@ export class MainView extends Backbone.View {
     marker.on('click', function(e) {
       marker.openPopup();
     });
-    this.deviceMarkers[eui] = marker;
+    this.deviceMarkers[eui] = {};
+    this.deviceMarkers[eui].marker = marker;
+    this.deviceMarkers[eui].name = name;
     return marker;
   }
 
@@ -71,7 +81,7 @@ export class MainView extends Backbone.View {
     this.$el.html(html);
     this.settingsView.render();
     this.initMap();
-    //this.updateMarkersOnMap();
+    this.updateMarkersOnMap();
     return this;
   }
 
@@ -86,8 +96,10 @@ export class MainView extends Backbone.View {
 
   onUpdatePosition(eui, name, position) {
     position = this.validatePosition(position);
-    var marker = this.deviceMarkers[eui];
-    if (marker == undefined || marker == null) {
+    var marker = undefined;
+    if (this.deviceMarkers[eui] && this.deviceMarkers[eui].marker) {
+      marker = this.deviceMarkers[eui].marker;
+    } else {
       marker = this.createDeviceMarker(eui, name, ...position);
     }
     marker.setLatLng(L.latLng(...position));

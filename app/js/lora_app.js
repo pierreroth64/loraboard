@@ -57,7 +57,6 @@ export class LoRaApp extends Backbone.Router {
     showMain() {
         this.currentView = this.mainView;
         this.currentView.render();
-        this.currentView.updateMarkersOnMap();
     }
 }
 
