@@ -16,6 +16,7 @@ export class MapView extends Backbone.View {
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
       this.map = L.mapbox.map(this.id, 'mapbox.streets').setView(MAP_INITIAL_POSITION, MAP_INITIAL_ZOOM);
+      L.control.scale().addTo(this.map);
   }
 
   updatePosition() {
