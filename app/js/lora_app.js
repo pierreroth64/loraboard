@@ -20,6 +20,7 @@ export class LoRaApp extends Backbone.Router {
         this._bindRoutes();
         this.deviceViews = {};
         this.mainView = new MainView();
+        this.currentView = undefined;
     }
 
     start() {
@@ -29,10 +30,11 @@ export class LoRaApp extends Backbone.Router {
 
     showDevice(eui) {
         if (this.deviceViews[eui] != undefined) {
-            this.deviceViews[eui].render();
+            this.currentView = this.deviceViews[eui];
         } else {
-            this.createDeviceView(eui).render();
+            this.currentView = this.createDeviceView(eui);
         }
+        this.currentView.render();
     }
 
     createDeviceView(eui) {
@@ -53,7 +55,9 @@ export class LoRaApp extends Backbone.Router {
     }
 
     showMain() {
-        this.mainView.render();
+        this.currentView = this.mainView;
+        this.currentView.render();
+        this.currentView.updateMarkersOnMap();
     }
 }
 
