@@ -38,7 +38,7 @@ export class SettingsView extends Backbone.View {
                           <input type="text" id="pubnub-upstream-channel" class="form-control" placeholder="PubNub Upstream channel" ${htmlUpStreamChannelValue} aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                          <span class="input-group-addon">Upstream Channel</span>
+                          <span class="input-group-addon">Downstream Channel</span>
                           <input type="text" id="pubnub-downstream-channel" class="form-control" placeholder="PubNub Downstream channel" ${htmlDownStreamChannelValue} aria-describedby="basic-addon1">
                         </div>
                         <br />
@@ -47,7 +47,7 @@ export class SettingsView extends Backbone.View {
                           <input type="text" id="pubnub-subscribe-key" class="form-control" placeholder="PubNub subscribe key" ${htmlSubscribeKeyValue} aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                          <span class="input-group-addon">Subscribe Key</span>
+                          <span class="input-group-addon">Publish Key</span>
                           <input type="text" id="pubnub-publish-key" class="form-control" placeholder="PubNub publish key" ${htmlPublishKeyValue} aria-describedby="basic-addon1">
                         </div>
                       </div>
@@ -63,10 +63,10 @@ export class SettingsView extends Backbone.View {
   }
 
   saveSettings() {
-    var upStreamChannel = $('#ubnub-upstream-channel').val();
-    var downStreamChannel = $('#ubnub-downstream-channel').val();
-    var subscribekey = $('#pubnub-subscribe-key').val();
-    var publishkey = $('#pubnub-publish-key').val();
+    var upStreamChannel = $('#pubnub-upstream-channel').val();
+    var downStreamChannel = $('#pubnub-downstream-channel').val();
+    var subscribeKey = $('#pubnub-subscribe-key').val();
+    var publishKey = $('#pubnub-publish-key').val();
     this.api.store({upStreamChannel, downStreamChannel, subscribeKey, publishKey});
     Backbone.Mediator.publish('settings:new');
     $('#pubnub-setttings').modal('hide');
