@@ -2,7 +2,7 @@
 
 # LoRa dashboard demo
 
-Single page web application displaying live data from a LoRaMote thanks to [Semtech](http://www.semtech.com/) starter kit.
+Single page web application displaying live data from LoRaMote devices thanks to [Semtech](http://www.semtech.com/) starter kit.
 
 Deployed demo available [here](http://loraserver.cloudapp.net/) without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
 
@@ -10,13 +10,13 @@ Deployed demo available [here](http://loraserver.cloudapp.net/) without any [SLA
 
 ![Lora setup](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png)
 
-Using the starter kit and some web based services, this web app displays data coming from your LoRaMote.
+Using the starter kit and some web based services, this web app displays data coming from your LoRaMotes.
 
 ## Setup
 
 ### LoRaMote (end point)
 
-Follow the Semtech user guide to setup the LoRaMote device.
+Follow the Semtech user guide to setup the LoRaMote devices.
 
 ### LoRa gateway
 
@@ -39,13 +39,13 @@ Once the gateway is configured, you should be able to setup your [loriot.io](htt
 
 The last thing to do is to create a [PubNub](http://www.pubnub.com) channel to publish to. You can then configure the loriot app to publish data to PubNub (PubNub is one of the possible outputs).
 
-Here you are: your LoRaMote device is pushing its data to the PubNub service! You just have to subscribe to the correct channel to receive this data.
+Here you are: your LoRaMote devices are pushing data to the PubNub service! You just have to subscribe to the correct channel to receive this data.
 
 ### Web application
 
 This web app subscribes to the previously configured PubNub service and decodes and displays live data.
 
-You'll have to change the *PubNub channel and subscribe key* point to your pubnub account. Just open, the popup window to enter your PubNub credentials (click on Details and then Setup icon)
+You'll have to change the *PubNub Upstream channel and subscribe key* to point to your pubnub account. Just open, the popup window to enter your PubNub credentials (click on Setup icon in the footer of the page)
 
 ## Developers
 

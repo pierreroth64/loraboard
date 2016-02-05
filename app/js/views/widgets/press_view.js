@@ -1,11 +1,11 @@
 import {GraphView} from './graph_view';
 
-var TEMPERATURE_COLOR = '#c40079';
-var INITIAL_TEMPERATURES = [0, 0, 0, 0, 0, 0, 0, 0];
-var MAX_TEMPERATURE = 50;
-var MIN_TEMPERATURE = 0;
+var PRESSURE_COLOR = '#f5d304';
+var INITIAL_PRESSURES = [800, 800, 800, 800, 800, 800, 800, 800];
+var MAX_PRESSURE = 1100;
+var MIN_PRESSURE = 800;
 
-export class TemperatureGraphView extends GraphView {
+export class PressureGraphView extends GraphView {
 
   constructor(options, ...extras) {
     super(options, ...extras);
@@ -14,21 +14,21 @@ export class TemperatureGraphView extends GraphView {
 
   initChart() {
     return c3.generate({
-                bindto: '#temp-chart',
+                bindto: `#${this.id}`,
                 data: {
                   columns: [
-                    ['temperature', ...INITIAL_TEMPERATURES]
+                    ['pressure', ...INITIAL_PRESSURES]
                   ],
                   type: 'area-spline',
                   colors: {
-                        temperature: TEMPERATURE_COLOR
+                        pressure: PRESSURE_COLOR
                   }
                 },
                 axis: {
                     y: {
-                        label: 'temperature (°C)',
-                        max: MAX_TEMPERATURE,
-                        min: MIN_TEMPERATURE
+                        label: 'pressure (hPa)',
+                        max: MAX_PRESSURE,
+                        min: MIN_PRESSURE
                     }
                 }
               });
@@ -37,7 +37,7 @@ export class TemperatureGraphView extends GraphView {
   updateChartData() {
     this.chart.flow({
         columns: [
-            ['temperature', this.model.attributes.value]
+            ['pressure', this.model.attributes.value]
         ]
     });
   }

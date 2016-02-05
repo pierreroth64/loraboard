@@ -15,6 +15,6 @@ export class LoRaData extends Backbone.Model {
   }
 
   sync(method, model, options) {
-    console.log("sync does nothing for now!");
+    console.log('sync does nothing for now!');
   }
 }

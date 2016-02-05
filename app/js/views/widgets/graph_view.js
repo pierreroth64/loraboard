@@ -1,6 +1,8 @@
+import {WidgetView} from './widget_view';
+
 var MAX_SAMPLES = 50;
 
-export class GraphView extends Backbone.View {
+export class GraphView extends WidgetView {
 
     constructor(options, name='NotNamed graph', maxSamples=MAX_SAMPLES) {
     super(options);
@@ -15,8 +17,7 @@ export class GraphView extends Backbone.View {
   }
 
   initChart() {
-    console.log("initChart() to be overriden!");
-    return null;
+    throw new Error('your must implement the initChart() method in your inherited class!');
   }
 
   updateChart() {

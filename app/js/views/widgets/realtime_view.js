@@ -1,17 +1,18 @@
+import {WidgetView} from './widget_view';
 
 var MAX_SCREEN_LOGS = 100;
 
-export class RealTimeView extends Backbone.View {
+export class RealTimeView extends WidgetView {
 
   constructor(options) {
     super(options);
     this.events = {
-      "click #clear-logs-btn": "clearScreenLogs"
+      'click #clear-logs-btn': 'clearScreenLogs'
     };
     this.logsNumber = 0;
     this.setElement('#realtime-box');
     this.render();
-    Backbone.Mediator.subscribe('data:newFrame', this.logFrame, this);
+    Backbone.Mediator.subscribe('data:upstream', this.logFrame, this);
   }
 
   render() {
@@ -23,10 +24,10 @@ export class RealTimeView extends Backbone.View {
     return this;
   }
 
-  logFrame(raw, decoded) {
-    var message = JSON.parse(raw);
-    var data = `LoRa frame #${message.fcnt}: ${message.data} from: ${message.EUI}\nDecoded as: ${decoded}`;
-    this.logData(data);
+  logFrame(message) {
+    if (message.EUI == this.eui) {
+      this.logData(`Frame #${message.fcnt} from ${message.EUI}: ${message.data}`);
+    }
   }
 
   logData(message, separator) {

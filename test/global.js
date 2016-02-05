@@ -1,0 +1,1 @@
+global.Backbone = require('backbone');

@@ -48,6 +48,10 @@ body {
 .map-box {
   height: 320px; }
 
+.big-map-box {
+  height: 800px; }
+}
+
 #frame-indicator {
   display: none;
   font-family: 'Roboto', sans-serif;
