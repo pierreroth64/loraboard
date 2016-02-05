@@ -1,5 +1,6 @@
+import {WidgetView} from './widget_view';
 
-export class FrameIndicatorView extends Backbone.View {
+export class FrameIndicatorView extends WidgetView {
 
   constructor(options) {
     super(options);

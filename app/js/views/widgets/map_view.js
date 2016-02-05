@@ -1,11 +1,11 @@
-import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
-
+import {WidgetView} from './widget_view';
+import {MAPBOX_ACCESS_TOKEN} from '../../constants/mapbox_const';
 
 const MAP_INITIAL_POSITION = [43.3188648, -0.3203877];
 const MAP_INITIAL_ZOOM = 1;
 const MAP_WHEN_FIRST_FOUND_ZOOM = 15;
 
-export class MapView extends Backbone.View {
+export class MapView extends WidgetView {
 
   constructor(options) {
     super(options);

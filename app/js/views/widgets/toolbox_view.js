@@ -1,5 +1,6 @@
+import {WidgetView} from './widget_view';
 
-export class ToolBoxView extends Backbone.View {
+export class ToolBoxView extends WidgetView {
 
   constructor(options) {
     super(options);

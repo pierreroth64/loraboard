@@ -1,13 +1,13 @@
 /*jshint esnext:true */
 
 import {LoRaData} from "../../models/lora_data";
-import {TemperatureGraphView} from "./../temp_view";
-import {PressureGraphView} from "./../press_view";
-import {BatteryGraphView} from "./../battery_view";
-import {MapView} from "./../map_view";
-import {FrameIndicatorView} from "./../frame_indicator_view";
-import {ToolBoxView} from "./../toolbox_view";
-import {TechnicalView} from "./../technical_view";
+import {TemperatureGraphView} from "./../widgets/temp_view";
+import {PressureGraphView} from "./../widgets/press_view";
+import {BatteryGraphView} from "./../widgets/battery_view";
+import {MapView} from "./../widgets/map_view";
+import {FrameIndicatorView} from "./../widgets/frame_indicator_view";
+import {ToolBoxView} from "./../widgets/toolbox_view";
+import {TechnicalView} from "./../widgets/technical_view";
 
 export class LoRaMoteDeviceView extends Backbone.View {
 
@@ -15,6 +15,7 @@ export class LoRaMoteDeviceView extends Backbone.View {
     super(options);
     this.models = options.models;
     this.dataService = options.dataService;
+    this.eui = options.eui;
     this.setElement('#main');
   }
 
@@ -83,17 +84,25 @@ export class LoRaMoteDeviceView extends Backbone.View {
       </div>`;
     this.$el.html(html);
     new TemperatureGraphView({model: this.models.temperature,
-                              id: 'temp-chart'},
+                              id: 'temp-chart',
+                              eui: this.eui},
                              'Temperature graph');
     new PressureGraphView({model: this.models.pressure,
-                           id: 'press-chart'}, 'Pressure graph');
+                           id: 'press-chart',
+                           eui: this.eui}, 'Pressure graph');
     new BatteryGraphView({model: this.models.battery,
-                          id: 'batt-chart'});
+                          id: 'batt-chart',
+                          eui: this.eui});
     new MapView({model: this.models.position,
-                 id: 'lora-map'});
-    new FrameIndicatorView({id: 'frame-indicator'});
-    new ToolBoxView({id: 'tool-box', dataService: this.dataService});
-    new TechnicalView({id: 'technical-window'});
+                 id: 'lora-map',
+                 eui: this.eui});
+    new FrameIndicatorView({id: 'frame-indicator',
+                            eui: this.eui});
+    new ToolBoxView({id: 'tool-box',
+                     eui: this.eui,
+                     dataService: this.dataService});
+    new TechnicalView({id: 'technical-window',
+                       eui: this.eui});
     return this;
   }
 }

@@ -43,7 +43,9 @@ export class LoRaApp extends Backbone.Router {
             var type = dev.getType();
             switch(type) {
                 case devTypes.DEV_TYPE_LORAMOTE:
-                    return new LoRaMoteDeviceView({models: dev.getModels(), dataService: this.dataService});
+                    return new LoRaMoteDeviceView({ models: dev.getModels(),
+                                                    dataService: this.dataService,
+                                                    eui: eui});
                 break;
                 default:
                     return new ErrorView(`unknown device type ${type} for device with eui ${eui}`);

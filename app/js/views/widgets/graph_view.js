@@ -1,6 +1,8 @@
+import {WidgetView} from './widget_view';
+
 var MAX_SAMPLES = 50;
 
-export class GraphView extends Backbone.View {
+export class GraphView extends WidgetView {
 
     constructor(options, name='NotNamed graph', maxSamples=MAX_SAMPLES) {
     super(options);

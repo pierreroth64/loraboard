@@ -23,13 +23,18 @@ export class LoRaMoteDevice extends BaseDevice {
 
   processData(data) {
     var codec = this.getCodec();
-    this.setValue(this.models.temperature, codec.decodeTemperature(data).value);
-    this.setValue(this.models.pressure, codec.decodePressure(data).value);
-    this.setValue(this.models.battery, codec.decodeBatteryLevel(data).value);
-    this.setValue(this.models.position, {
-                                            latitude: codec.decodeLatitude(data).value,
-                                            longitude: codec.decodeLongitude(data).value
-                                        });
+    var temperature = codec.decodeTemperature(data).value;
+    var pressure = codec.decodePressure(data).value;
+    var battery = codec.decodeBatteryLevel(data).value;
+    var latitude = codec.decodeLatitude(data).value;
+    var longitude = codec.decodeLongitude(data).value;
+
+    this.setValue(this.models.temperature, temperature);
+    this.setValue(this.models.pressure, pressure);
+    this.setValue(this.models.battery, battery);
+    this.setValue(this.models.position, {latitude, longitude});
+
+    return {temperature, pressure, battery, latitude, longitude};
   }
 
   getPosition() {
