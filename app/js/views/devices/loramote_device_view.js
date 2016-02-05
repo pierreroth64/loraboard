@@ -85,13 +85,18 @@ export class LoRaMoteDeviceView extends Backbone.View {
         </div>
       </div>`;
     this.$el.html(html);
-    new TemperatureGraphView({model: this.models.temperature}, 'Temperature graph');
-    new PressureGraphView({model: this.models.pressure}, 'Pressure graph');
-    new BatteryGraphView({model: this.models.battery});
-    new MapView({model: this.models.position});
-    new FrameIndicatorView();
-    new ToolBoxView({dataService: this.dataService});
-    new TechnicalView();
+    new TemperatureGraphView({model: this.models.temperature,
+                              id: 'temp-chart'},
+                             'Temperature graph');
+    new PressureGraphView({model: this.models.pressure,
+                           id: 'press-chart'}, 'Pressure graph');
+    new BatteryGraphView({model: this.models.battery,
+                          id: 'batt-chart'});
+    new MapView({model: this.models.position,
+                 id: 'lora-map'});
+    new FrameIndicatorView({id: 'frame-indicator'});
+    new ToolBoxView({id: 'tool-box', dataService: this.dataService});
+    new TechnicalView({id: 'technical-window'});
     new SettingsView();
     return this;
   }

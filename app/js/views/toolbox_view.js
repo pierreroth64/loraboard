@@ -8,7 +8,7 @@ export class ToolBoxView extends Backbone.View {
       'click #technical-start-stop-button' : 'clickStartStop'
     };
     this.dataService = options.dataService;
-    this.setElement('#tool-box');
+    this.setElement(`#${this.id}`);
     this.render();
   }
 

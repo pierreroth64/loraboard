@@ -11,7 +11,7 @@ export class BatteryGraphView extends Backbone.View {
 
   initChart() {
     return c3.generate({
-                bindto: '#batt-chart',
+                bindto: '#' + this.id,
                 data: {
                     columns: [
                         ['used', 100],

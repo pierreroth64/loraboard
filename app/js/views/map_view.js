@@ -1,5 +1,9 @@
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 
+
+const MAP_INITIAL_POSITION = [43.3188648, -0.3203877];
+const MAP_INITIAL_ZOOM = 15;
+
 export class MapView extends Backbone.View {
 
   constructor(options) {
@@ -10,10 +14,9 @@ export class MapView extends Backbone.View {
 
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-      var initialPosition = [43.3188648, -0.3203877];
-      this.gpsMarker = L.marker(initialPosition);
-      this.gpsMarker.bindPopup(this.buildMarkerInfo(...initialPosition));
-      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(initialPosition, 15);
+      this.gpsMarker = L.marker(MAP_INITIAL_POSITION);
+      this.gpsMarker.bindPopup(this.buildMarkerInfo(...MAP_INITIAL_POSITION));
+      this.map = L.mapbox.map(this.id, 'mapbox.streets').setView(MAP_INITIAL_POSITION, MAP_INITIAL_ZOOM);
       this.gpsMarker.addTo(this.map);
   }
 

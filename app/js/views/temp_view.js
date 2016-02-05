@@ -14,7 +14,7 @@ export class TemperatureGraphView extends GraphView {
 
   initChart() {
     return c3.generate({
-                bindto: '#temp-chart',
+                bindto: `#${this.id}`,
                 data: {
                   columns: [
                     ['temperature', ...INITIAL_TEMPERATURES]

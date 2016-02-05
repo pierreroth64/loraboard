@@ -14,7 +14,7 @@ export class PressureGraphView extends GraphView {
 
   initChart() {
     return c3.generate({
-                bindto: '#press-chart',
+                bindto: `#${this.id}`,
                 data: {
                   columns: [
                     ['pressure', ...INITIAL_PRESSURES]
