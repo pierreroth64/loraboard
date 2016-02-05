@@ -9,7 +9,6 @@ export class SettingsView extends Backbone.View {
     };
     this.setElement('#settings-popup');
     this.api = new SettingsStorageAPI('pubnub');
-    this.render();
   }
 
   render() {

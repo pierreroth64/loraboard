@@ -1,4 +1,5 @@
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
+import {SettingsView} from "./settings_view";
 
 const MAP_INITIAL_POSITION = [45.824203, 1.277746];
 const MAP_INITIAL_ZOOM = 2;
@@ -12,12 +13,14 @@ export class MainView extends Backbone.View {
     this.setElement('#main');
     this.currentPosition = MAP_INITIAL_POSITION;
     this.currentZoom = MAP_INITIAL_ZOOM;
+    this.populateInitialMarkers();
     Backbone.Mediator.subscribe('device:updatePosition', this.onUpdatePosition, this);
+    this.settingsView = new SettingsView();
   }
 
   initMap() {
       L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-      this.map = L.mapbox.map('lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
+      this.map = L.mapbox.map('global-lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
       this.map.on('zoomend', (e) => {
         this.currentZoom = this.map.getZoom();
       });
@@ -27,15 +30,23 @@ export class MainView extends Backbone.View {
       });
   }
 
-  initMarkers() {
-    this.addDeviceMarker("1234", 45.824203, 1.277746);
-    this.addDeviceMarker("5678", 45.824203, 1.278750);
+  populateInitialMarkers() {
+    /*this.createDeviceMarker("1234", 45.824203, 1.277746);
+    this.createDeviceMarker("5678", 45.824203, 1.278750);*/
   }
 
-  addDeviceMarker(eui, latitude, longitude) {
+  updateMarkersOnMap() {
+    console.log("update markers", this.deviceMarkers);
+    for (let markerEUI in this.deviceMarkers) {
+      console.log('adding marker to map', markerEUI);
+      this.deviceMarkers[markerEUI].addTo(this.map);
+    }
+  }
+
+  createDeviceMarker(eui, name, latitude, longitude) {
+    console.log("added marker:", eui, latitude, longitude);
     var marker = L.marker([latitude, longitude]);
-    marker.bindPopup(`<strong>Device #${eui}</strong>`);
-    marker.addTo(this.map);
+    marker.bindPopup(`<strong>${name}</strong>`);
     marker.on('dblclick', function(e) {
       Backbone.history.navigate(`devices/${eui}`, {trigger: true});
     });
@@ -52,14 +63,15 @@ export class MainView extends Backbone.View {
         </div>
       </div>
       <div class="row">
-        <div id="lora-map-box" class="col-md-12">
-          <div id="lora-map" class="graph-box big-map-box"></div>
+        <div id="global-lora-map-box" class="col-md-12">
+          <div id="global-lora-map" class="graph-box big-map-box"></div>
         </div>
       </div>
       </div>`;
     this.$el.html(html);
+    this.settingsView.render();
     this.initMap();
-    this.initMarkers();
+    //this.updateMarkersOnMap();
     return this;
   }
 
@@ -72,12 +84,13 @@ export class MainView extends Backbone.View {
     }
   }
 
-  onUpdatePosition(eui, position) {
+  onUpdatePosition(eui, name, position) {
     position = this.validatePosition(position);
     var marker = this.deviceMarkers[eui];
     if (marker == undefined || marker == null) {
-      marker = this.addDeviceMarker(eui, ...position);
+      marker = this.createDeviceMarker(eui, name, ...position);
     }
     marker.setLatLng(L.latLng(...position));
+    this.updateMarkersOnMap();
   }
 }

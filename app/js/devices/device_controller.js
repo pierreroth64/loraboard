@@ -15,6 +15,6 @@ export class DeviceController {
         dev = this.devMgr.createDevice(eui, devTypes.DEV_TYPE_LORAMOTE);
     }
     dev.processData(data.data);
-    Backbone.Mediator.publish('device:updatePosition', dev.getEUI(), dev.getPosition());
+    Backbone.Mediator.publish('device:updatePosition', dev.getEUI(), dev.getName(), dev.getPosition());
   }
 }

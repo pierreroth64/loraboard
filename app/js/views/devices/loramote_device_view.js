@@ -8,7 +8,6 @@ import {MapView} from "./../map_view";
 import {FrameIndicatorView} from "./../frame_indicator_view";
 import {ToolBoxView} from "./../toolbox_view";
 import {TechnicalView} from "./../technical_view";
-import {SettingsView} from "./../settings_view";
 
 export class LoRaMoteDeviceView extends Backbone.View {
 
@@ -59,9 +58,7 @@ export class LoRaMoteDeviceView extends Backbone.View {
       <div id="technical-window" class="graph-box">
         <div class="row">
           <div class="col-md-6">
-            <h4>Setup <button id="settings-btn" type="button" class="btn btn-default" data-toggle="modal" data-target="#pubnub-setttings">
-                             <span id="settings-btn-icon" class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                           </button></h4>
+            <h4>Setup</h4>
             <p>The LoRa endpoint talks to a LoRa gateway which in turns talks to the <a href="http://www.loriot.io">Loriot</a> service.
               The Loriot.io service has been configured to publish its received data to the <a href="http://www.pubnub.com">PubNub</a> service.
               This page subscribes to the corresponding PubNub channel to get the realtime LoRa data, decodes it and displays live charts. </p>
@@ -97,7 +94,6 @@ export class LoRaMoteDeviceView extends Backbone.View {
     new FrameIndicatorView({id: 'frame-indicator'});
     new ToolBoxView({id: 'tool-box', dataService: this.dataService});
     new TechnicalView({id: 'technical-window'});
-    new SettingsView();
     return this;
   }
 }
