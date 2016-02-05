@@ -1,6 +1,6 @@
 import * as types from './device_types';
 import {LoRaMoteDevice} from './loramote/loramote_device';
-import {NucleoDevice} from './loramote/nucleo_device';
+import {NucleoDevice} from './nucleo/nucleo_device';
 
 export class DeviceManager {
 
