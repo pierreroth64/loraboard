@@ -2,21 +2,26 @@
 
 # LoRa dashboard demo
 
-Single page web application displaying live data from LoRaMote devices thanks to [Semtech](http://www.semtech.com/) starter kit.
+Single page web application displaying live data from LoRa devices thanks to the [Semtech](http://www.semtech.com/) starter kit.
 
 Deployed demo available [here](http://loraserver.cloudapp.net/) without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
+
+## Supported devices
+
+* LoRaMote device of Semtech's starter kit
+* Nucleo device of Semtech's starter kit
 
 ## Overview
 
 ![Lora setup](https://raw.githubusercontent.com/pierreroth/loraboard/master/doc-images/setup_loramote.png)
 
-Using the starter kit and some web based services, this web app displays data coming from your LoRaMotes.
+Using the starter kit and some web based services, this web app displays data coming from your LoRa devices.
 
 ## Setup
 
-### LoRaMotes
+### LoRa end-points
 
-Follow the Semtech user guide to setup the LoRaMote end-point devices.
+Follow the Semtech user guide to setup the LoRaMote or Nucleo end-point devices.
 
 ### LoRa gateway
 
