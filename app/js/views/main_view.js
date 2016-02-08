@@ -39,17 +39,19 @@ export class MainView extends Backbone.View {
   // As the map is recreated when rendering the view, the markers have to be recreated to
   updateMarkersOnMap() {
     var newMarkers = {};
-    for (let eui in this.deviceMarkers) {
-      let {marker, name} = this.deviceMarkers[eui];
-      let {lat, lng} = marker.getLatLng();
-      this.map.removeLayer(marker);
-      let newMarker = this.createDeviceMarker(eui, name, lat, lng);
-      newMarker.addTo(this.map);
-      newMarkers[eui] = {};
-      newMarkers[eui].marker = newMarker;
-      newMarkers[eui].name = name;
+    if (this.map) {
+      for (let eui in this.deviceMarkers) {
+        let {marker, name} = this.deviceMarkers[eui];
+        let {lat, lng} = marker.getLatLng();
+        this.map.removeLayer(marker);
+        let newMarker = this.createDeviceMarker(eui, name, lat, lng);
+        newMarker.addTo(this.map);
+        newMarkers[eui] = {};
+        newMarkers[eui].marker = newMarker;
+        newMarkers[eui].name = name;
+      }
+      this.deviceMarkers = newMarkers;
     }
-    this.deviceMarkers = newMarkers;
   }
 
   createDeviceMarker(eui, name, latitude, longitude) {
