@@ -50,6 +50,18 @@ body {
 
 .big-map-box {
   height: 800px; }
+
+.home-link:hover,
+.home-link:focus {
+  text-decoration: none;
+}
+.home-link {
+  color: #ffffff;
+}
+.home-link:hover,
+.home-link:focus {
+  color: #777;
+  background-color: transparent;
 }
 
 #frame-indicator {
