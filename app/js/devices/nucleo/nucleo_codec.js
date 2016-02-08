@@ -1,5 +1,6 @@
 import {BaseCodec} from '../base_codec';
 
+const FRAME_LENGTH = 10;
 export class NucleoCodec extends BaseCodec {
 
     constructor() {
@@ -11,7 +12,6 @@ export class NucleoCodec extends BaseCodec {
     }
 
     mayMatch(data) {
-        //FIXME: find creteria on payload to make this codec match/unmatch
-        return false;
+        return (data.length == FRAME_LENGTH);
     }
 }
