@@ -1,15 +1,44 @@
 import * as types from './device_types';
 import {LoRaMoteDevice} from './loramote/loramote_device';
 import {NucleoDevice} from './nucleo/nucleo_device';
+import {LoRaMoteCodec} from './loramote/loramote_codec';
+import {NucleoCodec} from './nucleo/nucleo_codec';
 
 export class DeviceManager {
 
   constructor() {
     this.devices = {};
+    this.availableCodecs = {
+                          loramote: { type: types.DEV_TYPE_LORAMOTE,
+                                      codec: new LoRaMoteCodec() },
+                          nucleo: { type: types.DEV_TYPE_NUCLEO,
+                                    codec: new NucleoCodec() }
+                        };
   }
 
   getDevices() {
     return this.devices;
+  }
+
+  tryCodecsAndReturnDeviceType(data) {
+    for (let codecName in this.availableCodecs) {
+      let codec = this.availableCodecs[codecName].codec;
+      if (codec.mayMatch(data)) {
+        return this.availableCodecs[codecName].type;
+      }
+    }
+    return undefined;
+  }
+
+  tryToCreateDeviceFromData(eui, data) {
+    let dev = undefined;
+    let type = this.tryCodecsAndReturnDeviceType(data);
+    if (type != undefined) {
+      dev = this.createDevice(eui, type);
+    } else {
+      return;
+    }
+    return dev;
   }
 
   createDevice(eui, type) {
