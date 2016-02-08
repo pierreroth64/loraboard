@@ -44,12 +44,12 @@ export class LoRaApp extends Backbone.Router {
             var type = dev.getType();
             switch(type) {
                 case devTypes.DEV_TYPE_LORAMOTE:
-                    return new LoRaMoteDeviceView({ models: dev.getModels(),
+                    return new LoRaMoteDeviceView({ device: dev,
                                                     dataService: this.dataService,
                                                     eui: eui});
                 break;
                 case devTypes.DEV_TYPE_NUCLEO:
-                    return new NucleoDeviceView({ models: dev.getModels(),
+                    return new NucleoDeviceView({ device: dev,
                                                   dataService: this.dataService,
                                                   eui: eui});
                 break;

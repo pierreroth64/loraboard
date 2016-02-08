@@ -1,21 +1,17 @@
-/*jshint esnext:true */
+import {BaseDeviceView} from './base_device_view';
+import {LoRaData} from '../../models/lora_data';
+import {TemperatureGraphView} from './../widgets/temp_view';
+import {PressureGraphView} from './../widgets/press_view';
+import {BatteryGraphView} from './../widgets/battery_view';
+import {MapView} from './../widgets/map_view';
+import {FrameIndicatorView} from './../widgets/frame_indicator_view';
+import {ToolBoxView} from './../widgets/toolbox_view';
+import {TechnicalView} from './../widgets/technical_view';
 
-import {LoRaData} from "../../models/lora_data";
-import {TemperatureGraphView} from "./../widgets/temp_view";
-import {PressureGraphView} from "./../widgets/press_view";
-import {BatteryGraphView} from "./../widgets/battery_view";
-import {MapView} from "./../widgets/map_view";
-import {FrameIndicatorView} from "./../widgets/frame_indicator_view";
-import {ToolBoxView} from "./../widgets/toolbox_view";
-import {TechnicalView} from "./../widgets/technical_view";
-
-export class LoRaMoteDeviceView extends Backbone.View {
+export class LoRaMoteDeviceView extends BaseDeviceView {
 
   constructor(options) {
     super(options);
-    this.models = options.models;
-    this.dataService = options.dataService;
-    this.eui = options.eui;
     this.setElement('#main');
   }
 

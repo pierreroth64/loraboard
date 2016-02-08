@@ -1,18 +1,14 @@
-/*jshint esnext:true */
+import {BaseDeviceView} from './base_device_view';
+import {LoRaData} from '../../models/lora_data';
+import {BrightnessGraphView} from './../widgets/brightness_view';
+import {FrameIndicatorView} from './../widgets/frame_indicator_view';
+import {ToolBoxView} from './../widgets/toolbox_view';
+import {TechnicalView} from './../widgets/technical_view';
 
-import {LoRaData} from "../../models/lora_data";
-import {BrightnessGraphView} from "./../widgets/brightness_view";
-import {FrameIndicatorView} from "./../widgets/frame_indicator_view";
-import {ToolBoxView} from "./../widgets/toolbox_view";
-import {TechnicalView} from "./../widgets/technical_view";
-
-export class NucleoDeviceView extends Backbone.View {
+export class NucleoDeviceView extends BaseDeviceView {
 
   constructor(options) {
     super(options);
-    this.models = options.models;
-    this.dataService = options.dataService;
-    this.eui = options.eui;
     this.setElement('#main');
   }
 
