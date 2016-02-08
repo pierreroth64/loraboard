@@ -44,7 +44,6 @@ export class MainView extends Backbone.View {
         let {lat, lng} = marker.getLatLng();
         bounds.push([L.latLng(lat, lng)]);
       }
-      console.log('bounds:', bounds);
       this.map.fitBounds(bounds);
     }
   }
