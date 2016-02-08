@@ -27,6 +27,7 @@ export class NucleoDeviceView extends Backbone.View {
           <h4>brightness</h4>
           <div id="brightness-chart" class="graph-box"></div>
         </div>
+      </div>
       <br />
       <div class="row">
         <div id="tool-box" class="col-md-9">
