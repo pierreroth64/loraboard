@@ -13,12 +13,9 @@ export class NucleoDeviceView extends BaseDeviceView {
   }
 
   render() {
-    var html = `
-      <div class="row">
-        <div class="center-block">
-        </div>
-      </div>
-      <div class="row">
+    var html = super.getSuperRender();
+    html += `
+     <div class="row">
         <div id="brightness-chart-box" class="col-md-6">
           <h4>brightness</h4>
           <div id="brightness-chart" style="background-color: #ffe5ff" class="graph-box"></div>

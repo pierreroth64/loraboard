@@ -16,11 +16,8 @@ export class LoRaMoteDeviceView extends BaseDeviceView {
   }
 
   render() {
-    var html = `
-      <div class="row">
-        <div class="center-block">
-        </div>
-      </div>
+    var html = super.getSuperRender();
+    html += `
       <div class="row">
         <div id="press-chart-box" class="col-md-6">
           <h4>Pressure</h4>
