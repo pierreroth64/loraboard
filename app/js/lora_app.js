@@ -1,6 +1,7 @@
 import {MainView} from './views/main_view';
 import {ErrorView} from './views/error_view';
 import {LoRaMoteDeviceView} from './views/devices/loramote_device_view';
+import {NucleoDeviceView} from './views/devices/nucleo_device_view';
 import {DeviceManager} from './devices/device_manager';
 import {DeviceController} from './devices/device_controller';
 import * as devTypes from './devices/device_types';
@@ -46,6 +47,11 @@ export class LoRaApp extends Backbone.Router {
                     return new LoRaMoteDeviceView({ models: dev.getModels(),
                                                     dataService: this.dataService,
                                                     eui: eui});
+                break;
+                case devTypes.DEV_TYPE_NUCLEO:
+                    return new NucleoDeviceView({ models: dev.getModels(),
+                                                  dataService: this.dataService,
+                                                  eui: eui});
                 break;
                 default:
                     return new ErrorView(`unknown device type ${type} for device with eui ${eui}`);
