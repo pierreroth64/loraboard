@@ -36,6 +36,19 @@ export class MainView extends Backbone.View {
     this.createDeviceMarker("5678", 45.824203, 1.278750);*/
   }
 
+  updateMapcenter() {
+    var bounds = [];
+    if (this.map) {
+      for (let eui in this.deviceMarkers) {
+        let {marker, name} = this.deviceMarkers[eui];
+        let {lat, lng} = marker.getLatLng();
+        bounds.push([L.latLng(lat, lng)]);
+      }
+      console.log('bounds:', bounds);
+      this.map.fitBounds(bounds);
+    }
+  }
+
   // As the map is recreated when rendering the view, the markers have to be recreated to
   updateMarkersOnMap() {
     var newMarkers = {};
@@ -106,5 +119,6 @@ export class MainView extends Backbone.View {
     }
     marker.setLatLng(L.latLng(...position));
     this.updateMarkersOnMap();
+    this.updateMapcenter();
   }
 }
