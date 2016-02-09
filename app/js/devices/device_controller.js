@@ -13,7 +13,7 @@ export class DeviceController {
     var dev = this.devMgr.findDevice(eui);
 
     if (dev == undefined) {
-      console.log(`device with eui: ${eui} not found, trying to create it...`)
+      console.log(`device with eui: ${eui} not found, trying to create it...`);
       dev = this.devMgr.tryToCreateDeviceFromData(eui, data);
       if (dev != undefined) {
         console.log(`found matching codec, device created for ${eui}`);
@@ -25,5 +25,22 @@ export class DeviceController {
 
     dev.processReceivedData(data);
     Backbone.Mediator.publish('device:updatePosition', dev.getEUI(), dev.getName(), dev.getPosition());
+  }
+
+  runActionOnDevice(eui, action, data) {
+    var dev = this.devMgr.findDevice(eui);
+    if (dev == undefined) {
+      console.log(`device with eui: ${eui} not found, aborting ${action}...`);
+      return;
+    }
+
+    if (dev[action] != undefined) {
+      let frame = dev[action](data);
+      if (frame != undefined) {
+        Backbone.Mediator.publish('data:downstream', frame);
+      }
+    } else {
+      console.log(`device with eui: ${eui} does not support '${action}' action!`);
+    }
   }
 }
