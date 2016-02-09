@@ -15,12 +15,12 @@ export class LoRaApp extends Backbone.Router {
                 '': 'showMain',
                 'devices/:eui': 'showDevice'
             };
-        this.deviceMgr = new DeviceManager();
-        this.deviceCtlr = new DeviceController(this.deviceMgr);
+        this.deviceManager = new DeviceManager();
+        this.deviceController = new DeviceController(this.deviceManager);
         this.dataService = new PubNubDataService();
         this._bindRoutes();
         this.deviceViews = {};
-        this.mainView = new MainView();
+        this.mainView = new MainView({deviceController: this.deviceController});
         this.currentView = undefined;
     }
 
@@ -39,7 +39,7 @@ export class LoRaApp extends Backbone.Router {
     }
 
     createDeviceView(eui) {
-        var dev = this.deviceMgr.findDevice(eui);
+        var dev = this.deviceManager.findDevice(eui);
         if (dev) {
             var type = dev.getType();
             switch(type) {
