@@ -10,6 +10,7 @@ export class DeviceManager {
 
   constructor() {
     this.devices = {};
+// #BRUNCH_IF (LEGRAND)
     this.availableCodecs = {
                           loramote: { type: types.DEV_TYPE_LORAMOTE,
                                       codec: new LoRaMoteCodec() },
@@ -18,6 +19,14 @@ export class DeviceManager {
                           lighting: { type: types.DEV_TYPE_NUCLEO_LIGHTING,
                                     codec: new NucleoLightingCodec() }
                         };
+// #BRUNCH_ELSE
+    this.availableCodecs = {
+                          loramote: { type: types.DEV_TYPE_LORAMOTE,
+                                      codec: new LoRaMoteCodec() },
+                          nucleo: { type: types.DEV_TYPE_NUCLEO,
+                                    codec: new NucleoCodec() }
+                        };
+// #BRUNCH_ENDIF
   }
 
   getDevices() {
