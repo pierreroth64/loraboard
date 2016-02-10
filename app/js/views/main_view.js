@@ -68,18 +68,43 @@ export class MainView extends Backbone.View {
     }
   }
 
+  buildPopupForDevice(eui) {
+    var dev = this.deviceManager.findDevice(eui);
+    if (dev != undefined) {
+      var popup = `<strong>${dev.getName()}</strong>`;
+      // If device has control capabilities, display action buttons
+      var capabilities = dev.getCapabilities();
+      for (let cap in capabilities) {
+        let {action, actionLabel} = capabilities[cap];
+        popup += `<br /><button type="button" id="trigger-${action}-${eui}" class="btn btn-sm btn-success">${actionLabel}</button>`;
+        $('#global-lora-map').on('click', `#trigger-${action}-${eui}`, () => {
+          this.deviceController.runActionOnDevice(eui, action);
+        });
+      }
+    } else {
+      popup = `<strong>Device ${eui}</strong>`;
+    }
+    return popup;
+  }
+
   createDeviceMarker(eui, name, latitude, longitude) {
     var marker = L.marker([latitude, longitude]);
-    marker.bindPopup(`<strong>${name}</strong>`);
+    marker.bindPopup(this.buildPopupForDevice(eui));
     marker.on('dblclick', function(e) {
       Backbone.history.navigate(`devices/${eui}`, {trigger: true});
     });
     marker.on('click', function(e) {
       marker.openPopup();
     });
+
+    if (this.map) {
+      marker.addTo(this.map);
+    }
+
     this.deviceMarkers[eui] = {};
     this.deviceMarkers[eui].marker = marker;
     this.deviceMarkers[eui].name = name;
+
     return marker;
   }
 
