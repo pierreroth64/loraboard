@@ -1,8 +1,17 @@
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 import {SettingsView} from "./settings_view";
 
-const MAP_INITIAL_POSITION = [45.824203, 1.277746];
-const MAP_INITIAL_ZOOM = 2;
+var MAP_INITIAL_POSITION = undefined;
+var MAP_INITIAL_ZOOM = undefined;
+
+// #BRUNCH_IF (LEGRAND)
+MAP_INITIAL_POSITION = [45.824399, 1.277633];
+MAP_INITIAL_ZOOM = 17;
+// #BRUNCH_ELSE
+MAP_INITIAL_POSITION = [45.824203, 1.277746];
+MAP_INITIAL_ZOOM = 2;
+// #BRUNCH_ENDIF
+
 const DEVICE_DEFAULT_POSITION = MAP_INITIAL_POSITION;
 
 export class MainView extends Backbone.View {
