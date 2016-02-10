@@ -8,7 +8,7 @@ import {LoRaMoteDevice} from '../app/js/devices/loramote/loramote_device';
   describe('LoraMote device', function () {
 
     beforeEach(function() {
-        this.dev = new LoRaMoteDevice();
+        this.dev = new LoRaMoteDevice('123456789');
     });
 
     it('should initialize codec', function () {
