@@ -31,7 +31,7 @@ export class MainView extends Backbone.View {
 
   initMap() {
     L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-    this.map = L.mapbox.map('global-lora-map', 'mapbox.streets').setView(this.currentPosition, this.currentZoom);
+    this.map = L.mapbox.map('global-lora-map', 'mapbox.satellite').setView(this.currentPosition, this.currentZoom);
     L.control.scale().addTo(this.map);
     this.map.on('zoomend', (e) => {
       this.currentZoom = this.map.getZoom();
