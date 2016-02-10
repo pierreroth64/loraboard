@@ -143,7 +143,9 @@ export class MainView extends Backbone.View {
       marker = this.createDeviceMarker(eui, name, ...position);
     }
     marker.setLatLng(L.latLng(...position));
-    this.updateMarkersOnMap();
-    this.updateMapcenter();
+    // FIXME: an UI button should be provided to the the user
+    // to disable the autofocus
+    //this.updateMapcenter();
   }
 }
+
