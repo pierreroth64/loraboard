@@ -43,7 +43,10 @@ export class MainView extends Backbone.View {
   }
 
   populateInitialMarkers() {
-    /* create your markers here */
+// #BRUNCH_IF (LEGRAND)
+    this.createDeviceMarker('1234', 'Gateway', 45.824676, 1.276448);
+    this.createDeviceMarker('4567', 'Meeting room', 45.824710, 1.276680);
+// #BRUNCH_ENDIF
   }
 
   updateMapcenter() {
