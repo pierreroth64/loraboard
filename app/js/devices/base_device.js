@@ -12,12 +12,20 @@ export class BaseDevice {
     return this.name;
   }
 
+  setName(name) {
+    this.name = name;
+  }
+
   getEUI() {
     return this.eui;
   }
 
   getPosition() {
     return {latitude: undefined, longitude: undefined};
+  }
+
+  getCapabilities() {
+    return [];
   }
 
   setValue(model, value) {
@@ -34,8 +42,16 @@ export class BaseDevice {
     return this.type;
   }
 
+  setType(type) {
+    this.type = type;
+  }
+
   getCodec() {
     return this.codec;
+  }
+
+  setCodec(codec) {
+    this.codec = codec;
   }
 
   processReceivedData(data) {
