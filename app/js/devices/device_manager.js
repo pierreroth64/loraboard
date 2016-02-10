@@ -1,8 +1,10 @@
 import * as types from './device_types';
-import {LoRaMoteDevice} from './loramote/loramote_device';
-import {NucleoDevice} from './nucleo/nucleo_device';
 import {LoRaMoteCodec} from './loramote/loramote_codec';
+import {LoRaMoteDevice} from './loramote/loramote_device';
 import {NucleoCodec} from './nucleo/nucleo_codec';
+import {NucleoDevice} from './nucleo/nucleo_device';
+import {NucleoLightingCodec} from './nucleo_legrand/nucleo_lighting_codec';
+import {NucleoLightingDevice} from './nucleo_legrand/nucleo_lighting_device';
 
 export class DeviceManager {
 
@@ -12,7 +14,9 @@ export class DeviceManager {
                           loramote: { type: types.DEV_TYPE_LORAMOTE,
                                       codec: new LoRaMoteCodec() },
                           nucleo: { type: types.DEV_TYPE_NUCLEO,
-                                    codec: new NucleoCodec() }
+                                    codec: new NucleoCodec() },
+                          lighting: { type: types.DEV_TYPE_NUCLEO_LIGHTING,
+                                    codec: new NucleoLightingCodec() }
                         };
   }
 
@@ -54,6 +58,11 @@ export class DeviceManager {
         break;
         case types.DEV_TYPE_NUCLEO:
             var dev = new NucleoDevice(eui);
+            this.devices[eui] = dev;
+            return dev;
+        break;
+        case types.DEV_TYPE_NUCLEO_LIGHTING:
+            var dev = new NucleoLightingDevice(eui);
             this.devices[eui] = dev;
             return dev;
         break;

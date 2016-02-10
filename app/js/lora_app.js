@@ -48,6 +48,7 @@ export class LoRaApp extends Backbone.Router {
                                                     dataService: this.dataService,
                                                     eui: eui});
                 break;
+                case devTypes.DEV_TYPE_NUCLEO_LIGHTING:
                 case devTypes.DEV_TYPE_NUCLEO:
                     return new NucleoDeviceView({ device: dev,
                                                   dataService: this.dataService,
