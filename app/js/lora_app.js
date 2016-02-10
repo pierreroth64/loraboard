@@ -20,7 +20,8 @@ export class LoRaApp extends Backbone.Router {
         this.dataService = new PubNubDataService();
         this._bindRoutes();
         this.deviceViews = {};
-        this.mainView = new MainView({deviceController: this.deviceController});
+        this.mainView = new MainView({ deviceController: this.deviceController,
+                                       deviceManager: this.deviceManager });
         this.currentView = undefined;
     }
 

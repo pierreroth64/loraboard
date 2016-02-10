@@ -9,6 +9,8 @@ export class MainView extends Backbone.View {
 
   constructor(options) {
     super(options);
+    this.deviceController = options.deviceController;
+    this.deviceManager = options.deviceManager;
     this.deviceMarkers = {};
     this.setElement('#main');
     this.currentPosition = MAP_INITIAL_POSITION;
