@@ -76,7 +76,7 @@ export class MainView extends Backbone.View {
     }
   }
 
-  buildPopupForDevice(eui) {
+  buildPopupForDevice(eui, name) {
     var dev = this.deviceManager.findDevice(eui);
     if (dev != undefined) {
       var popup = `<strong>${dev.getName()}</strong>`;
@@ -90,14 +90,14 @@ export class MainView extends Backbone.View {
         });
       }
     } else {
-      popup = `<strong>Device ${eui}</strong>`;
+      popup = `<strong>${name}</strong>`;
     }
     return popup;
   }
 
   createDeviceMarker(eui, name, latitude, longitude) {
     var marker = L.marker([latitude, longitude]);
-    marker.bindPopup(this.buildPopupForDevice(eui));
+    marker.bindPopup(this.buildPopupForDevice(eui, name));
     marker.on('dblclick', function(e) {
       Backbone.history.navigate(`devices/${eui}`, {trigger: true});
     });
