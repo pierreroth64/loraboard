@@ -34,8 +34,7 @@ export class MainView extends Backbone.View {
   }
 
   populateInitialMarkers() {
-    /*this.createDeviceMarker("1234", 45.824203, 1.277746);
-    this.createDeviceMarker("5678", 45.824203, 1.278750);*/
+    /* create your markers here */
   }
 
   updateMapcenter() {
