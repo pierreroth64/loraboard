@@ -1,3 +1,4 @@
+import {BaseView} from './base_view';
 import {isLegrandBuild} from '../lib/util';
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 import {SettingsView} from "./settings_view";
@@ -18,12 +19,10 @@ if (isLegrandBuild()) {
 
 const DEVICE_DEFAULT_POSITION = MAP_INITIAL_POSITION;
 
-export class MainView extends Backbone.View {
+export class MainView extends BaseView {
 
   constructor(options) {
     super(options);
-    this.deviceController = options.deviceController;
-    this.deviceManager = options.deviceManager;
     this.deviceMarkers = {};
     this.setElement('#main');
     this.currentPosition = MAP_INITIAL_POSITION;

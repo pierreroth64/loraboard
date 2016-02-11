@@ -21,7 +21,8 @@ export class LoRaApp extends Backbone.Router {
         this._bindRoutes();
         this.deviceViews = {};
         this.mainView = new MainView({ deviceController: this.deviceController,
-                                       deviceManager: this.deviceManager });
+                                       deviceManager: this.deviceManager,
+                                       dataService: this.dataService });
         this.currentView = undefined;
     }
 
@@ -43,17 +44,18 @@ export class LoRaApp extends Backbone.Router {
         var dev = this.deviceManager.findDevice(eui);
         if (dev) {
             var type = dev.getType();
+            var options = { device: dev,
+                            deviceController: this.deviceController,
+                            deviceManager: this.deviceManager,
+                            dataService: this.dataService,
+                            eui: eui };
             switch(type) {
                 case devTypes.DEV_TYPE_LORAMOTE:
-                    return new LoRaMoteDeviceView({ device: dev,
-                                                    dataService: this.dataService,
-                                                    eui: eui});
+                    return new LoRaMoteDeviceView(options);
                 break;
                 case devTypes.DEV_TYPE_NUCLEO_LIGHTING:
                 case devTypes.DEV_TYPE_NUCLEO:
-                    return new NucleoDeviceView({ device: dev,
-                                                  dataService: this.dataService,
-                                                  eui: eui});
+                    return new NucleoDeviceView(options);
                 break;
                 default:
                     return new ErrorView(`unknown device type ${type} for device with eui ${eui}`);

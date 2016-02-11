@@ -1,9 +1,10 @@
-export class BaseDeviceView extends Backbone.View {
+import {BaseView} from '../base_view';
+
+export class BaseDeviceView extends BaseView {
 
   constructor(options) {
     super(options);
     this.device = options.device;
-    this.dataService = options.dataService;
     this.eui = options.eui;
     this.models = this.device.getModels();
   }
