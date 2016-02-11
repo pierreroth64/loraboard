@@ -3,13 +3,16 @@ import {SettingsView} from "./settings_view";
 
 var MAP_INITIAL_POSITION = undefined;
 var MAP_INITIAL_ZOOM = undefined;
+var MAP_BOX_MAP = undefined;
 
 // #BRUNCH_IF (LEGRAND)
 MAP_INITIAL_POSITION = [45.824399, 1.277633];
-MAP_INITIAL_ZOOM = 17;
+MAP_INITIAL_ZOOM = 18;
+MAP_BOX_MAP = 'mapbox.satellite'
 // #BRUNCH_ELSE
 MAP_INITIAL_POSITION = [45.824203, 1.277746];
 MAP_INITIAL_ZOOM = 2;
+MAP_BOX_MAP = 'mapbox.streets'
 // #BRUNCH_ENDIF
 
 const DEVICE_DEFAULT_POSITION = MAP_INITIAL_POSITION;
@@ -31,7 +34,7 @@ export class MainView extends Backbone.View {
 
   initMap() {
     L.mapbox.accessToken = MAPBOX_ACCESS_TOKEN;
-    this.map = L.mapbox.map('global-lora-map', 'mapbox.satellite').setView(this.currentPosition, this.currentZoom);
+    this.map = L.mapbox.map('global-lora-map', MAP_BOX_MAP).setView(this.currentPosition, this.currentZoom);
     L.control.scale().addTo(this.map);
     this.map.on('zoomend', (e) => {
       this.currentZoom = this.map.getZoom();
