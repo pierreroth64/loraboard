@@ -7,7 +7,7 @@ import {FrameIndicatorView} from './../widgets/frame_indicator_view';
 import {ToolBoxView} from './../widgets/toolbox_view';
 import {TechnicalView} from './../widgets/technical_view';
 
-export class NucleoDeviceView extends BaseDeviceView {
+export class NucleoLightingDeviceView extends BaseDeviceView {
 
   constructor(options) {
     super(options);
@@ -61,9 +61,9 @@ export class NucleoDeviceView extends BaseDeviceView {
         </div>
       </div>`;
     this.$el.html(html);
-    new BrightnessGraphView({model: this.models.brightness,
-                               id: 'brightness-chart',
-                               eui: this.eui});
+    new LightingBrightnessGraphView({model: this.models.brightness,
+                                       id: 'brightness-chart',
+                                       eui: this.eui});
     new FrameIndicatorView({id: 'frame-indicator',
                             eui: this.eui});
     new ToolBoxView({id: 'tool-box',
