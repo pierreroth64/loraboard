@@ -83,9 +83,9 @@ export class MainView extends Backbone.View {
     }
   }
 
-  buildPopupForDevice(eui, name) {
-    var dev = this.deviceManager.findDevice(eui);
+  buildPopupForDevice(dev, name) {
     if (dev != undefined) {
+      var eui = dev.getEUI();
       var popup = `<strong>${dev.getName()}</strong>`;
       // If device has control capabilities, display action buttons
       var capabilities = dev.getCapabilities();
@@ -103,11 +103,14 @@ export class MainView extends Backbone.View {
   }
 
   createDeviceMarker(eui, name, latitude, longitude) {
+    var dev = this.deviceManager.findDevice(eui);
     var marker = L.marker([latitude, longitude]);
-    marker.bindPopup(this.buildPopupForDevice(eui, name));
-    marker.on('dblclick', function(e) {
-      Backbone.history.navigate(`devices/${eui}`, {trigger: true});
-    });
+    marker.bindPopup(this.buildPopupForDevice(dev, name));
+    if (dev != undefined) { // only go to device page if device is defined
+      marker.on('dblclick', function(e) {
+        Backbone.history.navigate(`devices/${eui}`, {trigger: true});
+      });
+    }
     marker.on('click', function(e) {
       marker.openPopup();
     });
