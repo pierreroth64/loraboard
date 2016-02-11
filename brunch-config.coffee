@@ -28,19 +28,6 @@ module.exports = config:
           /^test/,
         ],
 
-    overrides:
-        development:
-            buildTarget: 'DEVELOPMENT'
-        production:
-            buildTarget: 'PRODUCTION'
-        legrand:
-            optimize: true
-            sourceMaps: false
-            buildTarget: 'LEGRAND'
-        legranddev:
-            buildTarget: 'LEGRAND'
-
-
 
 
 

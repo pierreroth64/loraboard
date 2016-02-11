@@ -18,3 +18,7 @@ export function formatEUI(eui) {
     }
     return formatted.substring(0, formatted.length-1);
 }
+
+export function isLegrandBuild() {
+    return (localStorage.getItem('buildTarget') == 'legrand');
+}

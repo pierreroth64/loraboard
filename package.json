@@ -21,7 +21,6 @@
     "eslint-brunch": "^2.0.0",
     "http-server": "^0.8.5",
     "javascript-brunch": "^1.8.0",
-    "jspreprocess-brunch": "^1.0.2",
     "mocha": "^2.3.4",
     "mock-local-storage": "^1.0.2",
     "sass-brunch": "^1.9.2",
