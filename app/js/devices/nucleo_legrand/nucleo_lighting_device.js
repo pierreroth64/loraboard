@@ -21,4 +21,8 @@ export class NucleoLightingDevice extends NucleoDevice {
     test(data) {
         return this.codec.encodeTestCmd(this.eui);
     }
+
+    getPosition() {
+        return {latitude: 45.823302, longitude: 1.277762};
+    }
 }
