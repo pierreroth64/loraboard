@@ -18,7 +18,7 @@ export class NucleoDeviceView extends BaseDeviceView {
      <div class="row">
         <div id="brightness-chart-box" class="col-md-6">
           <h4>brightness</h4>
-          <div id="brightness-chart" style="background-color: #ffe5ff" class="graph-box"></div>
+          <div id="brightness-chart" class="graph-box"></div>
         </div>
       </div>
       <br />

@@ -1,5 +1,4 @@
-var BRIGTHNESS_COLOR = '#000000';
-var BRIGTHNESS_REMAINING_COLOR = '#15AEE8';
+var BRIGTHNESS_COLOR = '#321d04';
 
 export class BrightnessGraphView extends Backbone.View {
 
@@ -14,13 +13,11 @@ export class BrightnessGraphView extends Backbone.View {
                 bindto: '#' + this.id,
                 data: {
                     columns: [
-                        ['brightness', 100],
-                        ['remaining', 0]
+                        ['brightness', 100]
                     ],
                     type: 'donut',
                     colors: {
                         brightness: BRIGTHNESS_COLOR,
-                        remaining: BRIGTHNESS_REMAINING_COLOR
                     }
                 }
               });
@@ -28,15 +25,8 @@ export class BrightnessGraphView extends Backbone.View {
 
   updateChart() {
     var brightnessRaw = this.model.attributes.value;
-    var brightness = brightnessRaw * 100 / 255;
-    this.chart.load({
-        columns: [
-            ['brightness', brightness],
-            ['remaining', 100 - brightness]
-        ]
-    });
     this.chart.data.colors({
-        brightness: d3.rgb(brightnessRaw, brightnessRaw, brightnessRaw)
+        brightness: d3.rgb(BRIGTHNESS_COLOR).brighter(brightnessRaw / 50)
     });
   }
 
