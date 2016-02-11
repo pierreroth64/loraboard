@@ -11,7 +11,14 @@ export class NucleoLightingDeviceView extends BaseDeviceView {
 
   constructor(options) {
     super(options);
+    this.events = {
+      'click #start-test': 'startTest',
+    };
     this.setElement('#main');
+  }
+
+  startTest() {
+    this.deviceController.runActionOnDevice(this.eui, 'test');
   }
 
   render() {
@@ -21,6 +28,8 @@ export class NucleoLightingDeviceView extends BaseDeviceView {
         <div id="brightness-chart-box" class="col-md-6">
           <h4>brightness</h4>
           <div id="brightness-chart" class="graph-box"></div>
+          <br />
+          <button type="button" id="start-test" class="btn btn-sm btn-success">Test!</button>
         </div>
       </div>
       <br />
