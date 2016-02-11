@@ -1,6 +1,8 @@
+import {isLegrandBuild} from '../../lib/util';
 import {BaseDeviceView} from './base_device_view';
 import {LoRaData} from '../../models/lora_data';
 import {BrightnessGraphView} from './../widgets/brightness_view';
+import {LightingBrightnessGraphView} from './../widgets/legrand/lighting_brightness_view';
 import {FrameIndicatorView} from './../widgets/frame_indicator_view';
 import {ToolBoxView} from './../widgets/toolbox_view';
 import {TechnicalView} from './../widgets/technical_view';
@@ -59,9 +61,15 @@ export class NucleoDeviceView extends BaseDeviceView {
         </div>
       </div>`;
     this.$el.html(html);
-    new BrightnessGraphView({model: this.models.brightness,
-                              id: 'brightness-chart',
-                              eui: this.eui});
+    if (isLegrandBuild()) {
+      new LightingBrightnessGraphView({model: this.models.brightness,
+                                       id: 'brightness-chart',
+                                       eui: this.eui});
+    } else {
+      new BrightnessGraphView({model: this.models.brightness,
+                               id: 'brightness-chart',
+                               eui: this.eui});
+    }
     new FrameIndicatorView({id: 'frame-indicator',
                             eui: this.eui});
     new ToolBoxView({id: 'tool-box',
