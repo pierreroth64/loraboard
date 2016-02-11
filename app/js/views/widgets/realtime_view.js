@@ -26,7 +26,7 @@ export class RealTimeView extends WidgetView {
 
   logFrame(message) {
     if (message.EUI == this.eui) {
-      this.logData(`Frame #${message.fcnt} from ${message.EUI}: ${message.data}`);
+      this.logData(`frame #${message.fcnt} from ${message.EUI}: ${message.data}`);
     }
   }
 
