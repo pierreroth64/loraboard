@@ -1,5 +1,9 @@
 
 const RANDOM_DEVIDE_FACTOR = 50
+const DEFAULT_POSITION = {
+                              latitude: 45.824399,
+                              longitude: 1.277633
+                          };
 
 export function getRandomPosition(aroundPos) {
     var {latitude, longitude} = aroundPos;
@@ -17,6 +21,17 @@ export function isPositionValid(position) {
         return true;
     } catch (e) {
         return false;
+    }
+}
+
+export function getDefaultPosition() {
+    var defaultLatitude = localStorage.getItem('defaultLatitude');
+    var defaultLongitude = localStorage.getItem('defaultLongitude');
+    var defaultPosition = {latitude: defaultLatitude, longitude: defaultLongitude};
+    if (isPositionValid(defaultPosition)) {
+        return defaultPosition;
+    } else {
+        return DEFAULT_POSITION;
     }
 }
 

@@ -1,6 +1,6 @@
 import {BaseView} from './base_view';
 import {isLegrandBuild} from '../lib/util';
-import {isPositionValid, getRandomPosition} from '../lib/gps';
+import {isPositionValid, getRandomPosition, getDefaultPosition} from '../lib/gps';
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 import {SettingsView} from "./settings_view";
 
@@ -17,11 +17,6 @@ if (isLegrandBuild()) {
   MAP_INITIAL_ZOOM = 2;
   MAP_BOX_MAP = 'mapbox.streets'
 }
-
-const DEVICE_DEFAULT_POSITION = {
-                                  latitude: MAP_INITIAL_POSITION[0],
-                                  longitude: MAP_INITIAL_POSITION[1]
-                                };
 
 export class MainView extends BaseView {
 
@@ -151,11 +146,12 @@ export class MainView extends BaseView {
   }
 
   onUpdatePosition(eui, name, position) {
-    if (isPositionValid(position) == false) {
-      position = getRandomPosition(DEVICE_DEFAULT_POSITION);
-      console.log('random position:', position);
-    }
     var marker = undefined;
+
+    if (isPositionValid(position) == false) {
+      position = getRandomPosition(getDefaultPosition());
+    }
+
     if (this.deviceMarkers[eui] && this.deviceMarkers[eui].marker) {
       marker = this.deviceMarkers[eui].marker;
     } else {
