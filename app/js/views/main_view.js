@@ -1,5 +1,6 @@
 import {BaseView} from './base_view';
 import {isLegrandBuild} from '../lib/util';
+import {isPositionValid, getRandomPosition, getDefaultPosition} from '../lib/gps';
 import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
 import {SettingsView} from "./settings_view";
 
@@ -16,8 +17,6 @@ if (isLegrandBuild()) {
   MAP_INITIAL_ZOOM = 2;
   MAP_BOX_MAP = 'mapbox.streets'
 }
-
-const DEVICE_DEFAULT_POSITION = MAP_INITIAL_POSITION;
 
 export class MainView extends BaseView {
 
@@ -47,8 +46,10 @@ export class MainView extends BaseView {
 
   populateInitialMarkers() {
     if (isLegrandBuild()) {
-      this.createDeviceMarker('1234', 'Gateway', 45.824676, 1.276448);
-      this.createDeviceMarker('4567', 'Meeting room', 45.824710, 1.276680);
+      this.createDeviceMarker('1234', 'Gateway', { latitude: 45.824676,
+                                                   longitude: 1.276448 });
+      this.createDeviceMarker('4567', 'Meeting room', { latitude: 45.824710,
+                                                        longitude: 1.276680 });
     }
   }
 
@@ -72,7 +73,7 @@ export class MainView extends BaseView {
         let {marker, name} = this.deviceMarkers[eui];
         let {lat, lng} = marker.getLatLng();
         this.map.removeLayer(marker);
-        let newMarker = this.createDeviceMarker(eui, name, lat, lng);
+        let newMarker = this.createDeviceMarker(eui, name, {latitude: lat, longitude: lng});
         newMarker.addTo(this.map);
         newMarkers[eui] = {};
         newMarkers[eui].marker = newMarker;
@@ -101,8 +102,9 @@ export class MainView extends BaseView {
     return popup;
   }
 
-  createDeviceMarker(eui, name, latitude, longitude) {
+  createDeviceMarker(eui, name, position) {
     var dev = this.deviceManager.findDevice(eui);
+    var {latitude, longitude} = position;
     var marker = L.marker([latitude, longitude]);
     marker.bindPopup(this.buildPopupForDevice(dev, name));
     if (dev != undefined) { // only go to device page if device is defined
@@ -143,24 +145,19 @@ export class MainView extends BaseView {
     return this;
   }
 
-  validatePosition(position) {
-    var {latitude, longitude} = position;
-    if (isNaN(latitude) || latitude == undefined || isNaN(longitude) || longitude == undefined) {
-      return DEVICE_DEFAULT_POSITION;
-    } else {
-      return [latitude, longitude];
-    }
-  }
-
   onUpdatePosition(eui, name, position) {
-    position = this.validatePosition(position);
     var marker = undefined;
+
+    if (isPositionValid(position) == false) {
+      position = getRandomPosition(getDefaultPosition());
+    }
+
     if (this.deviceMarkers[eui] && this.deviceMarkers[eui].marker) {
       marker = this.deviceMarkers[eui].marker;
     } else {
-      marker = this.createDeviceMarker(eui, name, ...position);
+      marker = this.createDeviceMarker(eui, name, position);
     }
-    marker.setLatLng(L.latLng(...position));
+    marker.setLatLng(L.latLng(position.latitude, position.longitude));
     // FIXME: an UI button should be provided to the the user
     // to disable the autofocus
     //this.updateMapcenter();

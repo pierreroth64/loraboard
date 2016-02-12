@@ -52,6 +52,10 @@ This web app subscribes to the previously configured PubNub service and decodes 
 
 You'll have to change the *PubNub Upstream channel and subscribe key* to point to your pubnub account. Just open, the popup window to enter your PubNub credentials (click on Setup icon in the footer of the page)
 
+## End-points position
+
+If the device payload embeds the device GPS position (latitude and longitude), its marker will be automatically positioned on the map. If the device does not have any GPS capability, its marker will appear in a default position. You can control this default position by setting *defaultLatitude* and *defaultLongitude* values in *localStorage*.
+
 ## Developers
 
 First, install the dependencies:
