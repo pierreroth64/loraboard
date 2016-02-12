@@ -1,7 +1,8 @@
 import {BrightnessGraphView} from '../brightness_view';
 
-var BRIGTHNESS_DARK_COLOR = '#000000';
-var BRIGTHNESS_BRIGHT_COLOR = '#d67b19';
+const BRIGTHNESS_DARK_COLOR = '#000000';
+const BRIGTHNESS_BRIGHT_COLOR = '#d67b19';
+const BRIGTHNESS_LIMIT = 210;
 
 export class LightingBrightnessGraphView extends BrightnessGraphView {
 
@@ -9,7 +10,12 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
     super(options);
   }
 
+  buildColorFromBrightness(brightness) {
+    return (brightnessRaw < BRIGTHNESS_LIMIT) ? BRIGTHNESS_DARK_COLOR: BRIGTHNESS_BRIGHT_COLOR;
+  }
+
   initChart() {
+    var brightnessRaw = this.model.attributes.value;
     return c3.generate({
                 bindto: '#' + this.id,
                 data: {
@@ -18,7 +24,7 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
                     ],
                     type: 'donut',
                     colors: {
-                        brightness: BRIGTHNESS_DARK_COLOR,
+                        brightness: this.buildColorFromBrightness(brightnessRaw),
                     }
                 },
                 legend: {
@@ -29,9 +35,8 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
 
   updateChart() {
     var brightnessRaw = this.model.attributes.value;
-    var color = (brightnessRaw < 210) ? BRIGTHNESS_DARK_COLOR: BRIGTHNESS_BRIGHT_COLOR;
     this.chart.data.colors({
-        brightness: d3.rgb(color)
+        brightness: d3.rgb(this.buildColorFromBrightness(brightnessRaw))
     });
   }
 }
