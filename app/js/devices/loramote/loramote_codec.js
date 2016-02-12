@@ -58,7 +58,8 @@ export class LoRaMoteCodec extends BaseCodec {
     var value = parseInt(raw, 16);
     //FIXME: properly decode longitude!
     value = value / (Math.pow(2, 23) - 1) * 180;
-    value = value - 360;
+    if (value > 180)
+        value = value - 360;
     return {'raw': raw, 'value': value, 'unit': '°'};
     }
 
