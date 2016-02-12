@@ -1,5 +1,5 @@
 
-const RANDOM_DEVIDE_FACTOR = 10
+const RANDOM_DEVIDE_FACTOR = 50
 
 export function getRandomPosition(aroundPos) {
     var {latitude, longitude} = aroundPos;
