@@ -11,7 +11,7 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
   }
 
   buildColorFromBrightness(brightness) {
-    return (brightnessRaw < BRIGTHNESS_LIMIT) ? BRIGTHNESS_DARK_COLOR: BRIGTHNESS_BRIGHT_COLOR;
+    return (brightness < BRIGTHNESS_LIMIT) ? BRIGTHNESS_DARK_COLOR: BRIGTHNESS_BRIGHT_COLOR;
   }
 
   initChart() {
