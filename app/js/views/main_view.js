@@ -160,7 +160,7 @@ export class MainView extends BaseView {
     marker.setLatLng(L.latLng(position.latitude, position.longitude));
     // FIXME: an UI button should be provided to the the user
     // to disable the autofocus
-    //this.updateMapcenter();
+    // this.updateMapcenter();
   }
 }
 
