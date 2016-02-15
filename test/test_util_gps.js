@@ -27,6 +27,9 @@ import {isPositionValid, getRandomPosition} from '../app/js/lib/gps';
             assert.isTrue(isPositionValid({latitude: 45.824399, longitude: -360}));
             assert.isTrue(isPositionValid({latitude: 0, longitude: 1.277633}));
             assert.isFalse(isPositionValid({latitude: 0, longitude: -360}));
+            assert.isFalse(isPositionValid({latitude: 0, longitude: 0}));
+            assert.isFalse(isPositionValid({latitude: -360, longitude: 0}));
+            assert.isFalse(isPositionValid({latitude: -360, longitude: -360}));
         });
     });
     describe('Random position', function () {

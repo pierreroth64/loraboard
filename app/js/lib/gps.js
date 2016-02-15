@@ -36,7 +36,10 @@ export function getDefaultPosition() {
 }
 
 function checkNotSet(latitude, longitude) {
-    if (latitude == 0 && longitude == -360) {
+    if ( (latitude == 0 && longitude == -360) ||
+         (latitude == 0 && longitude == 0) ||
+         (latitude == -360 && longitude == 0) ||
+         (latitude == -360 && longitude == -360) ) {
         throw new Error('latitude or longitude are not set');
     }
 }
