@@ -14,6 +14,6 @@ export class NucleoLightingCodec extends NucleoCodec {
     }
 
     encodeTestCmd(eui) {
-        return { cmd: `{\"command\": \"mote send ${formatEUI(eui)} port 30 data 32\"}` };
+        return { cmd: `{\"command\": \"mote send ${formatEUI(eui)} port 30 data FF\"}` };
     }
 }

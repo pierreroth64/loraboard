@@ -18,7 +18,7 @@ export class DataService  {
             }
         } catch (e) {
             var errorMsg = JSON.stringify(e);
-            console.log(`Error when starting ${this.name} data service: ${errorMsg}`);
+            console.error(`Error when starting ${this.name} data service: ${errorMsg}`);
         }
     }
 
@@ -34,7 +34,7 @@ export class DataService  {
             }
         } catch (e) {
             var errorMsg = JSON.stringify(e);
-            console.log(`Error when stopping ${this.name} data service: ${errorMsg}`);
+            console.error(`Error when stopping ${this.name} data service: ${errorMsg}`);
         }
     }
     isDataFormatValid(data) {
@@ -50,7 +50,7 @@ export class DataService  {
             Backbone.Mediator.publish('data:upstream', data);
         } else {
             //FIXME: actually write this "documentation" ;)
-            console.log('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');
+            console.error('Received data format is not valid, check documentation for your DataService.onNewData(...) implementation');
         }
     }
 
@@ -59,7 +59,7 @@ export class DataService  {
     }
 
     onError(msg) {
-        console.log(`${this.name} data service error: ${msg}`);
+        console.error(`${this.name} data service error: ${msg}`);
     }
 
     // methods to be implemented by concrete classes

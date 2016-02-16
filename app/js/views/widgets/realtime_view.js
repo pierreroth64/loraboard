@@ -39,7 +39,7 @@ export class RealTimeView extends WidgetView {
       var warning = `reached max logs number (${MAX_SCREEN_LOGS}), cleared log window!`;
       this.logsNumber = 0;
       this.clearScreenLogs();
-      console.log(warning);
+      console.warn(warning);
       this.appendToScreenLogs(warning);
     }
   }

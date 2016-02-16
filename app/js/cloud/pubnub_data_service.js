@@ -56,7 +56,7 @@ export class PubNubDataService extends DataService  {
 
     _onError(error) {
         var errorMsg = JSON.stringify(error);
-        console.log(`Network error on PubNub: ${errorMsg}`);
+        console.error(`Network error on PubNub: ${errorMsg}`);
         super.onError(errorMsg);
     }
 
@@ -72,7 +72,7 @@ export class PubNubDataService extends DataService  {
                     });
         } catch (e) {
             var errorMsg = JSON.stringify(e);
-            console.log(`Error when subscribing to PubNub: ${errorMsg}`);
+            console.error(`Error when subscribing to PubNub: ${errorMsg}`);
             throw e;
         }
     }
@@ -98,6 +98,6 @@ export class PubNubDataService extends DataService  {
     }
 
     onDisconnected() {
-        console.log('Disconnected from PubNub');
+        console.warn('Disconnected from PubNub');
     }
 }

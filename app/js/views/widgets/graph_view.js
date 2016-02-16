@@ -27,7 +27,7 @@ export class GraphView extends WidgetView {
   }
 
   updateChartData() {
-    console.log(`updateChartData() has to be overriden in your ${this.graphName} class`);
+    console.warn(`updateChartData() has to be overriden in your ${this.graphName} class`);
   }
 
   _resetChart() {

@@ -18,7 +18,7 @@ export class DeviceController {
       if (dev != undefined) {
         console.log(`found matching codec, device created for ${eui}`);
       } else {
-        console.log(`codec not found, device not created`);
+        console.warn(`codec not found, device not created`);
         return;
       }
     }
@@ -30,7 +30,7 @@ export class DeviceController {
   runActionOnDevice(eui, action, data) {
     var dev = this.devMgr.findDevice(eui);
     if (dev == undefined) {
-      console.log(`device with eui: ${eui} not found, aborting ${action}...`);
+      console.warn(`device with eui: ${eui} not found, aborting ${action}...`);
       return;
     }
 
@@ -40,7 +40,7 @@ export class DeviceController {
         Backbone.Mediator.publish('data:downstream', frame);
       }
     } else {
-      console.log(`device with eui: ${eui} does not support '${action}' action!`);
+      console.warn(`device with eui: ${eui} does not support '${action}' action!`);
     }
   }
 }
