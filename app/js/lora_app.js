@@ -7,6 +7,7 @@ import {DeviceManager} from './devices/device_manager';
 import {DeviceController} from './devices/device_controller';
 import * as devTypes from './devices/device_types';
 import {PubNubDataService} from './cloud/pubnub_data_service';
+import {isBuildTargetSet, getBuildTarget} from './lib/util';
 
 export class LoRaApp extends Backbone.Router {
 
@@ -27,7 +28,16 @@ export class LoRaApp extends Backbone.Router {
         this.currentView = undefined;
     }
 
+    logStartUpMessage() {
+        var startUpMsg = 'LoRa application startup! :)';
+        if (isBuildTargetSet()) {
+            startUpMsg += ` (buildTarget: ${getBuildTarget()})`;
+        }
+        console.log(startUpMsg);
+    }
+
     start() {
+        this.logStartUpMessage();
         Backbone.history.start({pushState: true});
         this.dataService.start();
     }
