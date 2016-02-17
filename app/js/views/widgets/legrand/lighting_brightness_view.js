@@ -29,7 +29,6 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
   }
 
   initChart() {
-    var brightnessRaw = this.model.attributes.value;
     return c3.generate({
                 bindto: '#' + this.id,
                 data: {
@@ -38,7 +37,7 @@ export class LightingBrightnessGraphView extends BrightnessGraphView {
                     ],
                     type: 'donut',
                     colors: {
-                        brightness: this.buildColorFromBrightness(brightnessRaw),
+                        brightness: BRIGTHNESS_DARK_COLOR,
                     }
                 },
                 legend: {
