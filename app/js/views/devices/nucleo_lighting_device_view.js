@@ -23,13 +23,20 @@ export class NucleoLightingDeviceView extends BaseDeviceView {
 
   render() {
     var html = super.getSuperRender();
+    var rtspStream = this.device.getExtras().rtsp;
     html += `
-     <div class="row">
+      <div class="row">
         <div id="brightness-chart-box" class="col-md-6">
-          <h4>brightness</h4>
+          <h4>Brightness</h4>
           <div id="brightness-chart" class="graph-box"></div>
           <br />
           <button type="button" id="start-test" class="btn btn-sm btn-success">Test!</button>
+        </div>
+        <div id="video-box" class="col-md-6">
+          <h4>Video feedback</h4>
+            <embed
+                type="application/x-vlc-plugin" autoplay="yes" width="410" height="310"
+                target="${rtspStream}" />
         </div>
       </div>
       <br />
