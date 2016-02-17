@@ -6,6 +6,7 @@ export class BaseDevice {
     this.type = type;
     this.name = name;
     this.models = {};
+    this.extras = {};
   }
 
   getName() {
@@ -52,6 +53,14 @@ export class BaseDevice {
 
   setCodec(codec) {
     this.codec = codec;
+  }
+
+  getExtras() {
+    return this.extras;
+  }
+
+  setExtras(extras) {
+    this.extras = extras;
   }
 
   processReceivedData(data) {
