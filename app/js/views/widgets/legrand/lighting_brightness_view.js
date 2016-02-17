@@ -2,7 +2,7 @@ import {BrightnessGraphView} from '../brightness_view';
 
 const BRIGTHNESS_DARK_COLOR = '#000000';
 const BRIGTHNESS_BRIGHT_COLOR = '#d67b19';
-const DEFAULT_BRIGTHNESS_LIMIT = 210;
+const DEFAULT_BRIGTHNESS_LIMIT = 220;
 
 export class LightingBrightnessGraphView extends BrightnessGraphView {
 
