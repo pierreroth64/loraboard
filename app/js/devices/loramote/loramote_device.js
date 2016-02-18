@@ -6,7 +6,8 @@ import {LoRaData} from '../../models/lora_data'
 export class LoRaMoteDevice extends BaseDevice {
 
   constructor(eui) {
-    super(new LoRaMoteCodec(), eui, devTypes.DEV_TYPE_LORAMOTE, `LoRaMote ${eui}`);
+    super(new LoRaMoteCodec(), eui, devTypes.DEV_TYPE_LORAMOTE);
+    this.setName(`LoRaMote ${this.getFormattedEUI(eui)}`);
     this.models.temperature = new LoRaData({ title: 'temperature',
                                              value: 25,
                                              unit:'°C' });

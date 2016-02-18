@@ -1,3 +1,11 @@
+function addPadding(string, padChar, finalSize) {
+  while (string.length < finalSize) {
+      string = padChar + string;
+  }
+  return string;
+}
+
+
 export class BaseDevice {
 
   constructor(codec, eui, type, name='Default name') {
@@ -7,6 +15,7 @@ export class BaseDevice {
     this.name = name;
     this.models = {};
     this.extras = {};
+    this.formattedEUI =  this.buildformattedEUI(eui);
   }
 
   getName() {
@@ -19,6 +28,24 @@ export class BaseDevice {
 
   getEUI() {
     return this.eui;
+  }
+
+  buildformattedEUI(eui) {
+    var formatted = '';
+    eui = new BigNumber(eui);
+    eui = addPadding(eui.toString(16), '0', 16);
+
+    for (let c in eui) {
+        formatted += eui[c];
+        if (c % 2) {
+            formatted += '-';
+        }
+    }
+    return formatted.substring(0, formatted.length-1);
+  }
+
+  getFormattedEUI() {
+    return this.formattedEUI;
   }
 
   getPosition() {

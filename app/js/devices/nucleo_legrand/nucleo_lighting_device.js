@@ -12,9 +12,8 @@ export class NucleoLightingDevice extends NucleoDevice {
         super(eui);
         this.setCodec(new NucleoLightingCodec());
         this.setType(devTypes.DEV_TYPE_NUCLEO_LIGHTING);
-        this.setName(`Lighting device ${eui}`);
+        this.setName(`Lighting device ${this.getFormattedEUI(eui)}`);
         this.setExtras({rtsp: this.buildRSTPStream()});
-        console.log('RTSP stream:', this.buildRSTPStream());
     }
 
     buildRSTPStream() {
