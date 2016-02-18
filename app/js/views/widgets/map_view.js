@@ -35,6 +35,6 @@ export class MapView extends WidgetView {
   }
 
   buildMarkerInfo(latitude, longitude) {
-    return `<strong>LoRaMote</strong><br>located at [${latitude}; ${longitude}]`;
+    return `<strong>${this.device.getName()}</strong><br>located at [${latitude}; ${longitude}]`;
   }
 }
