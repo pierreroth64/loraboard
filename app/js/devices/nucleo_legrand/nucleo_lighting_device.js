@@ -40,7 +40,7 @@ export class NucleoLightingDevice extends NucleoDevice {
     }
 
     test(data) {
-        return this.codec.encodeTestCmd(this.eui);
+        return this.codec.encodeTestCmd(this.getFormattedEUI());
     }
 
     getPosition() {

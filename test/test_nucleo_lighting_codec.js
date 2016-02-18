@@ -18,9 +18,9 @@ var TOO_SHORT_FRAME = 'ffffff';
     describe('Encoding', function () {
 
       it('should encode test command', function () {
-        var eui = '72057594037927937';
+        var formattedEUI = '01-00-00-00-00-00-00-01';
         var expected = { cmd: `{\"command\": \"mote send 01-00-00-00-00-00-00-01 port 30 data 32\"}` };
-        assert.deepEqual(this.codec.encodeTestCmd(eui), expected);
+        assert.deepEqual(this.codec.encodeTestCmd(formattedEUI), expected);
       });
 
     });
