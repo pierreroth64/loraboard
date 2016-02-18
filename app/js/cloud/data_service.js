@@ -52,6 +52,7 @@ export class DataService  {
 
     onReceivedData(data) {
         if (this.isDataFormatValid(data)) {
+            data = JSON.parse(data);
             Backbone.Mediator.publish('data:upstream', data);
         } else {
             //FIXME: actually write this "documentation" ;)
