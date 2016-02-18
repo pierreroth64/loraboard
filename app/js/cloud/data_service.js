@@ -37,15 +37,20 @@ export class DataService  {
             console.error(`Error when stopping ${this.name} data service: ${errorMsg}`);
         }
     }
+
     isDataFormatValid(data) {
-        if (data.data == undefined || data.EUI == undefined || data.fcnt == undefined) {
+        try {
+            data = JSON.parse(data);
+            if (data.data == undefined || data.EUI == undefined || data.fcnt == undefined) {
+                throw new Error('JSON data does not contain expected fields: data, EUI and fcnt');
+            }
+            return true;
+        } catch (e) {
             return false;
         }
-        return true;
     }
 
     onReceivedData(data) {
-        data = JSON.parse(data);
         if (this.isDataFormatValid(data)) {
             Backbone.Mediator.publish('data:upstream', data);
         } else {
