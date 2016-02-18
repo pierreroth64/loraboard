@@ -7,7 +7,7 @@ export class TechnicalView extends WidgetView {
     super(options);
     Backbone.Mediator.subscribe('toolbox:technicalClicked', this.toogleVisibility, this);
     this.jqueryId = `#${this.id}`;
-    new RealTimeView({eui: this.eui});
+    new RealTimeView({device: this.device});
   }
 
   toogleVisibility() {

@@ -78,24 +78,24 @@ export class LoRaMoteDeviceView extends BaseDeviceView {
     this.$el.html(html);
     new TemperatureGraphView({model: this.models.temperature,
                               id: 'temp-chart',
-                              eui: this.eui},
+                              device: this.device},
                              'Temperature graph');
     new PressureGraphView({model: this.models.pressure,
                            id: 'press-chart',
-                           eui: this.eui}, 'Pressure graph');
+                           device: this.device}, 'Pressure graph');
     new BatteryGraphView({model: this.models.battery,
                           id: 'batt-chart',
-                          eui: this.eui});
+                          device: this.device});
     new MapView({model: this.models.position,
                  id: 'lora-map',
-                 eui: this.eui});
+                 device: this.device});
     new FrameIndicatorView({id: 'frame-indicator',
-                            eui: this.eui});
+                            device: this.device});
     new ToolBoxView({id: 'tool-box',
-                     eui: this.eui,
+                     device: this.device,
                      dataService: this.dataService});
     new TechnicalView({id: 'technical-window',
-                       eui: this.eui});
+                       device: this.device});
     return this;
   }
 }

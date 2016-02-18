@@ -63,14 +63,14 @@ export class NucleoDeviceView extends BaseDeviceView {
     this.$el.html(html);
     new BrightnessGraphView({model: this.models.brightness,
                                id: 'brightness-chart',
-                               eui: this.eui});
+                               device: this.device});
     new FrameIndicatorView({id: 'frame-indicator',
-                            eui: this.eui});
+                            device: this.device});
     new ToolBoxView({id: 'tool-box',
-                     eui: this.eui,
+                     device: this.device,
                      dataService: this.dataService});
     new TechnicalView({id: 'technical-window',
-                       eui: this.eui});
+                       device: this.device});
     return this;
   }
 }

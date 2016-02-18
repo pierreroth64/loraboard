@@ -92,7 +92,7 @@ export class BaseDevice {
 
   processReceivedData(data) {
     var decoded = this.processData(data);
-    console.log(`frame from ${this.eui}, decoded data:`, decoded);
+    console.log(`frame from ${this.getFormattedEUI()}, decoded data:`, decoded);
   }
   processData(data) {
     throw new Error('You _must_ implement the processData(..) method in your device class');
