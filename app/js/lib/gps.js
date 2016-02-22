@@ -1,5 +1,5 @@
 
-const RANDOM_DEVIDE_FACTOR = 50
+const RANDOM_DEVIDE_FACTOR = 200
 const DEFAULT_POSITION = {
                               latitude: 45.824399,
                               longitude: 1.277633
