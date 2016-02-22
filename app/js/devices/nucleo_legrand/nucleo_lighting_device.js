@@ -6,6 +6,8 @@ const DEFAULT_RTSP_IP_ADDRESS = '10.0.218.76';
 const DEFAULT_RTSP_PORT = '8554';
 const DEFAULT_RTSP_URI = '/lora';
 
+const DEMO_EUI = '01-00-00-00-00-00-00-01';
+
 export class NucleoLightingDevice extends NucleoDevice {
 
     constructor(eui) {
@@ -44,6 +46,11 @@ export class NucleoLightingDevice extends NucleoDevice {
     }
 
     getPosition() {
-        return {latitude: 45.823302, longitude: 1.277762};
+        // Device with this EUI has a static position
+        if (this.getFormattedEUI() == DEMO_EUI) {
+            return {latitude: 45.823302, longitude: 1.277762};
+        } else {
+            return super.getPosition();
+        }
     }
 }
