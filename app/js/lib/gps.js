@@ -1,8 +1,8 @@
 
 const RANDOM_DEVIDE_FACTOR = 200
 const DEFAULT_POSITION = {
-                              latitude: 45.824399,
-                              longitude: 1.277633
+                              latitude: 43.32128564373083,
+                              longitude: -0.3142047302966944
                           };
 
 export function getRandomPosition(aroundPos) {
