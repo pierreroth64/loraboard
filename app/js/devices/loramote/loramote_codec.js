@@ -11,6 +11,13 @@ export class LoRaMoteCodec extends BaseCodec {
         return (data.length == FRAME_LENGTH);
     }
 
+    decodeLedState(frame) {
+        var state = false;
+        var raw = frame.substr(0, 2);
+        if (parseInt(raw, 16)) state = true;
+        return {'raw': raw, 'value': state, '-': '-'};
+    }
+
     decodePressure(frame) {
         var raw = frame.substr(2, 4);
         return {'raw': raw, 'value': parseInt(raw, 16) / 10, 'unit': 'hPa'};
@@ -73,5 +80,10 @@ export class LoRaMoteCodec extends BaseCodec {
             'latitude': this.decodeLatitude(frame).value,
             'longitude': this.decodeLongitude(frame).value
             };
+    }
+
+    encodeDriveLedCmd(eui, state) {
+        var cmd = (state == true) ? '1': '0';
+        return { cmd: `{\"command\": \"mote send ${eui} port 2 data ${cmd}\"}` };
     }
 }
