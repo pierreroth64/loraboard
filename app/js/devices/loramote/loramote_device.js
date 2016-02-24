@@ -8,6 +8,9 @@ export class LoRaMoteDevice extends BaseDevice {
   constructor(eui) {
     super(new LoRaMoteCodec(), eui, devTypes.DEV_TYPE_LORAMOTE);
     this.setName(`LoRaMote ${this.getFormattedEUI(eui)}`);
+    this.models.led = new LoRaData({ title: 'led',
+                                     value: false,
+                                     unit:'-' });
     this.models.temperature = new LoRaData({ title: 'temperature',
                                              value: 25,
                                              unit:'°C' });
@@ -22,20 +25,34 @@ export class LoRaMoteDevice extends BaseDevice {
                                           unit:'%'});
   }
 
+  getCapabilities()  {
+      return [ {
+                  action: 'toggleLed',
+                  actionLabel: 'Toggle LED!'
+                } ];
+  }
+
+  toggleLed(data) {
+      var currentState = this.models.led.attributes.value;
+      return this.codec.encodeDriveLedCmd(this.getFormattedEUI(), !currentState);
+  }
+
   processData(data) {
     var codec = this.getCodec();
+    var led = codec.decodeLedState(data).value;
     var temperature = codec.decodeTemperature(data).value;
     var pressure = codec.decodePressure(data).value;
     var battery = codec.decodeBatteryLevel(data).value;
     var latitude = codec.decodeLatitude(data).value;
     var longitude = codec.decodeLongitude(data).value;
 
+    this.setValue(this.models.led, led);
     this.setValue(this.models.temperature, temperature);
     this.setValue(this.models.pressure, pressure);
     this.setValue(this.models.battery, battery);
     this.setValue(this.models.position, {latitude, longitude});
 
-    return {temperature, pressure, battery, latitude, longitude};
+    return {led, temperature, pressure, battery, latitude, longitude};
   }
 
   getPosition() {
