@@ -1,0 +1,23 @@
+{
+  "name": "loraboard",
+  "version": "0.5.3",
+  "dependencies": {
+    "backbone": {
+      "version": "1.2.3",
+      "from": "backbone@>=1.2.3 <2.0.0",
+      "resolved": "https://registry.npmjs.org/backbone/-/backbone-1.2.3.tgz",
+      "dependencies": {
+        "underscore": {
+          "version": "1.8.3",
+          "from": "underscore@>=1.7.0",
+          "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz"
+        }
+      }
+    },
+    "bignumber.js": {
+      "version": "2.1.4",
+      "from": "bignumber.js@>=2.1.4 <3.0.0",
+      "resolved": "https://registry.npmjs.org/bignumber.js/-/bignumber.js-2.1.4.tgz"
+    }
+  }
+}
