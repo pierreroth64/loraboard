@@ -23,12 +23,15 @@
     "javascript-brunch": "^1.8.0",
     "mocha": "^2.3.4",
     "mock-local-storage": "^1.0.2",
+    "node-red": "^0.13.3",
+    "node-red-contrib-pubnub": "0.0.3",
     "sass-brunch": "^1.9.2",
     "uglify-js-brunch": "^1.7.8"
   },
   "scripts": {
     "test": "mocha -r mock-local-storage -r test/global --recursive --compilers js:babel-register",
     "start": "http-server -a 0.0.0.0 -p 9000",
+    "simu": "node-red -u ./simu/ -s ./simu/settings.js -v",
     "docs": "docco app/js/**/*.*"
   },
   "repository": {
