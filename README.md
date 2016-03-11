@@ -80,6 +80,20 @@ brunch b -p
 ```
 and copy/paste the public directory to your web server directory. That's it :)
 
+### Simulator
+
+You can simulate upstream PubNub data from LoRa end-points using the [node-red](http://nodered.org/) based simulator.
+
+```
+npm install -g node-red
+npm install -g node-red-contrib-pubnub
+```
+
+and run the simulator:
+
+```
+npm run simu
+```
 
 note: As we are not web development experts, any comment/help/PR is appreciated and we'll be happy to add your name to the CONTRIBUTORS file ;)
 
