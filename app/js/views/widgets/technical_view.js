@@ -1,5 +1,5 @@
-import {WidgetView} from './widget_view';
-import {RealTimeView} from "./realtime_view";
+import { WidgetView } from './widget_view';
+import { RealTimeView } from './realtime_view';
 
 export class TechnicalView extends WidgetView {
 
@@ -7,10 +7,10 @@ export class TechnicalView extends WidgetView {
     super(options);
     Backbone.Mediator.subscribe('toolbox:technicalClicked', this.toogleVisibility, this);
     this.jqueryId = `#${this.id}`;
-    new RealTimeView({device: this.device});
+    this.rtView = new RealTimeView({ device: this.device });
   }
 
   toogleVisibility() {
-    $(this.jqueryId).toggle("slow");
+    $(this.jqueryId).toggle('slow');
   }
 }

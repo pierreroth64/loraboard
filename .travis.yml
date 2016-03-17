@@ -4,4 +4,5 @@ node_js:
 script:
   - brunch b
   - brunch b -p
+  - npm run lint
   - npm test

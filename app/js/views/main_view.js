@@ -1,21 +1,21 @@
-import {BaseView} from './base_view';
-import {isLegrandBuild} from '../lib/util';
-import {isPositionValid, getRandomPosition, getDefaultPosition} from '../lib/gps';
-import {MAPBOX_ACCESS_TOKEN} from '../constants/mapbox_const';
-import {SettingsView} from "./settings_view";
+import { BaseView } from './base_view';
+import { isLegrandBuild } from '../lib/util';
+import { isPositionValid, getRandomPosition, getDefaultPosition } from '../lib/gps';
+import { MAPBOX_ACCESS_TOKEN } from '../constants/mapbox_const';
+import { SettingsView } from './settings_view';
 
-var MAP_INITIAL_POSITION = undefined;
-var MAP_INITIAL_ZOOM = undefined;
-var MAP_BOX_MAP = undefined;
+let MAP_INITIAL_POSITION = undefined;
+let MAP_INITIAL_ZOOM = undefined;
+let MAP_BOX_MAP = undefined;
 
 if (isLegrandBuild()) {
   MAP_INITIAL_POSITION = [45.824399, 1.277633];
   MAP_INITIAL_ZOOM = 18;
-  MAP_BOX_MAP = 'mapbox.satellite'
+  MAP_BOX_MAP = 'mapbox.satellite';
 } else {
   MAP_INITIAL_POSITION = [45.824203, 1.277746];
   MAP_INITIAL_ZOOM = 2;
-  MAP_BOX_MAP = 'mapbox.streets'
+  MAP_BOX_MAP = 'mapbox.streets';
 }
 
 export class MainView extends BaseView {
@@ -39,7 +39,7 @@ export class MainView extends BaseView {
       this.currentZoom = this.map.getZoom();
     });
     this.map.on('dragend', (e) => {
-      let center = this.map.getCenter()
+      const center = this.map.getCenter();
       this.currentPosition = [center.lat, center.lng];
     });
   }
@@ -54,12 +54,14 @@ export class MainView extends BaseView {
   }
 
   updateMapcenter() {
-    var bounds = [];
+    const bounds = [];
     if (this.map) {
-      for (let eui in this.deviceMarkers) {
-        let {marker, name} = this.deviceMarkers[eui];
-        let {lat, lng} = marker.getLatLng();
-        bounds.push([L.latLng(lat, lng)]);
+      for (const eui in this.deviceMarkers) {
+        if (this.deviceMarkers.hasOwnProperty(eui)) {
+          const { marker } = this.deviceMarkers[eui];
+          const { lat, lng } = marker.getLatLng();
+          bounds.push([L.latLng(lat, lng)]);
+        }
       }
       this.map.fitBounds(bounds);
     }
@@ -67,34 +69,39 @@ export class MainView extends BaseView {
 
   // As the map is recreated when rendering the view, the markers have to be recreated to
   updateMarkersOnMap() {
-    var newMarkers = {};
+    const newMarkers = {};
     if (this.map) {
-      for (let eui in this.deviceMarkers) {
-        let {marker, name} = this.deviceMarkers[eui];
-        let {lat, lng} = marker.getLatLng();
-        this.map.removeLayer(marker);
-        let newMarker = this.createDeviceMarker(eui, name, {latitude: lat, longitude: lng});
-        newMarker.addTo(this.map);
-        newMarkers[eui] = {};
-        newMarkers[eui].marker = newMarker;
-        newMarkers[eui].name = name;
+      for (const eui in this.deviceMarkers) {
+        if (this.deviceMarkers.hasOwnProperty(eui)) {
+          const { marker } = this.deviceMarkers[eui];
+          const { lat, lng } = marker.getLatLng();
+          this.map.removeLayer(marker);
+          const newMarker = this.createDeviceMarker(eui, name, { latitude: lat, longitude: lng });
+          newMarker.addTo(this.map);
+          newMarkers[eui] = {};
+          newMarkers[eui].marker = newMarker;
+          newMarkers[eui].name = name;
+        }
       }
       this.deviceMarkers = newMarkers;
     }
   }
 
   buildPopupForDevice(dev, name) {
-    if (dev != undefined) {
-      var eui = dev.getEUI();
-      var popup = `<strong>${dev.getName()}</strong>`;
+    let popup;
+    if (dev !== undefined) {
+      const eui = dev.getEUI();
+      popup = `<strong>${dev.getName()}</strong>`;
       // If device has control capabilities, display action buttons
-      var capabilities = dev.getCapabilities();
-      for (let cap in capabilities) {
-        let {action, actionLabel} = capabilities[cap];
-        popup += `<br /><button type="button" id="trigger-${action}-${eui}" class="btn btn-sm btn-success">${actionLabel}</button>`;
-        $('#global-lora-map').on('click', `#trigger-${action}-${eui}`, () => {
-          this.deviceController.runActionOnDevice(eui, action);
-        });
+      const capabilities = dev.getCapabilities();
+      for (const cap in capabilities) {
+        if (capabilities.hasOwnProperty(cap)) {
+          const { action, actionLabel } = capabilities[cap];
+          popup += `<br /><button type="button" id="trigger-${action}-${eui}" class="btn btn-sm btn-success">${actionLabel}</button>`;
+          $('#global-lora-map').on('click', `#trigger-${action}-${eui}`, () => {
+            this.deviceController.runActionOnDevice(eui, action);
+          });
+        }
       }
     } else {
       popup = `<strong>${name}</strong>`;
@@ -103,16 +110,16 @@ export class MainView extends BaseView {
   }
 
   createDeviceMarker(eui, name, position) {
-    var dev = this.deviceManager.findDevice(eui);
-    var {latitude, longitude} = position;
-    var marker = L.marker([latitude, longitude]);
+    const dev = this.deviceManager.findDevice(eui);
+    const { latitude, longitude } = position;
+    const marker = L.marker([latitude, longitude]);
     marker.bindPopup(this.buildPopupForDevice(dev, name));
-    if (dev != undefined) { // only go to device page if device is defined
-      marker.on('dblclick', function(e) {
-        Backbone.history.navigate(`devices/${eui}`, {trigger: true});
+    if (dev !== undefined) { // only go to device page if device is defined
+      marker.on('dblclick', (e) => {
+        Backbone.history.navigate(`devices/${eui}`, { trigger: true });
       });
     }
-    marker.on('click', function(e) {
+    marker.on('click', (e) => {
       marker.openPopup();
     });
 
@@ -128,7 +135,8 @@ export class MainView extends BaseView {
   }
 
   render() {
-    var html = `<div class="row">
+    const html = `
+      <div class="row">
         <div class="center-block">
         </div>
       </div>
@@ -146,21 +154,21 @@ export class MainView extends BaseView {
   }
 
   onUpdatePosition(eui, name, position) {
-    var marker = undefined;
-
-    if (isPositionValid(position) == false) {
-      position = getRandomPosition(getDefaultPosition());
+    let marker = undefined;
+    let validatedPos = position;
+    if (isPositionValid(position) === false) {
+      validatedPos = getRandomPosition(getDefaultPosition());
     }
 
     if (this.deviceMarkers[eui] && this.deviceMarkers[eui].marker) {
       marker = this.deviceMarkers[eui].marker;
     } else {
-      marker = this.createDeviceMarker(eui, name, position);
+      marker = this.createDeviceMarker(eui, name, validatedPos);
     }
-    marker.setLatLng(L.latLng(position.latitude, position.longitude));
+    marker.setLatLng(L.latLng(validatedPos.latitude, validatedPos.longitude));
     // FIXME: an UI button should be provided to the the user
     // to disable the autofocus
-    //this.updateMapcenter();
+    // this.updateMapcenter();
   }
 }
 

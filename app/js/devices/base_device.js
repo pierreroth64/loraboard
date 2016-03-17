@@ -1,21 +1,21 @@
 function addPadding(string, padChar, finalSize) {
-  while (string.length < finalSize) {
-      string = padChar + string;
+  let paddedString = string;
+  while (paddedString.length < finalSize) {
+    paddedString = padChar + paddedString;
   }
-  return string;
+  return paddedString;
 }
-
 
 export class BaseDevice {
 
-  constructor(codec, eui, type, name='Default name') {
+  constructor(codec, eui, type, name = 'Default name') {
     this.codec = codec;
     this.eui = eui;
     this.type = type;
     this.name = name;
     this.models = {};
     this.extras = {};
-    this.formattedEUI =  this.buildformattedEUI(eui);
+    this.formattedEUI = this.buildformattedEUI(eui);
   }
 
   getName() {
@@ -31,17 +31,19 @@ export class BaseDevice {
   }
 
   buildformattedEUI(eui) {
-    var formatted = '';
-    eui = new BigNumber(eui);
-    eui = addPadding(eui.toString(16), '0', 16);
+    let formatted = '';
+    let devEui = new BigNumber(eui);
+    devEui = addPadding(devEui.toString(16), '0', 16);
 
-    for (let c in eui) {
-        formatted += eui[c];
+    for (const c in devEui) {
+      if (devEui.hasOwnProperty(c)) {
+        formatted += devEui[c];
         if (c % 2) {
-            formatted += '-';
+          formatted += '-';
         }
+      }
     }
-    return formatted.substring(0, formatted.length-1);
+    return formatted.substring(0, formatted.length - 1);
   }
 
   getFormattedEUI() {
@@ -49,7 +51,7 @@ export class BaseDevice {
   }
 
   getPosition() {
-    return {latitude: undefined, longitude: undefined};
+    return { latitude: undefined, longitude: undefined };
   }
 
   getCapabilities() {
@@ -58,7 +60,7 @@ export class BaseDevice {
 
   setValue(model, value) {
     // force trigger event if value is the same
-    model.set({value: value}, {silent: true});
+    model.set({ value }, { silent: true });
     model.trigger('change');
   }
 
@@ -91,7 +93,7 @@ export class BaseDevice {
   }
 
   processReceivedData(data) {
-    var decoded = this.processData(data);
+    const decoded = this.processData(data);
     console.log(`frame from ${this.getFormattedEUI()}, decoded data:`, decoded);
   }
   processData(data) {

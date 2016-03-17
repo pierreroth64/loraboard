@@ -1,19 +1,18 @@
 {
-  "ecmaFeatures": {
-    "modules": true
-  },
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
+  "extends": "airbnb",
   "rules": {
-    "strict": 0,
-    "no-underscore-dangle": 0,
-    "quotes": [
-      2,
-      "single"
-    ],
-    "camelcase": [2, {"properties": "always"}]
-  }
+    "max-len": [1, 150, 2, {ignoreComments: true}],
+    "no-console": 0,
+    "no-unused-vars": [1, {"vars": "local", "args": "none"}],
+    "new-cap": [2, {"capIsNewExceptions": ["PUBNUB"]}],
+  },
+  "globals": {
+    "Backbone": 1,
+    "$": 1,
+    "c3": 1,
+    "d3": 1,
+    "L": 1,
+    "BigNumber": 1,
+    "PUBNUB": 1,
+  },
 }

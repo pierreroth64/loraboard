@@ -1,4 +1,4 @@
-var BRIGTHNESS_COLOR = '#321d04';
+const BRIGTHNESS_COLOR = '#321d04';
 
 export class BrightnessGraphView extends Backbone.View {
 
@@ -10,26 +10,24 @@ export class BrightnessGraphView extends Backbone.View {
 
   initChart() {
     return c3.generate({
-                bindto: '#' + this.id,
-                data: {
-                    columns: [
-                        ['brightness', 100]
-                    ],
-                    type: 'donut',
-                    colors: {
-                        brightness: BRIGTHNESS_COLOR,
-                    }
-                }
-              });
+      bindto: `#${this.id}`,
+      data: {
+        columns: [
+          ['brightness', 100],
+        ],
+        type: 'donut',
+        colors: {
+          brightness: BRIGTHNESS_COLOR,
+        },
+      },
+    });
   }
 
   updateChart() {
-    var brightnessRaw = this.model.attributes.value;
+    const brightnessRaw = this.model.attributes.value;
     this.chart.data.colors({
-        brightness: d3.rgb(BRIGTHNESS_COLOR).brighter(brightnessRaw / 50)
+      brightness: d3.rgb(BRIGTHNESS_COLOR).brighter(brightnessRaw / 50),
     });
   }
 
 }
-
-

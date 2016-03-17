@@ -7,7 +7,8 @@ export class ErrorView extends Backbone.View {
   }
 
   render() {
-    var html = `<div class="row">
+    const html = `
+      <div class="row">
         <div class="center-block">
         </div>
       </div>

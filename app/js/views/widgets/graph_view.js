@@ -1,10 +1,10 @@
-import {WidgetView} from './widget_view';
+import { WidgetView } from './widget_view';
 
-var MAX_SAMPLES = 50;
+const MAX_SAMPLES = 50;
 
 export class GraphView extends WidgetView {
 
-    constructor(options, name='NotNamed graph', maxSamples=MAX_SAMPLES) {
+  constructor(options, name = 'NotNamed graph', maxSamples = MAX_SAMPLES) {
     super(options);
     this.graphName = name;
     this.maxSamples = maxSamples;
@@ -31,8 +31,8 @@ export class GraphView extends WidgetView {
   }
 
   _resetChart() {
-      console.log(`${this.graphName} reached max number of points (${this.maxSamples}), reseting it!`);
-      this.chart = this.initChart();
+    console.log(`${this.graphName} reached max number of points (${this.maxSamples}), reseting it!`);
+    this.chart = this.initChart();
   }
 
   mayResetChart() {

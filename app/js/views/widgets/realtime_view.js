@@ -1,13 +1,13 @@
-import {WidgetView} from './widget_view';
+import { WidgetView } from './widget_view';
 
-var MAX_SCREEN_LOGS = 100;
+const MAX_SCREEN_LOGS = 100;
 
 export class RealTimeView extends WidgetView {
 
   constructor(options) {
     super(options);
     this.events = {
-      'click #clear-logs-btn': 'clearScreenLogs'
+      'click #clear-logs-btn': 'clearScreenLogs',
     };
     this.logsNumber = 0;
     this.setElement('#realtime-box');
@@ -16,7 +16,7 @@ export class RealTimeView extends WidgetView {
   }
 
   render() {
-    var html = `<h4>Realtime data <button id="clear-logs-btn" type="button" class="btn btn-default">
+    const html = `<h4>Realtime data <button id="clear-logs-btn" type="button" class="btn btn-default">
                   <span id="clear-logs-btn-icon" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </button></h4>
                 <textarea id="realtime-window" class="form-control" rows="4"></textarea>`;
@@ -25,18 +25,18 @@ export class RealTimeView extends WidgetView {
   }
 
   logFrame(message) {
-    if (message.EUI == this.device.getEUI()) {
+    if (message.EUI === this.device.getEUI()) {
       this.logData(`frame #${message.fcnt} from ${this.device.getFormattedEUI()}: ${message.data}`);
     }
   }
 
-  logData(message, separator) {
+  logData(message, separator = '') {
     this.logsNumber++;
     console.log(message);
     if (this.logsNumber <= MAX_SCREEN_LOGS) {
-      this.appendToScreenLogs(message + (separator ? separator: ''));
+      this.appendToScreenLogs(message + separator);
     } else {
-      var warning = `reached max logs number (${MAX_SCREEN_LOGS}), cleared log window!`;
+      const warning = `reached max logs number (${MAX_SCREEN_LOGS}), cleared log window!`;
       this.logsNumber = 0;
       this.clearScreenLogs();
       console.warn(warning);
@@ -45,10 +45,10 @@ export class RealTimeView extends WidgetView {
   }
 
   appendToScreenLogs(message) {
-    $('#realtime-window').append(message + '\n');
-    var realTimeWin = $('#realtime-window');
+    $('#realtime-window').append(`${message}\n`);
+    const realTimeWin = $('#realtime-window');
     if (realTimeWin.length) {
-       realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
+      realTimeWin.scrollTop(realTimeWin[0].scrollHeight - realTimeWin.height());
     }
   }
 

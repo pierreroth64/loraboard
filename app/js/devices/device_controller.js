@@ -1,5 +1,3 @@
-import * as devTypes from './device_types';
-
 export class DeviceController {
 
   constructor(deviceManager) {
@@ -8,35 +6,35 @@ export class DeviceController {
   }
 
   onIncomingData(data) {
-    var eui = data.EUI;
-    var data = data.data;
-    var dev = this.devMgr.findDevice(eui);
+    const eui = data.EUI;
+    const incomingData = data.data;
+    let dev = this.devMgr.findDevice(eui);
 
-    if (dev == undefined) {
+    if (dev === undefined) {
       console.log(`device with eui: ${eui} not found, trying to create it...`);
-      dev = this.devMgr.tryToCreateDeviceFromData(eui, data);
-      if (dev != undefined) {
+      dev = this.devMgr.tryToCreateDeviceFromData(eui, incomingData);
+      if (dev !== undefined) {
         console.log(`found matching codec, device created for ${eui}`);
       } else {
-        console.warn(`codec not found, device not created`);
+        console.warn('codec not found, device not created');
         return;
       }
     }
 
-    dev.processReceivedData(data);
+    dev.processReceivedData(incomingData);
     Backbone.Mediator.publish('device:updatePosition', dev.getEUI(), dev.getName(), dev.getPosition());
   }
 
   runActionOnDevice(eui, action, data) {
-    var dev = this.devMgr.findDevice(eui);
-    if (dev == undefined) {
+    const dev = this.devMgr.findDevice(eui);
+    if (dev === undefined) {
       console.warn(`device with eui: ${eui} not found, aborting ${action}...`);
       return;
     }
 
-    if (dev[action] != undefined) {
-      let frame = dev[action](data);
-      if (frame != undefined) {
+    if (dev[action] !== undefined) {
+      const frame = dev[action](data);
+      if (frame !== undefined) {
         Backbone.Mediator.publish('data:downstream', frame);
       }
     } else {

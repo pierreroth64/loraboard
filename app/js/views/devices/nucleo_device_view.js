@@ -1,11 +1,8 @@
-import {isLegrandBuild} from '../../lib/util';
-import {BaseDeviceView} from './base_device_view';
-import {LoRaData} from '../../models/lora_data';
-import {BrightnessGraphView} from './../widgets/brightness_view';
-import {LightingBrightnessGraphView} from './../widgets/legrand/lighting_brightness_view';
-import {FrameIndicatorView} from './../widgets/frame_indicator_view';
-import {ToolBoxView} from './../widgets/toolbox_view';
-import {TechnicalView} from './../widgets/technical_view';
+import { BaseDeviceView } from './base_device_view';
+import { BrightnessGraphView } from './../widgets/brightness_view';
+import { FrameIndicatorView } from './../widgets/frame_indicator_view';
+import { ToolBoxView } from './../widgets/toolbox_view';
+import { TechnicalView } from './../widgets/technical_view';
 
 export class NucleoDeviceView extends BaseDeviceView {
 
@@ -15,7 +12,7 @@ export class NucleoDeviceView extends BaseDeviceView {
   }
 
   render() {
-    var html = super.getSuperRender();
+    let html = super.getSuperRender();
     html += `
      <div class="row">
         <div id="brightness-chart-box" class="col-md-6">
@@ -61,16 +58,16 @@ export class NucleoDeviceView extends BaseDeviceView {
         </div>
       </div>`;
     this.$el.html(html);
-    new BrightnessGraphView({model: this.models.brightness,
-                               id: 'brightness-chart',
-                               device: this.device});
-    new FrameIndicatorView({id: 'frame-indicator',
-                            device: this.device});
-    new ToolBoxView({id: 'tool-box',
-                     device: this.device,
-                     dataService: this.dataService});
-    new TechnicalView({id: 'technical-window',
-                       device: this.device});
+    this.brightnessView = new BrightnessGraphView({ model: this.models.brightness,
+                                                    id: 'brightness-chart',
+                                                    device: this.device });
+    this.frameView = new FrameIndicatorView({ id: 'frame-indicator',
+                                              device: this.device });
+    this.toolboxView = new ToolBoxView({ id: 'tool-box',
+                                         device: this.device,
+                                         dataService: this.dataService });
+    this.techView = new TechnicalView({ id: 'technical-window',
+                                        device: this.device });
     return this;
   }
 }

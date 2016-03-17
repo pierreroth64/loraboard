@@ -1,12 +1,12 @@
 export function getBuildTarget() {
-    return localStorage.getItem('buildTarget');
+  return localStorage.getItem('buildTarget');
 }
 
 export function isLegrandBuild() {
-    return (getBuildTarget() == 'legrand');
+  return (getBuildTarget() === 'legrand');
 }
 
 export function isBuildTargetSet() {
-    return (getBuildTarget() != undefined);
+  return (getBuildTarget() !== undefined);
 }
 

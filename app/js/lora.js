@@ -1,6 +1,6 @@
-import {LoRaApp} from './lora_app';
+import { LoRaApp } from './lora_app';
 
 $(() => {
-  var app = new LoRaApp();
+  const app = new LoRaApp();
   app.start();
 });

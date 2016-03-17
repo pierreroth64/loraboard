@@ -1,12 +1,11 @@
-import {BaseDeviceView} from './base_device_view';
-import {LoRaData} from '../../models/lora_data';
-import {TemperatureGraphView} from './../widgets/temp_view';
-import {PressureGraphView} from './../widgets/press_view';
-import {BatteryGraphView} from './../widgets/battery_view';
-import {MapView} from './../widgets/map_view';
-import {FrameIndicatorView} from './../widgets/frame_indicator_view';
-import {ToolBoxView} from './../widgets/toolbox_view';
-import {TechnicalView} from './../widgets/technical_view';
+import { BaseDeviceView } from './base_device_view';
+import { TemperatureGraphView } from './../widgets/temp_view';
+import { PressureGraphView } from './../widgets/press_view';
+import { BatteryGraphView } from './../widgets/battery_view';
+import { MapView } from './../widgets/map_view';
+import { FrameIndicatorView } from './../widgets/frame_indicator_view';
+import { ToolBoxView } from './../widgets/toolbox_view';
+import { TechnicalView } from './../widgets/technical_view';
 
 export class LoRaMoteDeviceView extends BaseDeviceView {
 
@@ -16,7 +15,7 @@ export class LoRaMoteDeviceView extends BaseDeviceView {
   }
 
   render() {
-    var html = super.getSuperRender();
+    let html = super.getSuperRender();
     html += `
       <div class="row">
         <div id="press-chart-box" class="col-md-6">
@@ -76,26 +75,26 @@ export class LoRaMoteDeviceView extends BaseDeviceView {
         </div>
       </div>`;
     this.$el.html(html);
-    new TemperatureGraphView({model: this.models.temperature,
-                              id: 'temp-chart',
-                              device: this.device},
-                             'Temperature graph');
-    new PressureGraphView({model: this.models.pressure,
-                           id: 'press-chart',
-                           device: this.device}, 'Pressure graph');
-    new BatteryGraphView({model: this.models.battery,
-                          id: 'batt-chart',
-                          device: this.device});
-    new MapView({model: this.models.position,
-                 id: 'lora-map',
-                 device: this.device});
-    new FrameIndicatorView({id: 'frame-indicator',
-                            device: this.device});
-    new ToolBoxView({id: 'tool-box',
-                     device: this.device,
-                     dataService: this.dataService});
-    new TechnicalView({id: 'technical-window',
-                       device: this.device});
+    this.tempView = new TemperatureGraphView({ model: this.models.temperature,
+                                               id: 'temp-chart',
+                                               device: this.device },
+                                              'Temperature graph');
+    this.pressView = new PressureGraphView({ model: this.models.pressure,
+                                             id: 'press-chart',
+                                             device: this.device }, 'Pressure graph');
+    this.battView = new BatteryGraphView({ model: this.models.battery,
+                                          id: 'batt-chart',
+                                          device: this.device });
+    this.mapView = new MapView({ model: this.models.position,
+                                 id: 'lora-map',
+                                device: this.device });
+    this.frameView = new FrameIndicatorView({ id: 'frame-indicator',
+                                              device: this.device });
+    this.toolboxView = new ToolBoxView({ id: 'tool-box',
+                                         device: this.device,
+                                         dataService: this.dataService });
+    this.techView = new TechnicalView({ id: 'technical-window',
+                                        device: this.device });
     return this;
   }
 }

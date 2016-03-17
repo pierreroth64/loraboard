@@ -6,29 +6,33 @@ export class SettingsStorageAPI {
   }
 
   buildItemFromKey(key) {
-    return this.storageName + '-' + key;
+    return `${this.storageName}-${key}`;
   }
 
   store(settings) {
-    for (var k in settings) {
-      var storageKey = this.buildItemFromKey(k);
-      localStorage.setItem(storageKey, settings[k]);
-      this.stored[k] = storageKey;
+    for (const k in settings) {
+      if (settings.hasOwnProperty(k)) {
+        const storageKey = this.buildItemFromKey(k);
+        localStorage.setItem(storageKey, settings[k]);
+        this.stored[k] = storageKey;
+      }
     }
   }
 
   get(key) {
-    var storageKey = this.buildItemFromKey(key);
-    var value = localStorage.getItem(storageKey);
-    if (value != null && value != undefined) {
+    const storageKey = this.buildItemFromKey(key);
+    const value = localStorage.getItem(storageKey);
+    if (value !== null && value !== undefined) {
       this.stored[key] = storageKey;
     }
     return value;
   }
 
   clear() {
-    for (var k in this.stored) {
-      localStorage.removeItem(this.stored[k]);
+    for (const k in this.stored) {
+      if (this.stored.hasOwnProperty(k)) {
+        localStorage.removeItem(this.stored[k]);
+      }
     }
     this.stored = {};
   }
@@ -38,7 +42,7 @@ export class SettingsStorageAPI {
   }
 
   hasStoredValue(key) {
-    var value = this.get(key);
-    return ((value == null || value == undefined)) ? false: true;
+    const value = this.get(key);
+    return !((value === null || value === undefined));
   }
 }

@@ -1,4 +1,4 @@
-import {WidgetView} from './widget_view';
+import { WidgetView } from './widget_view';
 
 export class FrameIndicatorView extends WidgetView {
 
@@ -9,7 +9,7 @@ export class FrameIndicatorView extends WidgetView {
   }
 
   newFrame() {
-    var animationClass = 'animated fadeIn';
+    const animationClass = 'animated fadeIn';
     $(this.jqueryId).show();
     $(this.jqueryId).addClass(animationClass);
     $(this.jqueryId).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {

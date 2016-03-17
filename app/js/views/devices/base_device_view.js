@@ -1,4 +1,4 @@
-import {BaseView} from '../base_view';
+import { BaseView } from '../base_view';
 
 export class BaseDeviceView extends BaseView {
 
