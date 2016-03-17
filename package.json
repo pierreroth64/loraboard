@@ -29,14 +29,17 @@
     "node-red": "^0.13.3",
     "node-red-contrib-pubnub": "0.0.3",
     "sass-brunch": "^1.9.2",
-    "uglify-js-brunch": "^1.7.8"
+    "uglify-js-brunch": "^1.7.8",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "test": "mocha -r mock-local-storage -r test/global --recursive --compilers js:babel-register",
     "start": "http-server -a 0.0.0.0 -p 9000",
     "simu": "node-red -u ./simu/ -s ./simu/settings.js -v",
     "docs": "docco app/js/**/*.*",
-    "lint": "./node_modules/eslint/bin/eslint.js --cache --fix ./app"
+    "lint": "./node_modules/eslint/bin/eslint.js --cache --fix ./app",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
