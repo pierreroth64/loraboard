@@ -9,7 +9,7 @@
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-brunch": "^6.0.0",
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^6.0.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.4.3",
     "browser-sync-brunch": "0.0.9",
