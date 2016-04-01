@@ -18,7 +18,7 @@
     "clean-css-brunch": "^1.8.0",
     "css-brunch": "^2.0.0",
     "docco": "^0.7.0",
-    "eslint": "^2.4.0",
+    "eslint": "^2.6.0",
     "eslint-brunch": "^2.0.0",
     "eslint-config-airbnb": "^6.1.0",
     "eslint-plugin-react": "^4.2.3",
