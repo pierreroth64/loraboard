@@ -1,11 +1,14 @@
 
 import { SettingsStorageAPI } from '../lib/storage';
+import * as PNSettings from '../constants/pubnub_const.js';
+
 export class SettingsView extends Backbone.View {
 
   constructor(options) {
     super(options);
     this.events = {
       'click #save-settings': 'saveSettings',
+      'click #restore-default-settings': 'restoreDefaultSettings'
     };
     this.setElement('#settings-popup');
     this.api = new SettingsStorageAPI('pubnub');
@@ -60,6 +63,7 @@ export class SettingsView extends Backbone.View {
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button id="save-settings" type="button" class="btn btn-primary">Save changes</button>
+            <button id="restore-default-settings" type="button" class="btn btn-success pull-left">Restore default</button>
           </div>
         </div>
       </div>
@@ -73,6 +77,17 @@ export class SettingsView extends Backbone.View {
     const downStreamChannel = $('#pubnub-downstream-channel').val();
     const subscribeKey = $('#pubnub-subscribe-key').val();
     const publishKey = $('#pubnub-publish-key').val();
+    this.storeSettings(upStreamChannel, downStreamChannel, subscribeKey, publishKey);
+  }
+
+  restoreDefaultSettings() {
+    this.storeSettings(PNSettings.PUBNUB_DEFAULT_UPSTREAM_CHANNEL,
+                       PNSettings.PUBNUB_DEFAULT_DOWNSTREAM_CHANNEL,
+                       PNSettings.PUBNUB_DEFAULT_SUBSCRIBE_KEY,
+                       PNSettings.PUBNUB_DEFAULT_PUBLISH_KEY);
+  }
+
+  storeSettings(upStreamChannel, downStreamChannel, subscribeKey, publishKey) {
     this.api.store({ upStreamChannel, downStreamChannel, subscribeKey, publishKey });
     Backbone.Mediator.publish('settings:new');
     $('#pubnub-setttings').modal('hide');
