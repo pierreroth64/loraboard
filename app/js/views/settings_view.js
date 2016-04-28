@@ -8,7 +8,7 @@ export class SettingsView extends Backbone.View {
     super(options);
     this.events = {
       'click #save-settings': 'saveSettings',
-      'click #restore-default-settings': 'restoreDefaultSettings'
+      'click #restore-default-settings': 'restoreDefaultSettings',
     };
     this.setElement('#settings-popup');
     this.api = new SettingsStorageAPI('pubnub');
