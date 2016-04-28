@@ -45,12 +45,6 @@ export class MainView extends BaseView {
   }
 
   populateInitialMarkers() {
-    if (isLegrandBuild()) {
-      this.createDeviceMarker('1234', 'Gateway', { latitude: 45.824676,
-                                                   longitude: 1.276448 });
-      this.createDeviceMarker('4567', 'Meeting room', { latitude: 45.824710,
-                                                        longitude: 1.276680 });
-    }
   }
 
   updateMapcenter() {
