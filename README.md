@@ -4,7 +4,9 @@
 
 Single page web application displaying live data from LoRa devices thanks to the [Semtech](http://www.semtech.com/) starter kit.
 
-Deployed demo available [here](http://loraserver.cloudapp.net/) without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
+Deployed demos available [on Azure](http://loraserver.cloudapp.net/) and [on Surge](http://loraboard.surge.sh/)
+
+Please that these demos are provided without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
 
 ## Supported devices
 
@@ -78,7 +80,7 @@ And finally, deploy to production:
 ```
 brunch b -p
 ```
-and copy/paste the public directory to your web server directory. That's it :)
+and copy/paste the public directory to your web server directory or deploy with [Surge](http://www.surge.sh/) and that's it :)
 
 ### Simulator
 
