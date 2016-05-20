@@ -82,6 +82,14 @@ brunch b -p
 ```
 and copy/paste the public directory to your web server directory or deploy with [Surge](http://www.surge.sh/) and that's it :)
 
+You can also use the amazing [Surge](https://surge.sh/) to serve your static website:
+
+```
+npm install -g surge
+cd public
+surge
+```
+
 ### Simulator
 
 You can simulate upstream PubNub data from LoRa end-points using the [node-red](http://nodered.org/) based simulator.
