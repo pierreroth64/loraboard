@@ -4,9 +4,7 @@
 
 Single page web application displaying live data from LoRa devices thanks to the [Semtech](http://www.semtech.com/) starter kit.
 
-Deployed demos available [on Azure](http://loraserver.cloudapp.net/) and [on Surge](http://loraboard.surge.sh/)
-
-Please that these demos are provided without any [SLA](https://en.wikipedia.org/wiki/Service-level_agreement) ;)
+Deployed demo available [on Surge](http://loraboard.surge.sh/)
 
 ## Supported devices
 
