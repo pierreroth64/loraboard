@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pierreroth/loraboard.svg?branch=master)](https://travis-ci.org/pierreroth/loraboard)
+[![Build Status](https://travis-ci.org/pierreroth64/loraboard.svg?branch=master)](https://travis-ci.org/pierreroth64/loraboard)
 
 # LoRa dashboard demo
 
