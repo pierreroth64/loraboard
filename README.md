@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/pierreroth64/loraboard.svg?branch=master)](https://travis-ci.org/pierreroth64/loraboard)
 
-[![Build Status](https://semaphoreci.com/api/v1/pierreroth64/loraboard/branches/master/badge.svg)](https://semaphoreci.com/pierreroth64/loraboard)
-
 # LoRa dashboard demo
 
 Single page web application displaying live data from LoRa devices thanks to the [Semtech](http://www.semtech.com/) starter kit.
